@@ -41,6 +41,7 @@ namespace Prof
 
 		private int[] arrayUserDeparments;
 		private int[] arrayUserDeparmentsForLoadPeople;
+		private int[] arrayUserDeparmentsAll;
 		private string arrayUserDeparmentsForLoadPeople_String = "";
 		private string arrayUserDeparmentsAll_String = "";
 
@@ -51,18 +52,15 @@ namespace Prof
 				case "GrandAdmin":
 					tsm_userMeneger.Visible = true;
 					tsm_sprav.Visible = true;
-					tsm_uploadUpdate.Visible = true;
 					импортИзToolStripMenuItem.Visible = idUser == 1047 ? true : false;
 					break;
 				case "Admin":
 					tsm_userMeneger.Visible = true;
 					tsm_sprav.Visible = true;
-					tsm_uploadUpdate.Visible = false;
 					break;
 				case "Operator":
 					tsm_userMeneger.Visible = false;
 					tsm_sprav.Visible = false;
-					tsm_uploadUpdate.Visible = false;
 					break;
 				default:
 					MessageBox.Show("Ошибка в определении прав, обратитесь к администратору!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -74,7 +72,7 @@ namespace Prof
 		private void FillArrayUserDeparmentsAll()
 		{
 			DataTable dt = get_treeTableAdapter.GetData(idUser, null);
-			int []tmp = new int[dt.Rows.Count];
+			arrayUserDeparmentsAll = new int[dt.Rows.Count];
 			int i = 0;
 
 			foreach (DataRow dt_row in dt.Rows)
@@ -82,24 +80,25 @@ namespace Prof
 				for (int k = 1; k <= 10; k++)
 				{
 					if (!dt_row.IsNull("lvl" + k.ToString() + "_id"))
-						if (Array.IndexOf(tmp, (int)dt_row["lvl" + k.ToString() + "_id"]) == -1)
-							tmp[i] = (int)dt_row["lvl" + k.ToString() + "_id"];
+						if (Array.IndexOf(arrayUserDeparmentsAll, (int)dt_row["lvl" + k.ToString() + "_id"]) == -1)
+							arrayUserDeparmentsAll[i] = (int)dt_row["lvl" + k.ToString() + "_id"];
 
-					if (!dt_row.IsNull("lvl" + k.ToString() + "_idParent"))
-						if (Array.IndexOf(tmp, (int)dt_row["lvl" + k.ToString() + "_idParent"]) == -1)
-							tmp[i] = (int)dt_row["lvl" + k.ToString() + "_idParent"];
+					if (!dt_row.IsNull("lvl" + k.ToString() + "_idParent") && k != 1)
+						if (Array.IndexOf(arrayUserDeparmentsAll, (int)dt_row["lvl" + k.ToString() + "_idParent"]) == -1)
+							arrayUserDeparmentsAll[i] = (int)dt_row["lvl" + k.ToString() + "_idParent"];
 				}
 				i++;
 			}
 			arrayUserDeparmentsAll_String = "";
-			for (i = 0; i < tmp.Length; i++)
+			for (i = 0; i < arrayUserDeparmentsAll.Length; i++)
 			{
-				if (i == tmp.Length - 1)
-					arrayUserDeparmentsAll_String += tmp[i].ToString();
+				if (i == arrayUserDeparmentsAll.Length - 1)
+					arrayUserDeparmentsAll_String += arrayUserDeparmentsAll[i].ToString();
 				else
-					arrayUserDeparmentsAll_String += tmp[i].ToString() + ",";
+					arrayUserDeparmentsAll_String += arrayUserDeparmentsAll[i].ToString() + ",";
 			}
 		}
+		
 		private void FillArrayUserDeparmentsForLoadPeople(int id_dep)
 		{
 			DataTable dt = get_treeTableAdapter.GetData(null, id_dep);
@@ -158,6 +157,7 @@ namespace Prof
 					arrayUserDeparmentsForLoadPeople_String += arrayUserDeparmentsForLoadPeople[i].ToString() + ",";
 			}
 		}
+		
 		private void CreateTree()
 		{
 			tree_department.Nodes.Clear();
@@ -193,60 +193,6 @@ namespace Prof
 			tree_department.Nodes[0].Expand();
 		}
 
-		private bool CheckUser(string chpwd)
-		{
-			bool check = false;
-			try
-			{
-				string hashPassDb = "";
-
-				string projName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-				SqlConnection conn = DB.GetDBConnection();
-				string sql = $"select u.pwd, r.name, u.login from prof.UserRole ur " +
-					$"left join prof.Users u on u.id = ur.idUser " +
-					$"left join prof.Roles r on r.id = ur.idRole " +
-					$"where ur.idUser = {idUser}";
-				// Создать объект Command.
-				SqlCommand cmd = new SqlCommand();
-				// Сочетать Command с Connection.
-				cmd.Connection = conn;
-				cmd.CommandText = sql;
-				conn.Open();
-				using (DbDataReader reader = cmd.ExecuteReader())
-				{
-					if (reader.HasRows)
-					{
-						while (reader.Read())
-						{ 
-							if (reader.IsDBNull(0)) MessageBox.Show("У данного пользователя нет прав для работы с данной программой!");
-							else
-							{
-								hashPassDb = reader.GetString(0);
-								if (hashPassDb == chpwd)
-								{
-									check = true;
-									userRole = reader.GetString(1);
-									userLogin = reader.GetString(2);
-								}
-								else
-								{
-									check = false;
-									MessageBox.Show("Неверно введен логин или пароль!");
-								}
-							}
-						}
-					}
-				}
-				conn.Close();
-				conn.Dispose();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
-			return check;
-		}
-
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			Visible = false;
@@ -277,7 +223,7 @@ namespace Prof
 
 		private void tsm_userMeneger_Click(object sender, EventArgs e)
 		{
-			new FUserMeneger(idUser, arrayUserDeparments).ShowDialog();
+			new FUserMeneger(idUser, arrayUserDeparmentsAll_String).ShowDialog();
 		}
 
 		private void sumPeople(bool first)
@@ -411,6 +357,7 @@ namespace Prof
 			return flag;
 
 		}
+		
 		private void loadNoAllPeople()
 		{
 			SqlConnection conn = DB.GetDBConnection();
@@ -496,6 +443,7 @@ namespace Prof
 			dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			dgv.Enabled = true;
 		}
+		
 		private TreeNode findNode(TreeNode node, string name)
 		{
 			bool find = false;
@@ -580,7 +528,7 @@ namespace Prof
 
 		private void tsm_search_Click(object sender, EventArgs e)
 		{
-			FSearch search = new FSearch(arrayUserDeparments);
+			FSearch search = new FSearch();
 			search.ShowDialog();
 			if (search.idPers != 0)
 			{
@@ -601,11 +549,10 @@ namespace Prof
 				{
 					if (reader.HasRows)
 					{
-						while (reader.Read())
-						{
-							keyTree = reader.GetInt32(0);
-							isProf = reader.GetString(1);
-						}
+						reader.Read();
+						keyTree = reader.GetInt32(0);
+						isProf = reader.GetString(1);
+						
 					}
 				}
 				conn.Close();
@@ -627,7 +574,7 @@ namespace Prof
 				for (int i = 0; i < dgv.Rows.Count; i++)
 				{
 					dgv.Rows[i].Selected = false;
-					if (dgv[0, i].Value.ToString().Contains(idPers.ToString()))
+					if (dgv[0, i].Value.ToString().Equals(idPers.ToString()))
 					{
 						dgv.Rows[i].Selected = true;
 						dgv.FirstDisplayedScrollingRowIndex = i;
@@ -636,11 +583,6 @@ namespace Prof
 					}
 				}
 			}
-		}
-
-		private void tsm_uploadUpdate_Click(object sender, EventArgs e)
-		{
-			new FDispatcherUpdates().ShowDialog();
 		}
 
 		private void rb_all_CheckedChanged(object sender, EventArgs e)
@@ -676,21 +618,6 @@ namespace Prof
 			}
 		}
 
-		private string cryptoStr(string str)
-		{
-
-			if (str != null)
-			{
-				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < str.Length; i++)
-				{
-					sb.Append(Convert.ToChar(str[i] << 1));
-				}
-				return sb.ToString();
-			}
-			else return "";
-			
-		}
 		private string decryptoStr(string str)
 		{
 			if (str != null)

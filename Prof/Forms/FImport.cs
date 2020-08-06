@@ -277,10 +277,5 @@ namespace Prof
             else return "";
 
         }
-
-        private void P_browse_DoubleClick(object sender, EventArgs e)
-        {
-
-        }
     }
 }

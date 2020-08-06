@@ -1,114 +1,73 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace Prof
 {
-    public partial class FUserMeneger : Form
+    public partial class FUserMeneger : MetroFramework.Forms.MetroForm
     {
         int idUser = 0;
         bool newUser = false;
-        int[] peopleArray;
-        //int[] departmentArray;
-        int[] roleArray;
-        int[] arrayUserDeparments;
-        int rowNum = 0;
-        int[] arrayDep;
-        public FUserMeneger(int idUser, int[] arrayUserDeparments)
+        private string arrayUserDeparmentsAll_String;
+        public FUserMeneger(int idUser, string arrayUserDeparmentsAll_String)
         {
             InitializeComponent();
             this.idUser = idUser;
-            this.arrayUserDeparments = arrayUserDeparments;
+            this.arrayUserDeparmentsAll_String = arrayUserDeparmentsAll_String;
         }
 
-        private bool LoadDepartments(bool first, int idDepartment)
+        private void LoadDepartments()
         {
-            bool result = true;
-            using (Database.DataBase db = new Database.DataBase())
+            cb_department.Items.Clear();
+            SqlConnection conn = DB.GetDBConnection();
+            SqlCommand cmd2 = conn.CreateCommand();
+            cmd2.CommandText = " select dp.id as did, concat('(', d.shortName, ') ', dp.fullName) as fname from prof.Departments d  " +
+                         " inner join prof.Departments dp on dp.idparent = d.id  " +
+                         $" where d.id in ({arrayUserDeparmentsAll_String}) order by d.shortName, dp.fullName ";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd2);
+            conn.Open();
+            try
             {
-                if (first)
-                {
-                    dgv.Rows.Clear();
-                    cb_department.Items.Clear();
-                    arrayDep = new int[arrayUserDeparments.Count() + 1];
-                    cb_department.Items.Add("");
-                    arrayDep[0] = 0;
-                    rowNum = 0;
-                    Database.Department d = db.Departments.FirstOrDefault(p => p.id == idDepartment);
-                    cb_department.Items.Add(d.fullName);
-                    arrayDep[rowNum + 1] = d.id;
-                    rowNum++;
-                    LoadDepartments(false, idDepartment);
-                }
-                else
-                {
-                    var dd = db.Departments.Where(p => p.idParent == idDepartment).ToList();
-                    foreach (Database.Department nd in dd)
-                    {
-                        cb_department.Items.Add(nd.fullName);
-                        int[] tmp = new int[arrayDep.Length + 1];
-                        for (int k = 0; k < arrayDep.Length; k++)
-                            tmp[k] = arrayDep[k];
-                        tmp[rowNum + 1] = nd.id;
-                        arrayDep = new int[tmp.Length];
-                        for (int k = 0; k < tmp.Length; k++)
-                            arrayDep[k] = tmp[k];
-                        rowNum++;
-                        LoadDepartments(false, nd.id);
-                    }
-
-                }
+                adapter.Fill(dt);
+                cb_department.DataSource = dt;
+                cb_department.DisplayMember = "fname";
+                cb_department.ValueMember = "did";
             }
-            return result;
-        }
-
-        private void loadDepartments()
-        {
-            /*cb_department.Enabled = false;
-            using (Database.DataBase db = new Database.DataBase())
+            finally
             {
-                var depart = db.Departments;
-                if (depart.Count() > 0)
-                {
-                    departmentArray = new int[(int)depart.Max(p => p.id)];
-                    cb_department.Items.Clear();
-                    int i = 0;
-                    foreach (Database.Department d in depart)
-                    {
-                        cb_department.Items.Add(d.fullName);
-                        departmentArray[i] = d.id;
-                        i++;
-                    }
-                    cb_department.Enabled = true;
-                }
-            }*/
+                conn.Close();
+                conn.Dispose();
+            }
         }
 
         private void loadPeople(int idDepart)
         {
             cb_people.Enabled = false;
-            using (Database.DataBase db = new Database.DataBase())
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+            dgv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            ProfDataSet.PeopleDepartmentDataTable dt = new ProfDataSet.PeopleDepartmentDataTable();
+            peopleDepartmentTableAdapter1.FillByDep(dt, idDepart);
+
+            DataTable dt_n = new DataTable();
+            dt_n.Columns.Add("id", typeof(int));
+            dt_n.Columns.Add("fio", typeof(string));
+            foreach(DataRow dr in dt.Rows)
             {
-                var people = db.PeopleDepartments.Where(p => p.idDepartment == idDepart).ToList();
-                if (people.Count() > 0)
-                {
-                    peopleArray = new int[(int)people.Max(p => p.idPeople)];
-                    int i = 0;
-                    cb_people.Items.Clear();
-                    foreach (Database.PeopleDepartment pd in people)
-                    {
-                        peopleArray[i] = (int)pd.idPeople;
-                        cb_people.Items.Add($"{decryptoStr(pd.Person.famil)} {decryptoStr(pd.Person.name)} {decryptoStr(pd.Person.otch)}");
-                        i++;
-                    }
-                    cb_people.Enabled = true;
-                }
+                DataRow dr_n = dt_n.NewRow();
+                dr_n["id"] = dr["pid"];
+                dr_n["fio"] = $"{decryptoStr(dr["famil"].ToString())} {decryptoStr(dr["name"].ToString())} {decryptoStr(dr["otch"].ToString())}";
+                dt_n.Rows.Add(dr_n);
             }
+            cb_people.DataSource = dt_n;
+            cb_people.DisplayMember = "fio";
+            cb_people.ValueMember = "id";
+            
+            cb_people.Enabled = true;
         }
 
         private string decryptoStr(string str)
@@ -127,31 +86,13 @@ namespace Prof
 
         private void loadRole()
         {
-            using (Database.DataBase db = new Database.DataBase())
-            {
-                IQueryable<Database.Role> roles = null;
-                switch (db.UserRoles.FirstOrDefault(p => p.idUser == idUser).Role.name)
-                {
-                    case "GrandAdmin":
-                        roles = db.Roles;
-                        break;
-                    case "Admin":
-                        roles = db.Roles.Where(p => p.name == "Admin" || p.name == "Operator");
-                        break;
-                }
-                if (roles != null)
-                {
-                    roleArray = new int[(int)roles.Max(p => p.id)];
-                    int i = 0;
-                    cb_role.Items.Clear();
-                    foreach (Database.Role r in roles)
-                    {
-                        cb_role.Items.Add(r.name);
-                        roleArray[i] = r.id;
-                        i++;
-                    }
-                }
-            }
+            ProfDataSet.UserRoleDataTable dtUserRole = new ProfDataSet.UserRoleDataTable();
+            userRoleTableAdapter1.FillByUser(dtUserRole, idUser);
+            ProfDataSet.RolesDataTable dtRole = new ProfDataSet.RolesDataTable();
+            rolesTableAdapter1.FillByUserRole(dtRole, (int)dtUserRole.Rows[0]["idRole"]);
+            cb_role.DataSource = dtRole;
+            cb_role.DisplayMember = "name";
+            cb_role.ValueMember = "id";
         }
 
         private void EnableComponents(bool flag)
@@ -169,33 +110,38 @@ namespace Prof
 
         private void loadGrid()
         {
-            using (Database.DataBase db = new Database.DataBase())
+            dgv.Rows.Clear();
+            int i = 0;
+            SqlConnection conn = DB.GetDBConnection();
+            string sql = $"SELECT prof.UserDepartment.id, prof.Users.login, prof.People.famil, prof.People.name, prof.People.otch " +
+                $" FROM prof.People LEFT JOIN prof.Users ON prof.People.id = prof.Users.idPeople LEFT OUTER JOIN " +
+                $" prof.UserDepartment ON prof.Users.id = prof.UserDepartment.idUser " +
+                $" WHERE (prof.Users.login <> '-') and (prof.UserDepartment.idDepartments in ({arrayUserDeparmentsAll_String}))";
+            SqlCommand sqlCommand = new SqlCommand(sql);
+            sqlCommand.Connection = conn;
+            conn.Open();
+            using (DbDataReader reader = sqlCommand.ExecuteReader())
             {
-                dgv.Rows.Clear();
-                int i = 0;
-                foreach (int indexArray in arrayDep)
+                if (reader.HasRows)
                 {
-                    var userDep = db.UserDepartments.Where(p => p.idDepartments == indexArray && p.User.login != "-").ToList();
-                    foreach (Database.UserDepartment ud in userDep)
+                    while (reader.Read())
                     {
                         dgv.Rows.Add();
-                        dgv[0, i].Value = ud.id;
-                        dgv[1, i].Value = ud.User.login;
-                        dgv[2, i].Value = $"{decryptoStr(ud.User.Person.famil)} {decryptoStr(ud.User.Person.name)} {decryptoStr(ud.User.Person.otch)}";
+                        dgv[0, i].Value = reader.GetInt32(0);
+                        dgv[1, i].Value = reader.GetString(1);
+                        dgv[2, i].Value = $"{decryptoStr(reader.GetString(2))} {decryptoStr(reader.GetString(3))} {decryptoStr(reader.GetString(3))}";
                         i++;
                     }
-                }               
+                }
             }
+            conn.Close();
+            conn.Dispose();
         }
 
         private void FUserMeneger_Load(object sender, EventArgs e)
         {
-            //loadDepartments();
             cb_department.Enabled = false;
-            for (int i = 0; i < arrayUserDeparments.Length; i++)
-            {
-                LoadDepartments(true, arrayUserDeparments[i]);
-            }
+            LoadDepartments();
             cb_department.Enabled = true;
             loadRole();
             loadGrid();
@@ -209,7 +155,12 @@ namespace Prof
 
         private void cb_department_SelectedIndexChanged(object sender, EventArgs e)
         {
-            loadPeople(arrayDep[cb_department.SelectedIndex]);
+            if (cb_department.SelectedValue.GetType() != typeof(int))
+            {
+                DataRowView drv = (DataRowView)cb_department.SelectedValue;
+                loadPeople((int)drv.Row["did"]);
+            }
+            else loadPeople((int)cb_department.SelectedValue);
         }
 
         private void b_new_Click(object sender, EventArgs e)
@@ -220,70 +171,83 @@ namespace Prof
 
         private void b_save_Click(object sender, EventArgs e)
         {
-            using (Database.DataBase db = new Database.DataBase())
+            if (tb_pwd.Text.Trim() == tb_pwdSecond.Text.Trim())
             {
-                if (tb_pwd.Text.Trim() == tb_pwdSecond.Text.Trim())
+                if (newUser)
                 {
-                    if (newUser)
+                    int idNewUser = 0;
+                    SqlConnection conn = DB.GetDBConnection();
+                    string sql = $" INSERT INTO prof.Users (login, idPeople, pwd) " +
+                                        $" VALUES(@login, @idPeople, @pwd); " +
+                                        $" SELECT SCOPE_IDENTITY() as id";
+
+                    SqlCommand cmd = new SqlCommand(sql);
+                    cmd.Parameters.Add("@login", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@idPeople", SqlDbType.Int);
+                    cmd.Parameters.Add("@pwd", SqlDbType.NVarChar);
+                    cmd.Parameters["@login"].Value = tb_login.Text;
+                    cmd.Parameters["@idPeople"].Value = (int)cb_people.SelectedValue;
+                    cmd.Parameters["@pwd"].Value = sha1(sha1(tb_pwd.Text.Trim() + "$2$4"));
+                    cmd.Connection = conn;
+
+                    conn.Open();
+                    using (DbDataReader reader = cmd.ExecuteReader())
                     {
-                        Database.User u = new Database.User();
-                        u.login = tb_login.Text;
-                        u.idPeople = peopleArray[cb_people.SelectedIndex];
-                        u.pwd = sha1(sha1(tb_pwd.Text.Trim() + "$2$4"));
-                        u.dateCrt = DateTime.Now;
-                        db.Users.Add(u);
-                        Database.UserRole ur = new Database.UserRole();
-                        ur.idUser = u.id;
-                        ur.idRole = roleArray[cb_role.SelectedIndex];
-                        db.UserRoles.Add(ur);
-                        Database.UserDepartment ud = new Database.UserDepartment();
-                        ud.idUser = u.id;
-                        ud.idDepartments = arrayDep[cb_department.SelectedIndex];
-                        db.UserDepartments.Add(ud);
-                        db.SaveChanges();
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            idNewUser = (int)reader.GetDecimal(0);
+                        }
                     }
-                    else
-                    {
-                        int udId = (int)dgv[0, dgv.CurrentRow.Index].Value;
-                        string login = dgv[1, dgv.CurrentRow.Index].Value.ToString();
-                        Database.User u = db.Users.FirstOrDefault(p => p.login == login);
-                        u.login = tb_login.Text;
-                        u.pwd = tb_pwd.Text.Trim() != "" ? sha1(sha1(tb_pwd.Text.Trim() + "$2$4")) : u.pwd;
-                        u.idPeople = peopleArray[cb_people.SelectedIndex];
-                        Database.UserRole ur = db.UserRoles.FirstOrDefault(p => p.idUser == u.id);
-                        ur.idUser = u.id;
-                        ur.idRole = roleArray[cb_role.SelectedIndex];
-                        Database.UserDepartment ud = db.UserDepartments.FirstOrDefault(p => p.id == udId);
-                        ud.idUser = u.id;
-                        ud.idDepartments = arrayDep[cb_department.SelectedIndex];
-                        db.SaveChanges();
-                    }
-                    newUser = false;
-                    EnableComponents(false);
-                    loadGrid();
+                    userRoleTableAdapter1.Insert(idNewUser, (int)cb_role.SelectedValue);
+                    userDepartmentTableAdapter1.Insert(idNewUser, (int)cb_department.SelectedValue);
                 }
-                else MessageBox.Show("Пароли не совпадают!");  
+                else
+                {
+                    int udId = (int)dgv[0, dgv.CurrentRow.Index].Value;
+                    ProfDataSet.UserDepartmentDataTable dtud = new ProfDataSet.UserDepartmentDataTable();
+                    userDepartmentTableAdapter1.FillByDep(dtud, udId);
+                    ProfDataSet.UsersDataTable udt = new ProfDataSet.UsersDataTable();
+                    usersTableAdapter1.FillByUser(udt, (int)dtud.Rows[0]["idUser"]);
+                    ProfDataSet.UserRoleDataTable urdt = new ProfDataSet.UserRoleDataTable();
+                    userRoleTableAdapter1.FillByUser(urdt, (int)dtud.Rows[0]["idUser"]);
+                    DataRow dr = udt.Rows[0];
+                    dr["login"] = tb_login.Text;
+                    dr["pwd"] = tb_pwd.Text.Trim() != "" ? sha1(sha1(tb_pwd.Text.Trim() + "$2$4")) : dr["pwd"];
+                    dr["idPeople"] = (int)cb_people.SelectedValue;
+                    usersTableAdapter1.Update(dr);
+                    dr = urdt.Rows[0];
+                    dr["idUser"] = (int)udt.Rows[0]["id"];
+                    dr["idRole"] = (int)cb_role.SelectedValue;
+                    userRoleTableAdapter1.Update(dr);
+                    dr = dtud.Rows[0];
+                    dr["idUser"] = (int)udt.Rows[0]["id"];
+                    dr["idDepartments"] = (int)cb_department.SelectedValue;
+                    userDepartmentTableAdapter1.Update(dr);
+                }
+                newUser = false;
+                EnableComponents(false);
+                loadGrid();
             }
+            else MessageBox.Show("Пароли не совпадают!");  
+            
         }
 
         private void dgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             newUser = false;
             EnableComponents(true);
-            using (Database.DataBase db = new Database.DataBase())
-            {
-                int udId = (int)dgv[0, dgv.CurrentRow.Index].Value;
-                string login = dgv[1, dgv.CurrentRow.Index].Value.ToString();
-                Database.User u = db.Users.FirstOrDefault(p => p.login == login);
-                Database.Department d = db.Departments.FirstOrDefault(p => p.id == db.UserDepartments.FirstOrDefault(pp => pp.id == udId).idDepartments);
-                cb_department.SelectedIndex = arrayDep != null ? Array.IndexOf(arrayDep, d.id) : 0;
-                Database.Person pers = db.People.FirstOrDefault(p => p.id == u.idPeople);
-                cb_people.SelectedIndex = peopleArray != null ? Array.IndexOf(peopleArray, pers.id) : 0; ///////////////////////////////////////////////////////////////////////////////////////
-                Database.UserRole ur = db.UserRoles.FirstOrDefault(p => p.idUser == u.id);
-                Database.Role r = db.Roles.FirstOrDefault(p => p.id == ur.idRole);
-                tb_login.Text = u.login;
-                cb_role.SelectedIndex = Array.IndexOf(roleArray, r.id);
-            }
+            int udId = (int)dgv[0, dgv.CurrentRow.Index].Value;
+            ProfDataSet.UserDepartmentDataTable dtud = new ProfDataSet.UserDepartmentDataTable();
+            userDepartmentTableAdapter1.FillByDep(dtud, udId);
+            ProfDataSet.UsersDataTable udt = new ProfDataSet.UsersDataTable();
+            usersTableAdapter1.FillByUser(udt, (int)dtud.Rows[0]["idUser"]);
+            ProfDataSet.UserRoleDataTable urdt = new ProfDataSet.UserRoleDataTable();
+            userRoleTableAdapter1.FillByUser(urdt, (int)dtud.Rows[0]["idUser"]);
+            cb_department.SelectedValue = (int)dtud.Rows[0]["idDepartments"];
+            cb_people.SelectedValue = (int)udt.Rows[0]["idPeople"];
+            tb_login.Text = udt.Rows[0]["login"].ToString();
+            cb_role.SelectedValue = (int)urdt.Rows[0]["idRole"];
         }
 
         string sha1(string input)
@@ -297,27 +261,27 @@ namespace Prof
         }
 
         private void B_delete_Click(object sender, EventArgs e)
-        {
-            using (Database.DataBase db = new Database.DataBase())
-            {
-                int delId = 0;
-                delId = (int)dgv[0, dgv.CurrentRow.Index].Value;
-                delId = db.UserDepartments.FirstOrDefault(pp => pp.id == delId).idUser;
+        {  
+            int delId;
+            delId = (int)dgv[0, dgv.CurrentRow.Index].Value;
+            ProfDataSet.UserDepartmentDataTable dtud = new ProfDataSet.UserDepartmentDataTable();
+            userDepartmentTableAdapter1.FillByDep(dtud, delId);
+            delId = (int)dtud.Rows[0]["idUser"];
                 
-                if (delId != 0 && (MessageBox.Show("Вы уверены в удалении?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes))
+            if (delId != 0 && (MessageBox.Show("Вы уверены в удалении?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes))
+            {
+                if (idUser == delId)
                 {
-                    if (idUser == delId)
-                    {
-                        MessageBox.Show("Вы не можете удалить свою учётную запись!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        db.Users.Remove(db.Users.FirstOrDefault(p => p.id == delId));
-                        db.SaveChanges();
-                        loadGrid();
-                    }
+                    MessageBox.Show("Вы не можете удалить свою учётную запись!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    usersTableAdapter1.DeleteUser(delId);
+                    loadGrid();
+                    EnableComponents(false);
                 }
             }
+            
         }
     }
 }

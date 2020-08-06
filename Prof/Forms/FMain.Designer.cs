@@ -38,7 +38,6 @@
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_userMeneger = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_sprav = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsm_uploadUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.импортИзToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsm_exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,7 +117,6 @@
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsm_userMeneger,
             this.tsm_sprav,
-            this.tsm_uploadUpdate,
             this.импортИзToolStripMenuItem,
             this.toolStripSeparator1,
             this.tsm_exit});
@@ -139,13 +137,6 @@
             this.tsm_sprav.Size = new System.Drawing.Size(229, 22);
             this.tsm_sprav.Text = "Справочник подразделений";
             this.tsm_sprav.Click += new System.EventHandler(this.tsm_sprav_Click);
-            // 
-            // tsm_uploadUpdate
-            // 
-            this.tsm_uploadUpdate.Name = "tsm_uploadUpdate";
-            this.tsm_uploadUpdate.Size = new System.Drawing.Size(229, 22);
-            this.tsm_uploadUpdate.Text = "Загрузить обновление";
-            this.tsm_uploadUpdate.Click += new System.EventHandler(this.tsm_uploadUpdate_Click);
             // 
             // импортИзToolStripMenuItem
             // 
@@ -639,7 +630,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmi_showNotAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem tsm_search;
-        private System.Windows.Forms.ToolStripMenuItem tsm_uploadUpdate;
         private System.Windows.Forms.ToolStripMenuItem отчетыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem статистическийОтчетToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem детиToolStripMenuItem;

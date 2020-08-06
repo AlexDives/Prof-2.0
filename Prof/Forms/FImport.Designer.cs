@@ -137,7 +137,6 @@
             this.p_browse.Name = "p_browse";
             this.p_browse.Size = new System.Drawing.Size(1247, 26);
             this.p_browse.TabIndex = 2;
-            this.p_browse.DoubleClick += new System.EventHandler(this.P_browse_DoubleClick);
             // 
             // button2
             // 

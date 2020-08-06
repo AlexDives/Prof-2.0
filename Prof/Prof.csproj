@@ -149,12 +149,6 @@
     <Compile Include="Forms\FDepartaments.Designer.cs">
       <DependentUpon>FDepartaments.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FDispatcherUpdates.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FDispatcherUpdates.designer.cs">
-      <DependentUpon>FDispatcherUpdates.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FImport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,12 +185,6 @@
     <Compile Include="Forms\FSearch.Designer.cs">
       <DependentUpon>FSearch.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FUploadUpdate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FUploadUpdate.designer.cs">
-      <DependentUpon>FUploadUpdate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FUserMeneger.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,9 +213,6 @@
       <DependentUpon>FDepartaments.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FDispatcherUpdates.resx">
-      <DependentUpon>FDispatcherUpdates.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FImport.resx">
       <DependentUpon>FImport.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -248,9 +233,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FSearch.resx">
       <DependentUpon>FSearch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FUploadUpdate.resx">
-      <DependentUpon>FUploadUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FUserMeneger.resx">
       <DependentUpon>FUserMeneger.cs</DependentUpon>
