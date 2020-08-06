@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -20,9 +19,7 @@ namespace Prof
         int idMatPom = 0;
         int idOtheEnc = 0;
         int idTrudKnij = 0;
-        int rowNum = 0;
         private int[] arrayUserDeparments;
-        private int[] lArrayUserDeparments;
         private string arrayUserDeparmentsAll_String;
         #endregion
         #region constructor
@@ -138,6 +135,9 @@ namespace Prof
             try
             {
                 dgv_Child.AutoGenerateColumns = false;
+                dgv_Child.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                dgv_Child.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+                
                 peopleChildrenTableAdapter1.FillByPers(dt, idPerson);
                 dgv_Child.DataSource = dt;
                 dgv_Child.Columns[0].DataPropertyName = "id";
@@ -162,13 +162,16 @@ namespace Prof
             dtp_docDate.Value = !dtPers.Rows[0].IsNull("pasp_date") ? Convert.ToDateTime(dtPers.Rows[0]["pasp_date"]) : dtp_docDate.MinDate;
             tb_propiska.Text = !dtPers.Rows[0].IsNull("propiska") ? decryptoStr(dtPers.Rows[0]["propiska"].ToString()) : "";
 
+
             ProfDataSet.PeopleSocialStatusDataTable dtPersSocial = new ProfDataSet.PeopleSocialStatusDataTable();
+            
             peopleSocialStatusTableAdapter1.FillByPers(dtPersSocial, idPerson);
             foreach (DataRow dr in dtPersSocial.Rows)
             {
                 for (int i = 0; i < clb_socialStatus.Items.Count; i++)
                 {
-                    if (clb_socialStatus.Items[i].ToString() == dr["TypeSocialStatus_name"].ToString())
+                    DataRowView drv = (DataRowView)clb_socialStatus.Items[i];
+                    if ((int)drv.Row["id"] == (int)dr["idTypeSocialStatus"])
                     {
                         clb_socialStatus.SetItemChecked(i, true);
                     }
@@ -180,7 +183,8 @@ namespace Prof
             {
                 for (int i = 0; i < clb_livingConditions.Items.Count; i++)
                 {
-                    if (clb_livingConditions.SelectedValue.ToString() == dr["TypeLivingConditions_name"].ToString())
+                    DataRowView drv = (DataRowView)clb_livingConditions.Items[i];
+                    if ((int)drv.Row["id"] == (int)dr["idTypeLivingConditions"])
                     {
                         clb_livingConditions.SetItemChecked(i, true);
                     }
@@ -191,203 +195,204 @@ namespace Prof
 
         private void loadPers()
         {
-            using (Database.DataBase db = new Database.DataBase())
-            {
-                Database.Person pers = db.People.FirstOrDefault(p => p.id == idPerson);
-                tb_famil.Text = decryptoStr(pers.famil);
-                tb_name.Text = decryptoStr(pers.name);
-                tb_otch.Text = decryptoStr(pers.otch);
-                tb_phone.Text = decryptoStr(pers.phone);
-                dtp_birthday.Value = pers.birthday != null ? pers.birthday.Value : dtp_birthday.MinDate;
-                if (pers.gender == "Муж") rb_male.Checked = true;
-                else if (pers.gender == "Жен") rb_female.Checked = true;
+            ProfDataSet.PeopleDataTable dtPers = new ProfDataSet.PeopleDataTable();
+            peopleTableAdapter1.FillByPers(dtPers, idPerson);
 
-                if (pers.type == "T") rb_w.Checked = true;
-                else if (pers.type == "S") rb_s.Checked = true;
-                cb_isPens.Checked = pers.isPensioner == "T" ? true : false;
-                cb_isProf.Checked = pers.isProf == "T" ? true : false;
-                dtp_enterProf.Value = pers.dateEnter != null ? pers.dateEnter.Value : dtp_enterProf.MinDate;
-                if (!cb_isPens.Checked) dtp_exitProf.Value = pers.dateExit != null ? pers.dateExit.Value : dtp_exitProf.MinDate;
-                else label11.Visible = dtp_exitProf.Visible = false;
-                tb_numProfBil.Text = pers.numProfTicket;
-                tb_startJob.Text = pers.startTrudYearStr.ToString();
-                Database.PeopleDepartment pd = db.PeopleDepartments.FirstOrDefault(p => p.idPeople == idPerson);
-                cb_dep.SelectedItem = pd.Department.fullName;
+            tb_famil.Text = !dtPers.Rows[0].IsNull("famil") ? decryptoStr(dtPers.Rows[0]["famil"].ToString()) : "";
+            tb_name.Text = !dtPers.Rows[0].IsNull("name") ? decryptoStr(dtPers.Rows[0]["name"].ToString()) : "";
+            tb_otch.Text = !dtPers.Rows[0].IsNull("otch") ? decryptoStr(dtPers.Rows[0]["otch"].ToString()) : "";
+            tb_phone.Text = !dtPers.Rows[0].IsNull("phone") ? decryptoStr(dtPers.Rows[0]["phone"].ToString()) : "";
+            dtp_birthday.Value = !dtPers.Rows[0].IsNull("birthday") ? Convert.ToDateTime(dtPers.Rows[0]["birthday"]) : dtp_docDate.MinDate;
+            if (dtPers.Rows[0]["gender"].ToString().Equals("Муж")) rb_male.Checked = true;
+            else if (dtPers.Rows[0]["gender"].ToString().Equals("Муж")) rb_female.Checked = true;
 
-                tb_nagr.Text = pers.activity;
-                tb_obshDeyat.Text = pers.socialWork;
-                tb_hobbies.Text = pers.hobbies;
+            if (dtPers.Rows[0]["type"].ToString().Equals("W")) rb_w.Checked = true;
+            else if (dtPers.Rows[0]["type"].ToString().Equals("S")) rb_s.Checked = true;
+            cb_isPens.Checked = dtPers.Rows[0]["isPensioner"].ToString().Equals("T") ? true : false;
+            cb_isProf.Checked = dtPers.Rows[0]["isProf"].ToString().Equals("T") ? true : false;
+            dtp_enterProf.Value = !dtPers.Rows[0].IsNull("dateEnter") ? Convert.ToDateTime(dtPers.Rows[0]["dateEnter"]) : dtp_docDate.MinDate;
+            if (!cb_isPens.Checked) dtp_exitProf.Value = !dtPers.Rows[0].IsNull("dateExit") ? Convert.ToDateTime(dtPers.Rows[0]["dateExit"]) : dtp_docDate.MinDate;
+            else label11.Visible = dtp_exitProf.Visible = false;
+            tb_numProfBil.Text = !dtPers.Rows[0].IsNull("numProfTicket") ? dtPers.Rows[0]["numProfTicket"].ToString() : "";
+            tb_startJob.Text = !dtPers.Rows[0].IsNull("startTrudYearStr") ? dtPers.Rows[0]["startTrudYearStr"].ToString() : "";
 
-                loadDoc();
-                loadChild();
-                loadEduc();
-                loadMatHelp();
-                loadOtherHelp();
-                loadWorks();
-            }
+            ProfDataSet.PeopleDepartmentDataTable dtPeopleDep = new ProfDataSet.PeopleDepartmentDataTable();
+            peopleDepartmentTableAdapter1.FillByPers(dtPeopleDep, idPerson);
+            cb_dep.SelectedValue = (int)dtPeopleDep.Rows[0]["idDepartment"];
+
+            tb_nagr.Text = !dtPers.Rows[0].IsNull("activity") ? dtPers.Rows[0]["activity"].ToString() : ""; ;
+            tb_obshDeyat.Text = !dtPers.Rows[0].IsNull("socialWork") ? dtPers.Rows[0]["socialWork"].ToString() : "";
+            tb_hobbies.Text = !dtPers.Rows[0].IsNull("hobbies") ? dtPers.Rows[0]["hobbies"].ToString() : "";
+
+            loadDoc();
+            loadChild();
+            loadEduc();
+            loadMatHelp();
+            loadOtherHelp();
+            loadWorks();
         }
 
         private void loadEduc()
         {
-            using (Database.DataBase db = new Database.DataBase())
+            ProfDataSet.EducationDataTable tbEduc = new ProfDataSet.EducationDataTable();
+            
+            try
             {
-                var persEducs = db.Educations.Where(p => p.idPeople == idPerson).ToList();
-                dgv_educ.Rows.Clear();
-                if (persEducs.Count() != 0)
-                {
-                    dgv_educ.Rows.Add(persEducs.Count());
-                    int i = 0;
-                    foreach (Database.Education educ in persEducs)
-                    {
-                        dgv_educ[0, i].Value = educ.id;
-                        dgv_educ[1, i].Value = educ.stLevel;
-                        dgv_educ[2, i].Value = educ.nameUniver;
-                        dgv_educ[3, i].Value = educ.nameSpec;
-                        dgv_educ[4, i].Value = educ.nameKval;
-                        dgv_educ[5, i].Value = educ.numDipl;
-                        dgv_educ[6, i].Value = educ.dateEduc;
-                        i++;
-                    }
-                }
+                dgv_educ.AutoGenerateColumns = false;
+                dgv_educ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                dgv_educ.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+                educationTableAdapter1.FillByPers(tbEduc, idPerson);
+                dgv_educ.DataSource = tbEduc;
+                dgv_educ.Columns[0].DataPropertyName = "id";
+                dgv_educ.Columns[1].DataPropertyName = "stLevel"; 
+                dgv_educ.Columns[2].DataPropertyName = "nameUniver"; 
+                dgv_educ.Columns[3].DataPropertyName = "nameSpec";
+                dgv_educ.Columns[4].DataPropertyName = "nameKval"; 
+                dgv_educ.Columns[5].DataPropertyName = "numDipl";
+                dgv_educ.Columns[6].DataPropertyName = "dateEduc";
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
 
         private void loadMatHelp()
         {
-            using (Database.DataBase db = new Database.DataBase())
+            ProfDataSet.PeopleEncouragementDataTable tbEnc = new ProfDataSet.PeopleEncouragementDataTable();
+            try
             {
-                var matHelp = db.PeopleEncouragements.Where(p => p.idPeople == idPerson && p.idTypeEncouragement == 1).ToList();
-                dgv_mat.Rows.Clear();
-                if (matHelp.Count() != 0)
-                {
-                    dgv_mat.Rows.Add(matHelp.Count());
-                    int i = 0;
-                    foreach (Database.PeopleEncouragement pe in matHelp)
-                    {
-                        dgv_mat[0, i].Value = pe.id;
-                        dgv_mat[1, i].Value = pe.TypeEncouragement.name;
-                        dgv_mat[2, i].Value = pe.dateEncouragement.Value;
-                        dgv_mat[3, i].Value = pe.source;
-                        dgv_mat[4, i].Value = pe.countMat;
-                    }
-                }
+                dgv_mat.AutoGenerateColumns = false;
+                dgv_mat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                dgv_mat.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+                peopleEncouragementTableAdapter1.FillByPersMat(tbEnc, idPerson);
+                dgv_mat.DataSource = tbEnc;
+                dgv_mat.Columns[0].DataPropertyName = "id";
+                dgv_mat.Columns[1].DataPropertyName = "name";
+                dgv_mat.Columns[2].DataPropertyName = "dateEncouragement"; 
+                dgv_mat.Columns[3].DataPropertyName = "source";
+                dgv_mat.Columns[4].DataPropertyName = "countMat";
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
 
         private void loadOtherHelp()
         {
-            using (Database.DataBase db = new Database.DataBase())
+            ProfDataSet.PeopleEncouragementDataTable tbEnc = new ProfDataSet.PeopleEncouragementDataTable();
+            try
             {
-                var matHelp = db.PeopleEncouragements.Where(p => p.idPeople == idPerson && p.idTypeEncouragement != 1).ToList();
-                dgv_OtherEnc.Rows.Clear();
-                if (matHelp.Count() != 0)
-                {
-                    dgv_OtherEnc.Rows.Add(matHelp.Count());
-                    int i = 0;
-                    foreach (Database.PeopleEncouragement pe in matHelp)
-                    {
-                        dgv_OtherEnc[0, i].Value = pe.id;
-                        dgv_OtherEnc[1, i].Value = pe.TypeEncouragement.name;
-                        dgv_OtherEnc[2, i].Value = pe.dateEncouragement.Value;
-                        dgv_OtherEnc[3, i].Value = pe.source;
-                        i++;
-                    }
-                }
+                dgv_OtherEnc.AutoGenerateColumns = false;
+                dgv_OtherEnc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                dgv_OtherEnc.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+                peopleEncouragementTableAdapter1.FillByPersOther(tbEnc, idPerson);
+                dgv_OtherEnc.DataSource = tbEnc;
+                dgv_OtherEnc.Columns[0].DataPropertyName = "id";
+                dgv_OtherEnc.Columns[1].DataPropertyName = "name";
+                dgv_OtherEnc.Columns[2].DataPropertyName = "dateEncouragement";
+                dgv_OtherEnc.Columns[3].DataPropertyName = "source";
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
 
         private void loadWorks()
         {
-            using (Database.DataBase db = new Database.DataBase())
+            int[] stajObsh = new int[3];
+            int[] pStaj = new int[3];
+            int[] npStaj = new int[3];
+            int[] tmp;
+            ProfDataSet.PeopleWorkDataTable dtPersWork = new ProfDataSet.PeopleWorkDataTable();
+            try
             {
-                var works = db.PeopleWorks.Where(p => p.idPeople == idPerson).OrderBy(p => p.dateStart).ToList();
-                dgv_trudKnig.Rows.Clear();
-                if (works.Count() != 0)
+                dgv_trudKnig.AutoGenerateColumns = false;
+                dgv_trudKnig.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                dgv_trudKnig.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+                peopleWorkTableAdapter1.FillByPeopleId(dtPersWork, idPerson);
+                dgv_trudKnig.DataSource = dtPersWork;
+                dgv_trudKnig.Columns[0].DataPropertyName = "id";
+                dgv_trudKnig.Columns[1].DataPropertyName = "dateStart";
+                dgv_trudKnig.Columns[2].DataPropertyName = "workPlace";
+                dgv_trudKnig.Columns[3].DataPropertyName = "doljn";
+                dgv_trudKnig.Columns[4].DataPropertyName = "dateEnd";
+                dgv_trudKnig.Columns[5].DataPropertyName = "stajObsh";
+                dgv_trudKnig.Columns[6].DataPropertyName = "stajPed";
+                dgv_trudKnig.Columns[7].DataPropertyName = "stajNPed";
+                dgv_trudKnig.Columns[8].DataPropertyName = "isActual";
+                dgv_trudKnig.Columns[9].DataPropertyName = "isSovm";
+                dgv_trudKnig.Columns[10].DataPropertyName = "isWorked";
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+            foreach (DataRow dr in dtPersWork.Rows)
+            {
+                if (dr["stajObsh"].ToString().Equals("T") && dr["isActual"].ToString().Equals("T"))
                 {
-                    dgv_trudKnig.Rows.Add(works.Count());
-                    int i = 0;
-                    int[] stajObsh = new int[3];
-                    int[] pStaj = new int[3];
-                    int[] npStaj = new int[3];
-                    int[] tmp;
-                    foreach (Database.PeopleWork pk in works)
-                    {
-                        dgv_trudKnig[0, i].Value = pk.id;
-                        dgv_trudKnig[1, i].Value = pk.dateStart;
-                        dgv_trudKnig[2, i].Value = pk.workPlace;
-                        dgv_trudKnig[3, i].Value = pk.doljn;
-                        dgv_trudKnig[4, i].Value = pk.dateEnd;
-                        dgv_trudKnig[5, i].Value = pk.stajObsh == "T" ? true : false;
-                        dgv_trudKnig[6, i].Value = pk.stajPed == "T" ? true : false;
-                        dgv_trudKnig[7, i].Value = pk.stajNPed == "T" ? true : false;
-                        dgv_trudKnig[8, i].Value = pk.isActual == "T" ? true : false;
-                        dgv_trudKnig[9, i].Value = pk.isSovm == "T" ? true : false;
-                        dgv_trudKnig[10, i].Value = pk.isWorked == "T" ? true : false;
-
-                        if (pk.stajObsh == "T" && pk.isActual == "T")
-                        {
-                            tmp = getStaj(pk.dateStart.Value, pk.dateEnd != null ? pk.dateEnd.Value : DateTime.Now);
-                            stajObsh[0] += tmp[0];
-                            stajObsh[1] += tmp[1];
-                            stajObsh[2] += tmp[2];
-                        }
-                        if (pk.stajPed == "T")
-                        {
-                            tmp = getStaj(pk.dateStart.Value, pk.dateEnd != null ? pk.dateEnd.Value : DateTime.Now);
-                            pStaj[0] += tmp[0];
-                            pStaj[1] += tmp[1];
-                            pStaj[2] += tmp[2];
-                        }
-                        if (pk.stajNPed == "T")
-                        {
-                            tmp = getStaj(pk.dateStart.Value, pk.dateEnd != null ? pk.dateEnd.Value : DateTime.Now);
-                            npStaj[0] += tmp[0];
-                            npStaj[1] += tmp[1];
-                            npStaj[2] += tmp[2];
-                        }
-                        i++;
-                    }
-                    while (stajObsh[0] > 31)
-                    {
-                        stajObsh[1]++;
-                        stajObsh[0] -= 30;
-                    }
-                    while (stajObsh[1] > 12)
-                    {
-                        stajObsh[2]++;
-                        stajObsh[1] -= 12;
-                    }
-                    while (pStaj[0] > 31)
-                    {
-                        pStaj[1]++;
-                        pStaj[0] -= 30;
-                    }
-                    while (pStaj[1] > 12)
-                    {
-                        pStaj[2]++;
-                        pStaj[1] -= 12;
-                    }
-                    while (npStaj[0] > 31)
-                    {
-                        npStaj[1]++;
-                        npStaj[0] -= 30;
-                    }
-                    while (npStaj[1] > 12)
-                    {
-                        npStaj[2]++;
-                        npStaj[1] -= 12;
-                    }
-
-                    l_ObshStaj.Text = $"{stajObsh[2]}г. {stajObsh[1]}м. {stajObsh[0]}д.";
-                    l_PStaj.Text = $"{pStaj[2]}г. {pStaj[1]}м. {pStaj[0]}д.";
-                    l_NPStaj.Text = $"{npStaj[2]}г. {npStaj[1]}м. {npStaj[0]}д.";
-
-                    if (stajObsh[2] < 3) l_molodSpec.Visible = true;
-                    else l_molodSpec.Visible = false;
+                    stajObsh[2] += (int)dr["year_s"];
+                    stajObsh[1] += (int)dr["month_s"];
+                    stajObsh[0] += (int)dr["day_s"];
+                }
+                if (dr["stajPed"].ToString().Equals("T"))
+                {
+                    pStaj[2] += (int)dr["year_s"];
+                    pStaj[1] += (int)dr["month_s"];
+                    pStaj[0] += (int)dr["day_s"];
+                }
+                if (dr["stajNPed"].ToString().Equals("T"))
+                {
+                    npStaj[2] += (int)dr["year_s"];
+                    npStaj[1] += (int)dr["month_s"];
+                    npStaj[0] += (int)dr["day_s"];
                 }
             }
+  
+            while (stajObsh[0] > 31)
+            {
+                stajObsh[1]++;
+                stajObsh[0] -= 30;
+            }
+            while (stajObsh[1] > 12)
+            {
+                stajObsh[2]++;
+                stajObsh[1] -= 12;
+            }
+            while (pStaj[0] > 31)
+            {
+                pStaj[1]++;
+                pStaj[0] -= 30;
+            }
+            while (pStaj[1] > 12)
+            {
+                pStaj[2]++;
+                pStaj[1] -= 12;
+            }
+            while (npStaj[0] > 31)
+            {
+                npStaj[1]++;
+                npStaj[0] -= 30;
+            }
+            while (npStaj[1] > 12)
+            {
+                npStaj[2]++;
+                npStaj[1] -= 12;
+            }
+
+            l_ObshStaj.Text = $"{stajObsh[2]}г. {stajObsh[1]}м. {stajObsh[0]}д.";
+            l_PStaj.Text = $"{pStaj[2]}г. {pStaj[1]}м. {pStaj[0]}д.";
+            l_NPStaj.Text = $"{npStaj[2]}г. {npStaj[1]}м. {npStaj[0]}д.";
+
+            if (stajObsh[2] < 3) l_molodSpec.Visible = true;
+            else l_molodSpec.Visible = false;
         }
         #endregion
+
         #region other functions
         private string cryptoStr(string str)
         {
@@ -502,6 +507,7 @@ namespace Prof
         }
 
         #endregion
+
         #region add functions
         private void b_addChild_Click(object sender, EventArgs e)
         {
@@ -593,6 +599,7 @@ namespace Prof
 
 
         #endregion
+
         #region cancel functions
         private void b_cancelMain_Click(object sender, EventArgs e)
         {
@@ -683,6 +690,7 @@ namespace Prof
 
 
         #endregion
+
         #region delete functions
         private void b_deleteChild_Click(object sender, EventArgs e)
         {
@@ -700,14 +708,11 @@ namespace Prof
                 {
                     if (MessageBox.Show("Вы уверены в удалении выбранной записи?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        using (Database.DataBase db = new Database.DataBase())
-                        {
-                            db.PeopleChildrens.Remove(db.PeopleChildrens.FirstOrDefault(p => p.id == idChild));
-                            db.SaveChanges();
-                        }
+                        peopleChildrenTableAdapter1.DeleteChield(idChild);
+                        idChild = 0;
+                        loadChild();
                     }
                 }
-                loadChild();
                 p_allInfoChild.Height = 1;
             }
         }
@@ -728,16 +733,11 @@ namespace Prof
                 {
                     if (MessageBox.Show("Вы уверены в удалении выбранной записи?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        using (Database.DataBase db = new Database.DataBase())
-                        {
-                            db.Educations.Remove(db.Educations.FirstOrDefault(p => p.id == idEduc));
-                            db.SaveChanges();
-                            idEduc = 0;
-                        }
+                        educationTableAdapter1.DeleteEduc(idEduc);
+                        idEduc = 0;
+                        loadEduc();
                     }
                 }
-
-                loadEduc();
                 p_allInfoEduc.Height = 1;
             }
         }
@@ -765,24 +765,21 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
+                if (idMatPom == 0)
                 {
-                    if (idMatPom == 0)
+                    MessageBox.Show("Не выбрана запись!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    if (MessageBox.Show("Вы уверены в удалении выбранной записи?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        MessageBox.Show("Не выбрана запись!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Вы уверены в удалении выбранной записи?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            db.PeopleEncouragements.Remove(db.PeopleEncouragements.FirstOrDefault(p => p.id == idMatPom));
-                            db.SaveChanges();
-                        }
+                        peopleEncouragementTableAdapter1.DeleteMat(idMatPom);
+                        idMatPom = 0;
+                        loadMatHelp();
                     }
                 }
-                loadMatHelp();
-                p_allInfoMat.Height = 1;
             }
+            p_allInfoMat.Height = 1;
         }
 
         private void b_deleteOtherEnc_Click(object sender, EventArgs e)
@@ -793,22 +790,20 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
+                if (idOtheEnc == 0)
                 {
-                    if (idOtheEnc == 0)
+                    MessageBox.Show("Не выбрана запись!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    if (MessageBox.Show("Вы уверены в удалении выбранной записи?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        MessageBox.Show("Не выбрана запись!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Вы уверены в удалении выбранной записи?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            db.PeopleEncouragements.Remove(db.PeopleEncouragements.FirstOrDefault(p => p.id == idOtheEnc));
-                            db.SaveChanges();
-                        }
+
+                        peopleEncouragementTableAdapter1.DeleteOther(idOtheEnc);
+                        idOtheEnc = 0;
+                        loadOtherHelp();
                     }
                 }
-                loadOtherHelp();
                 p_allInfoOtherEnc.Height = 1;
             }
         }
@@ -821,28 +816,26 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
+                if (idTrudKnij == 0)
                 {
-                    if (idTrudKnij == 0)
+                    MessageBox.Show("Не выбрана запись!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    if (MessageBox.Show("Вы уверены в удалении выбранной записи?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        MessageBox.Show("Не выбрана запись!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Вы уверены в удалении выбранной записи?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            db.PeopleWorks.Remove(db.PeopleWorks.FirstOrDefault(p => p.id == idTrudKnij));
-                            db.SaveChanges();
-                        }
+                        peopleWorkTableAdapter1.DeleteWork(idTrudKnij);
+                        idTrudKnij = 0;
+                        loadWorks();
                     }
                 }
                 p_allInfoTrudKnig.Height = 1;
-                loadWorks();
             }
         }
 
 
         #endregion
+
         #region save functions
         private void b_saveMain_Click(object sender, EventArgs e)
         {
@@ -850,33 +843,66 @@ namespace Prof
             {
                 if (tb_famil.Text.Trim() != "" && tb_name.Text.Trim() != "" && cb_dep.SelectedItem.ToString().Trim() != "")
                 {
-                    using (Database.DataBase db = new Database.DataBase())
+                    
+                    idDep = (int)cb_dep.SelectedValue;
+
+                    SqlConnection conn = DB.GetDBConnection();
+                    string gender = rb_male.Checked ? "Муж" : rb_female.Checked ? "Жен" : "";
+                    string pens = cb_isPens.Checked ? "T" : "F";
+                    string prof = cb_isProf.Checked ? "T" : "F";
+                    string type = rb_w.Checked ? "W" : rb_s.Checked ? "S" : "";
+                    string startJob = tb_startJob.Text.Trim() != "" ? tb_startJob.Text.Trim() : "";
+                    DateTime dateExit = cb_isProf.Checked ? dtp_exitProf.Value : dtp_exitProf.MinDate;
+                    string sql = $" INSERT INTO prof.People (famil, name, otch, birthday, phone, gender, isPensioner, isProf, " +
+                        $"numProfTicket, dateEnter, dateExit, type, startTrudYearStr) " +
+                                       $" VALUES(@famil, @name, @otch, @birthday, @phone, @gender, @pens, @prof, @numbil, " +
+                                       $" @enterProf, @exitProf, @type, @startJob); " +
+                                       $" SELECT SCOPE_IDENTITY() as id";
+
+                    SqlCommand cmd = new SqlCommand(sql);
+                    cmd.Parameters.Add("@famil", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@name", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@otch", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@birthday", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@phone", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@gender", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@pens", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@prof", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@numbil", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@enterProf", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@exitProf", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@type", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@startJob", SqlDbType.NVarChar);
+                    cmd.Parameters["@famil"].Value = cryptoStr(tb_famil.Text.Trim());
+                    cmd.Parameters["@name"].Value = cryptoStr(tb_name.Text.Trim());
+                    cmd.Parameters["@otch"].Value = cryptoStr(tb_otch.Text.Trim());
+                    cmd.Parameters["@birthday"].Value = dtp_birthday.Value;
+                    cmd.Parameters["@phone"].Value = cryptoStr(tb_phone.Text.Trim());
+                    cmd.Parameters["@gender"].Value = gender;
+                    cmd.Parameters["@pens"].Value = pens;
+                    cmd.Parameters["@prof"].Value = prof;
+                    cmd.Parameters["@numbil"].Value = tb_numProfBil.Text.Trim();
+                    cmd.Parameters["@enterProf"].Value = dtp_enterProf.Value;
+                    cmd.Parameters["@exitProf"].Value = dateExit;
+                    cmd.Parameters["@type"].Value = type;
+                    cmd.Parameters["@startJob"].Value = startJob;
+                    cmd.Connection = conn;
+
+                    conn.Open();
+                    using (DbDataReader reader = cmd.ExecuteReader())
                     {
-                        Database.Person p = new Database.Person();
-                        p.famil = cryptoStr(tb_famil.Text.Trim());
-                        p.name = cryptoStr(tb_name.Text.Trim());
-                        p.otch = cryptoStr(tb_otch.Text.Trim());
-                        p.phone = cryptoStr(tb_phone.Text.Trim());
-                        p.birthday = dtp_birthday.Value;
-                        p.gender = rb_male.Checked ? "Муж" : rb_female.Checked ? "Жен" : "";
-                        p.type = rb_w.Checked ? "W" : rb_s.Checked ? "S" : "";
-                        p.isPensioner = cb_isPens.Checked ? "T" : "F";
-                        p.isProf = cb_isProf.Checked ? "T" : "F";
-                        p.dateEnter = dtp_enterProf.Value;
-                        p.numProfTicket = tb_numProfBil.Text.Trim();
-                        p.dateExit = cb_isProf.Checked ? dtp_exitProf.Value : dtp_exitProf.MinDate;
-                        p.startTrudYearStr = tb_startJob.Text.Trim() != "" ? tb_startJob.Text.Trim() : "";
-                        p.dateCrt = DateTime.Now;
-                        db.People.Add(p);
-                        idPerson = p.id;
-                        //idDep = db.Departments.FirstOrDefault(pp => pp.fullName == cb_dep.SelectedItem.ToString()).id;
-                        idDep = lArrayUserDeparments[cb_dep.SelectedIndex];
-                        db.PeopleDepartments.Add(new Database.PeopleDepartment { idPeople = idPerson, idDepartment = idDep, dateCrt = DateTime.Now });
-                        db.SaveChanges();
-                        idPerson = p.id;
-                        newPers = false;
-                        MessageBox.Show("Новая запись успешно добавлена!");
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                idPerson = (int)reader.GetDecimal(0);
+                            }
+                        }
                     }
+
+                    peopleDepartmentTableAdapter1.Insert(idPerson, idDep, DateTime.Now);
+
+                    MessageBox.Show("Новая запись успешно добавлена!");
                 }
                 else { MessageBox.Show("Заполните все поля со звездочкой \"*\"!"); }
             }
@@ -884,28 +910,29 @@ namespace Prof
             {
                 if (tb_famil.Text.Trim() != "" && tb_name.Text.Trim() != "" && cb_dep.SelectedItem.ToString().Trim() != "")
                 {
-                    using (Database.DataBase db = new Database.DataBase())
-                    {
-                        Database.Person pers = db.People.FirstOrDefault(p => p.id == idPerson);
-                        pers.famil = cryptoStr(tb_famil.Text.Trim());
-                        pers.name = cryptoStr(tb_name.Text.Trim());
-                        pers.otch = cryptoStr(tb_otch.Text.Trim());
-                        pers.phone = cryptoStr(tb_phone.Text.Trim());
-                        pers.birthday = dtp_birthday.Value;
-                        pers.gender = rb_male.Checked ? "Муж" : rb_female.Checked ? "Жен" : "";
-                        pers.type = rb_w.Checked ? "W" : rb_s.Checked ? "S" : "";
-                        pers.isPensioner = cb_isPens.Checked ? "T" : "F";
-                        pers.isProf = cb_isProf.Checked ? "T" : "F";
-                        pers.dateEnter = dtp_enterProf.Value;
-                        pers.numProfTicket = tb_numProfBil.Text.Trim();
-                        pers.dateExit = cb_isProf.Checked ? dtp_exitProf.Value : dtp_exitProf.MinDate;
-                        pers.startTrudYearStr = tb_startJob.Text.Trim();
-                        Database.PeopleDepartment pd = db.PeopleDepartments.FirstOrDefault(p => p.idPeople == idPerson);
-                        //pd.idDepartment = db.Departments.FirstOrDefault(pp => pp.fullName == cb_dep.SelectedItem.ToString()).id;
-                        pd.idDepartment = lArrayUserDeparments[cb_dep.SelectedIndex];
-                        db.SaveChanges();
-                        MessageBox.Show("Запись успешно обновлена!");
-                    }
+                    ProfDataSet.PeopleDataTable dtPers = new ProfDataSet.PeopleDataTable();
+                    peopleTableAdapter1.FillByPers(dtPers, idPerson);
+                    DataRow dr = dtPers.Rows[0];
+                    dr["famil"] = cryptoStr(tb_famil.Text.Trim());
+                    dr["name"] = cryptoStr(tb_name.Text.Trim());
+                    dr["otch"] = cryptoStr(tb_otch.Text.Trim());
+                    dr["phone"] = cryptoStr(tb_phone.Text.Trim());
+                    dr["birthday"] = dtp_birthday.Value;
+                    dr["gender"] = rb_male.Checked ? "Муж" : rb_female.Checked ? "Жен" : "";
+                    dr["type"] = rb_w.Checked ? "W" : rb_s.Checked ? "S" : "";
+                    dr["isPensioner"] = cb_isPens.Checked ? "T" : "F";
+                    dr["isProf"] = cb_isProf.Checked ? "T" : "F";
+                    dr["dateEnter"] = dtp_enterProf.Value;
+                    dr["numProfTicket"] = tb_numProfBil.Text.Trim();
+                    dr["dateExit"] = cb_isProf.Checked ? dtp_exitProf.Value : dtp_exitProf.MinDate;
+                    dr["startTrudYearStr"] = tb_startJob.Text.Trim();
+                    peopleTableAdapter1.Update(dr);
+                    ProfDataSet.PeopleDepartmentDataTable dtPersDep = new ProfDataSet.PeopleDepartmentDataTable();
+                    peopleDepartmentTableAdapter1.FillByPers(dtPersDep, idPerson);
+                    dr = dtPersDep.Rows[0];
+                    dr["idDepartment"] = (int)cb_dep.SelectedValue;
+                    peopleDepartmentTableAdapter1.Update(dr);
+                     MessageBox.Show("Запись успешно обновлена!");
                 }
                 else { MessageBox.Show("Заполните все поля со звездочкой \"*\"!"); }
             }
@@ -919,55 +946,29 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
+                ProfDataSet.PeopleDataTable dtPers = new ProfDataSet.PeopleDataTable();
+                peopleTableAdapter1.FillByPers(dtPers, idPerson);
+                DataRow dr = dtPers.Rows[0];
+                dr["typeDoc"] = cryptoStr(cb_doc.SelectedItem.ToString().Trim());
+                dr["pasp_ser"] = cryptoStr(tb_docSer.Text.Trim());
+                dr["pasp_num"] = cryptoStr(tb_docNum.Text.Trim());
+                dr["pasp_issue"] = cryptoStr(tb_docIssue.Text.Trim());
+                dr["pasp_date"] = dtp_docDate.Value;
+                dr["propiska"] = cryptoStr(tb_propiska.Text.Trim());
+                peopleTableAdapter1.Update(dr);
+                
+                peopleSocialStatusTableAdapter1.DeleteByPers(idPerson);
+                peopleLivingConditionsTableAdapter1.DeleteByPers(idPerson);
+                    
+                for (int i = 0; i < clb_socialStatus.CheckedItems.Count; i++)
                 {
-                    Database.Person pers = db.People.FirstOrDefault(p => p.id == idPerson);
-                    pers.typeDoc = cryptoStr(cb_doc.SelectedItem.ToString().Trim());
-                    pers.pasp_ser = cryptoStr(tb_docSer.Text.Trim());
-                    pers.pasp_num = cryptoStr(tb_docNum.Text.Trim());
-                    pers.pasp_issue = cryptoStr(tb_docIssue.Text.Trim());
-                    pers.pasp_date = dtp_docDate.Value;
-                    pers.propiska = cryptoStr(tb_propiska.Text.Trim());
-
-                    var socStatus = db.PeopleSocialStatus.Where(p => p.idPeople == pers.id).ToList();
-                    if (socStatus != null)
-                    {
-                        foreach (Database.PeopleSocialStatu ss in socStatus)
-                        {
-                            db.PeopleSocialStatus.Remove(ss);
-                        }
-                    }
-                    var livCon = db.PeopleLivingConditions.Where(p => p.idPeople == pers.id).ToList();
-                    if (livCon != null)
-                    {
-                        foreach (Database.PeopleLivingCondition ss in livCon)
-                        {
-                            db.PeopleLivingConditions.Remove(ss);
-                        }
-                    }
-
-                    for (int i = 0; i < clb_socialStatus.CheckedItems.Count; i++)
-                    {
-                        string nTss = clb_socialStatus.CheckedItems[i].ToString();
-                        Database.TypeSocialStatu tss = db.TypeSocialStatus.FirstOrDefault(p => p.name == nTss);
-                        db.PeopleSocialStatus.Add(new Database.PeopleSocialStatu
-                        {
-                            idPeople = idPerson,
-                            idTypeSocialStatus = tss.id,
-                            dateCrt = DateTime.Now
-                        });
-                    }
-                    for (int i = 0; i < clb_livingConditions.CheckedItems.Count; i++)
-                    {
-                        string nTlc = clb_livingConditions.CheckedItems[i].ToString();
-                        Database.TypeLivingCondition tss = db.TypeLivingConditions.FirstOrDefault(p => p.name == nTlc);
-                        db.PeopleLivingConditions.Add(new Database.PeopleLivingCondition
-                        {
-                            idPeople = idPerson,
-                            idTypeLivingConditions = tss.id
-                        });
-                    }
-                    db.SaveChanges();
+                    DataRowView drv = (DataRowView)clb_socialStatus.CheckedItems[i];
+                    peopleSocialStatusTableAdapter1.Insert(idPerson, (int)drv.Row["id"], DateTime.Now);
+                }
+                for (int i = 0; i < clb_livingConditions.CheckedItems.Count; i++)
+                {
+                    DataRowView drv = (DataRowView)clb_livingConditions.CheckedItems[i];
+                    peopleLivingConditionsTableAdapter1.Insert(idPerson, (int)drv.Row["id"]);
                 }
                 MessageBox.Show("Информация сохранена!");
             }
@@ -983,24 +984,18 @@ namespace Prof
             {
                 if (tb_fioChild.Text.Trim() != "")
                 {
-                    using (Database.DataBase db = new Database.DataBase())
+                    if (idChild == 0)
                     {
-                        if (idChild == 0)
-                        {
-                            Database.PeopleChildren pc = new Database.PeopleChildren();
-                            pc.idPeople = idPerson;
-                            pc.fioChildren = tb_fioChild.Text.Trim();
-                            pc.birthday = dtp_birthdayChild.Value;
-                            pc.dateCrt = DateTime.Now;
-                            db.PeopleChildrens.Add(pc);
-                        }
-                        else
-                        {
-                            Database.PeopleChildren pc = db.PeopleChildrens.FirstOrDefault(p => p.id == idChild);
-                            pc.fioChildren = tb_fioChild.Text.Trim();
-                            pc.birthday = dtp_birthdayChild.Value;
-                        }
-                        db.SaveChanges();
+                        peopleChildrenTableAdapter1.Insert(idPerson, tb_fioChild.Text.Trim(), dtp_birthdayChild.Value, DateTime.Now);
+                    }
+                    else
+                    {
+                        ProfDataSet.PeopleChildrenDataTable dtPeopleChild = new ProfDataSet.PeopleChildrenDataTable();
+                        peopleChildrenTableAdapter1.FillByChild(dtPeopleChild, idChild);
+                        DataRow dr = dtPeopleChild.Rows[0];
+                        dr["fioChildren"] = tb_fioChild.Text.Trim();
+                        dr["birthday"] = dtp_birthdayChild.Value;
+                        peopleChildrenTableAdapter1.Update(dr);
                     }
                     loadChild();
                     p_allInfoChild.Height = 1;
@@ -1017,32 +1012,31 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
+                if (idEduc == 0)
                 {
-                    if (idEduc == 0)
-                    {
-                        Database.Education educ = new Database.Education();
-                        educ.idPeople = idPerson;
-                        educ.stLevel = cb_typeEduc.SelectedItem.ToString();
-                        educ.nameUniver = tb_Educ.Text.Trim();
-                        educ.nameSpec = tb_spec.Text.Trim();
-                        educ.nameKval = tb_kval.Text.Trim();
-                        educ.numDipl = tb_numEduc.Text.Trim();
-                        educ.dateEduc = dtp_educ.Value;
-                        educ.dateCrt = DateTime.Now;
-                        db.Educations.Add(educ);
-                    }
-                    else
-                    {
-                        Database.Education educ = db.Educations.FirstOrDefault(p => p.id == idEduc);
-                        educ.stLevel = cb_typeEduc.SelectedItem.ToString();
-                        educ.nameUniver = tb_Educ.Text.Trim();
-                        educ.nameSpec = tb_spec.Text.Trim();
-                        educ.nameKval = tb_kval.Text.Trim();
-                        educ.numDipl = tb_numEduc.Text.Trim();
-                        educ.dateEduc = dtp_educ.Value;
-                    }
-                    db.SaveChanges();
+                    educationTableAdapter1.Insert(
+                        idPerson,
+                        tb_Educ.Text.Trim(),
+                        tb_spec.Text.Trim(),
+                        tb_kval.Text.Trim(),
+                        cb_typeEduc.SelectedItem.ToString(),
+                        dtp_educ.Value,
+                        DateTime.Now,
+                        tb_numEduc.Text.Trim()
+                    );
+                }
+                else
+                {
+                    ProfDataSet.EducationDataTable dtEduc = new ProfDataSet.EducationDataTable();
+                    educationTableAdapter1.FillByEduc(dtEduc, idEduc);
+                    DataRow dr = dtEduc.Rows[0];
+                    dr["stLevel"]       = cb_typeEduc.SelectedItem.ToString();
+                    dr["nameUniver"]    = tb_Educ.Text.Trim();
+                    dr["nameSpec"]      = tb_spec.Text.Trim();
+                    dr["nameKval"]      = tb_kval.Text.Trim();
+                    dr["numDipl"]       = tb_numEduc.Text.Trim();
+                    dr["dateEduc"]      = dtp_educ.Value;
+                    educationTableAdapter1.Update(dr);
                 }
                 loadEduc();
                 p_allInfoEduc.Height = 1;
@@ -1060,14 +1054,13 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
-                {
-                    Database.Person pers = db.People.FirstOrDefault(p => p.id == idPerson);
-                    pers.activity = tb_nagr.Text.Trim();
-                    pers.socialWork = tb_obshDeyat.Text.Trim();
-                    pers.hobbies = tb_hobbies.Text.Trim();
-                    db.SaveChanges();
-                }
+                ProfDataSet.PeopleDataTable dtPers = new ProfDataSet.PeopleDataTable();
+                peopleTableAdapter1.FillByPers(dtPers, idPerson);
+                DataRow dr = dtPers.Rows[0];
+                dr["activity"] = tb_nagr.Text.Trim();
+                dr["socialWork"] = tb_obshDeyat.Text.Trim();
+                dr["hobbies"] = tb_hobbies.Text.Trim();
+                peopleTableAdapter1.Update(dr);
                 MessageBox.Show("Информация сохранена!");
             }
         }
@@ -1080,28 +1073,26 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
+                if (idMatPom == 0)
                 {
-                    if (idMatPom == 0)
-                    {
-                        Database.PeopleEncouragement pe = new Database.PeopleEncouragement();
-                        pe.idPeople = idPerson;
-                        pe.idTypeEncouragement = 1;
-                        pe.source = cb_matSource.SelectedItem.ToString();
-                        pe.countMat = Convert.ToDouble(tb_matCount.Text.Trim());
-                        pe.dateEncouragement = dtp_mat.Value;
-                        pe.dateCrt = DateTime.Now;
-                        db.PeopleEncouragements.Add(pe);
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        Database.PeopleEncouragement pe = db.PeopleEncouragements.FirstOrDefault(p => p.id == idMatPom);
-                        pe.source = cb_matSource.SelectedItem.ToString();
-                        pe.countMat = Convert.ToDouble(tb_matCount.Text.Trim());
-                        pe.dateEncouragement = dtp_mat.Value;
-                        db.SaveChanges();
-                    }
+                    peopleEncouragementTableAdapter1.Insert(
+                        idPerson,
+                        1, 
+                        cb_matSource.SelectedItem.ToString(),
+                        dtp_mat.Value,
+                        DateTime.Now,
+                        Convert.ToDouble(tb_matCount.Text.Trim())
+                    );
+                }
+                else
+                {
+                    ProfDataSet.PeopleEncouragementDataTable dtPersEnc = new ProfDataSet.PeopleEncouragementDataTable();
+                    peopleEncouragementTableAdapter1.FillByEnc(dtPersEnc, idMatPom);
+                    DataRow dr = dtPersEnc.Rows[0];
+                    dr["source"] = cb_matSource.SelectedItem.ToString();
+                    dr["countMat"] = Convert.ToDouble(tb_matCount.Text.Trim());
+                    dr["dateEncouragement"] = dtp_mat.Value;
+                    peopleEncouragementTableAdapter1.Update(dr);
                 }
                 loadMatHelp();
                 p_allInfoMat.Height = 1;
@@ -1117,29 +1108,26 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
+                if (idOtheEnc == 0)
                 {
-                    if (idOtheEnc == 0)
-                    {
-                        string tename = cb_typeOtherEnc.SelectedItem.ToString();
-                        Database.PeopleEncouragement pe = new Database.PeopleEncouragement();
-                        pe.idPeople = idPerson;
-                        pe.idTypeEncouragement = db.TypeEncouragements.FirstOrDefault(p => p.name == tename).id;
-                        pe.source = cb_sourceOtherEnc.SelectedItem.ToString();
-                        pe.dateEncouragement = dtp_dateOtherEnc.Value;
-                        pe.dateCrt = DateTime.Now;
-                        db.PeopleEncouragements.Add(pe);
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        string tename = cb_typeOtherEnc.SelectedItem.ToString();
-                        Database.PeopleEncouragement pe = db.PeopleEncouragements.FirstOrDefault(p => p.id == idOtheEnc);
-                        pe.idTypeEncouragement = db.TypeEncouragements.FirstOrDefault(p => p.name == tename).id;
-                        pe.source = cb_sourceOtherEnc.SelectedItem.ToString();
-                        pe.dateEncouragement = dtp_dateOtherEnc.Value;
-                        db.SaveChanges();
-                    }
+                    peopleEncouragementTableAdapter1.Insert(
+                      idPerson,
+                      (int)cb_typeOtherEnc.SelectedValue,
+                      cb_sourceOtherEnc.SelectedItem.ToString(),
+                      dtp_dateOtherEnc.Value,
+                      DateTime.Now,
+                      null
+                    );
+                }
+                else
+                {
+                    ProfDataSet.PeopleEncouragementDataTable dtPersEnc = new ProfDataSet.PeopleEncouragementDataTable();
+                    peopleEncouragementTableAdapter1.FillByEnc(dtPersEnc, idOtheEnc);
+                    DataRow dr = dtPersEnc.Rows[0];
+                    dr["source"] = cb_sourceOtherEnc.SelectedItem.ToString();
+                    dr["idTypeEncouragement"] = (int)cb_typeOtherEnc.SelectedValue;
+                    dr["dateEncouragement"] = dtp_dateOtherEnc.Value;
+                    peopleEncouragementTableAdapter1.Update(dr);
                 }
                 loadOtherHelp();
                 p_allInfoOtherEnc.Height = 1;
@@ -1155,42 +1143,65 @@ namespace Prof
             }
             else
             {
-                using (Database.DataBase db = new Database.DataBase())
+                string isActual = cb_osnJobTrudKnig.Checked ? "T" : "F";
+                string isWorked = cb_worked.Checked ? "T" : "F";
+                string stajObsh = cb_stajObsh.Checked ? "T" : "F";
+                string stajPed = cb_stajPed.Checked ? "T" : "F";
+                string stajNPed = cb_stajNPed.Checked ? "T" : "F";
+                string isSovm = cb_sovm.Checked ? "T" : "F";
+                if (idTrudKnij == 0)
                 {
-                    if (idTrudKnij == 0)
-                    {
-                        Database.PeopleWork pw = new Database.PeopleWork();
-                        pw.idPeople = idPerson;
-                        pw.dateStart = dtp_startWork.Value;
-                        pw.workPlace = tb_whereWork.Text.Trim();
-                        pw.doljn = tb_positionWork.Text.Trim();
-                        pw.isWorked = cb_worked.Checked ? "T" : "F";
-                        if (!cb_worked.Checked) pw.dateEnd = dtp_finishWork.Value;
-                        pw.isActual = cb_osnJobTrudKnig.Checked ? "T" : "F";
-                        pw.stajObsh = cb_stajObsh.Checked ? "T" : "F";
-                        pw.stajPed = cb_stajPed.Checked ? "T" : "F";
-                        pw.stajNPed = cb_stajNPed.Checked ? "T" : "F";
-                        pw.isSovm = cb_sovm.Checked ? "T" : "F";
-                        pw.dateCrt = DateTime.Now;
-                        db.PeopleWorks.Add(pw);
-                        db.SaveChanges();
+                        
+                    if (!cb_worked.Checked) {
+                        peopleWorkTableAdapter1.Insert(
+                            idPerson,
+                            tb_whereWork.Text.Trim(),
+                            tb_positionWork.Text.Trim(),
+                            dtp_startWork.Value,
+                            dtp_finishWork.Value,
+                            isActual,
+                            DateTime.Now,
+                            isWorked,
+                            stajObsh,
+                            stajPed,
+                            stajNPed,
+                            isSovm
+                        );
+                    } else {
+                        peopleWorkTableAdapter1.Insert(
+                            idPerson,
+                            tb_whereWork.Text.Trim(),
+                            tb_positionWork.Text.Trim(),
+                            dtp_startWork.Value,
+                            null,
+                            isActual,
+                            DateTime.Now,
+                            isWorked,
+                            stajObsh,
+                            stajPed,
+                            stajNPed,
+                            isSovm
+                        );
                     }
-                    else
-                    {
-                        Database.PeopleWork pw = db.PeopleWorks.FirstOrDefault(p => p.id == idTrudKnij);
-                        pw.dateStart = dtp_startWork.Value;
-                        pw.workPlace = tb_whereWork.Text.Trim();
-                        pw.doljn = tb_positionWork.Text.Trim();
-                        pw.isWorked = cb_worked.Checked ? "T" : "F";
-                        if (!cb_worked.Checked) pw.dateEnd = dtp_finishWork.Value;
-                        else pw.dateEnd = null;
-                        pw.isActual = cb_osnJobTrudKnig.Checked ? "T" : "F";
-                        pw.stajObsh = cb_stajObsh.Checked ? "T" : "F";
-                        pw.stajPed = cb_stajPed.Checked ? "T" : "F";
-                        pw.stajNPed = cb_stajNPed.Checked ? "T" : "F";
-                        pw.isSovm = cb_sovm.Checked ? "T" : "F";
-                        db.SaveChanges();
-                    }
+                }
+                else
+                {
+                    ProfDataSet.PeopleWorkDataTable dtPeopleWork = new ProfDataSet.PeopleWorkDataTable();
+                    peopleWorkTableAdapter1.FillByWorkId(dtPeopleWork, idTrudKnij);
+                    DataRow dr = dtPeopleWork.Rows[0];
+
+                    dr["dateStart"] = dtp_startWork.Value;
+                    dr["workPlace"] = tb_whereWork.Text.Trim();
+                    dr["doljn"] = tb_positionWork.Text.Trim();
+                    dr["isWorked"] = cb_worked.Checked ? "T" : "F";
+                    if (!cb_worked.Checked) dr["dateEnd"] = dtp_finishWork.Value;
+                    else dr["dateEnd"] = DBNull.Value;
+                    dr["isActual"] = isActual;
+                    dr["stajObsh"] = stajObsh;
+                    dr["stajPed"] = stajPed;
+                    dr["stajNPed"] = stajNPed;
+                    dr["isSovm"] = isSovm;
+                    peopleWorkTableAdapter1.Update(dr);
                 }
                 p_allInfoTrudKnig.Height = 1;
                 loadWorks();
@@ -1199,6 +1210,7 @@ namespace Prof
         }
 
         #endregion
+        
         #region other
         private void dgv_Child_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1230,6 +1242,9 @@ namespace Prof
                 tb_numEduc.Text = dgv_educ[5, e.RowIndex].Value.ToString();
                 dtp_educ.Value = Convert.ToDateTime(dgv_educ[6, e.RowIndex].Value);
                 idEduc = (int)dgv_educ[0, e.RowIndex].Value;
+
+                b_saveEduc.Enabled = true;
+                b_cancelEduc.Enabled = true;
             }
         }
 
@@ -1278,13 +1293,13 @@ namespace Prof
                 dtp_startWork.Value = Convert.ToDateTime(dgv_trudKnig[1, e.RowIndex].Value);
                 tb_whereWork.Text = dgv_trudKnig[2, e.RowIndex].Value.ToString();
                 tb_positionWork.Text = dgv_trudKnig[3, e.RowIndex].Value.ToString();
-                cb_worked.Checked = (bool)dgv_trudKnig[10, e.RowIndex].Value;
+                cb_worked.Checked = dgv_trudKnig[10, e.RowIndex].Value.ToString().Equals("T");
                 if (!cb_worked.Checked) dtp_finishWork.Value = Convert.ToDateTime(dgv_trudKnig[4, e.RowIndex].Value);
-                cb_stajObsh.Checked = (bool)dgv_trudKnig[5, e.RowIndex].Value;
-                cb_stajPed.Checked = (bool)dgv_trudKnig[6, e.RowIndex].Value;
-                cb_stajNPed.Checked = (bool)dgv_trudKnig[7, e.RowIndex].Value;
-                cb_osnJobTrudKnig.Checked = (bool)dgv_trudKnig[8, e.RowIndex].Value;
-                cb_sovm.Checked = (bool)dgv_trudKnig[9, e.RowIndex].Value;
+                cb_stajObsh.Checked = dgv_trudKnig[5, e.RowIndex].Value.ToString().Equals("T");
+                cb_stajPed.Checked = dgv_trudKnig[6, e.RowIndex].Value.ToString().Equals("T");
+                cb_stajNPed.Checked = dgv_trudKnig[7, e.RowIndex].Value.ToString().Equals("T");
+                cb_osnJobTrudKnig.Checked = dgv_trudKnig[8, e.RowIndex].Value.ToString().Equals("T");
+                cb_sovm.Checked = dgv_trudKnig[9, e.RowIndex].Value.ToString().Equals("T");
             }
         }
 
@@ -1299,6 +1314,7 @@ namespace Prof
             label11.Visible = dtp_exitProf.Visible;
         }
         #endregion
+       
         #region функция экспорта в Excel файл
         private void ExportToExcel(DataGridView dgv)
         {
@@ -1394,25 +1410,35 @@ namespace Prof
         {
             if (newPers)
             {
-                if (tb_famil.Text.Trim() != "" && tb_name.Text.Trim() != "" && cb_dep.SelectedItem.ToString().Trim() != "")
+                if (tb_famil.Text.Trim() != "" && tb_name.Text.Trim() != "")
                     if (MessageBox.Show("Сохранить изменения?", "Сохранение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         b_saveMain.PerformClick();
             }
             else
             {
-                Database.DataBase db = new Database.DataBase();
-                Database.Person pers = db.People.FirstOrDefault(p => p.id == idPerson);
-                if (tb_famil.Text.Trim() != decryptoStr(pers.famil) || tb_name.Text.Trim() != decryptoStr(pers.name) || tb_otch.Text.Trim() != decryptoStr(pers.otch) ||
-                    cb_dep.SelectedItem.ToString().Trim() != db.PeopleDepartments.FirstOrDefault(p => p.idPeople == idPerson).Department.fullName ||
-                    tb_numProfBil.Text.Trim() != pers.numProfTicket || tb_startJob.Text.Trim() != pers.startTrudYearStr.ToString() ||
-                    (rb_male.Checked && pers.gender == "Жен") || (rb_female.Checked && pers.gender == "Муж") || (cb_isPens.Checked && pers.isPensioner == "F") ||
-                    dtp_birthday.Value != pers.birthday.Value || dtp_enterProf.Value != pers.dateEnter.Value || dtp_exitProf.Value != pers.dateExit.Value ||
-                    (cb_isProf.Checked && pers.isProf == "F"))
+                ProfDataSet.PeopleDataTable dtPeople = new ProfDataSet.PeopleDataTable();
+                peopleTableAdapter1.FillByPers(dtPeople, idPerson);
+                DataRow dr = dtPeople.Rows[0];
+                ProfDataSet.PeopleDepartmentDataTable dtPeopleDep = new ProfDataSet.PeopleDepartmentDataTable();
+                peopleDepartmentTableAdapter1.FillByPers(dtPeopleDep, idPerson);
+                DataRow drDep = dtPeopleDep.Rows[0];
+                if (tb_famil.Text.Trim() != decryptoStr(dr["famil"].ToString()) || 
+                    tb_name.Text.Trim() != decryptoStr(dr["name"].ToString()) || 
+                    tb_otch.Text.Trim() != decryptoStr(dr["otch"].ToString()) ||
+                    (int)cb_dep.SelectedValue != (int)drDep["idDepartment"] ||
+                    tb_numProfBil.Text.Trim() != dr["numProfTicket"].ToString() || 
+                    tb_startJob.Text.Trim() != dr["startTrudYearStr"].ToString() ||
+                    (rb_male.Checked && dr["gender"].ToString().Equals("Жен")) || 
+                    (rb_female.Checked && dr["gender"].ToString().Equals("Муж")) || 
+                    (cb_isPens.Checked && dr["isPensioner"].ToString().Equals("F")) ||
+                    dtp_birthday.Value != Convert.ToDateTime(dr["birthday"]) || 
+                    dtp_enterProf.Value != Convert.ToDateTime(dr["dateEnter"]) || 
+                    dtp_exitProf.Value != Convert.ToDateTime(dr["dateExit"]) ||
+                    (cb_isProf.Checked && dr["isProf"].ToString().Equals("F")))
                     if (MessageBox.Show("Сохранить изменения?", "Сохранение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         b_saveMain.PerformClick();
                     else
                         b_cancelMain.PerformClick();
-
             }
         }
 
@@ -1420,11 +1446,8 @@ namespace Prof
         {
             if (MessageBox.Show("Вы уверены в удалении?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                using (Database.DataBase db = new Database.DataBase())
-                {
-                    db.People.Remove(db.People.FirstOrDefault(p => p.id == idPerson));
-                    db.SaveChanges();
-                }
+                peopleTableAdapter1.DeletePers(idPerson);
+                idPerson = 0;
                 MessageBox.Show("Персона успешно удалена!");
                 Close();
             }
@@ -1487,9 +1510,5 @@ namespace Prof
                 idEduc = (int)dgv_educ[0, e.RowIndex].Value;
         }
 
-        private void cb_dep_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           // MessageBox.Show(cb_dep.SelectedValue.ToString());
-        }
     }
 }

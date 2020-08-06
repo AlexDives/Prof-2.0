@@ -111,14 +111,43 @@ namespace Prof
 				for (int k = 1; k <= 10; k++)
 				{
 					if (!dt_row.IsNull("lvl" + k.ToString() + "_id"))
+					{
 						if (Array.IndexOf(arrayUserDeparmentsForLoadPeople, (int)dt_row["lvl" + k.ToString() + "_id"]) == -1)
+						{
+							if (arrayUserDeparmentsForLoadPeople.Length == i)
+							{
+								int[] tmp = new int[arrayUserDeparmentsForLoadPeople.Length + 1];
+								for (int l = 0; l < arrayUserDeparmentsForLoadPeople.Length; l++)
+									tmp[l] = arrayUserDeparmentsForLoadPeople[l];
+								
+								arrayUserDeparmentsForLoadPeople = new int[tmp.Length];
+								for (int l = 0; l < tmp.Length; l++)
+									arrayUserDeparmentsForLoadPeople[l] = tmp[l];
+							}
 							arrayUserDeparmentsForLoadPeople[i] = (int)dt_row["lvl" + k.ToString() + "_id"];
+							i++;
+						}
+					}
 
-					if (!dt_row.IsNull("lvl" + k.ToString() + "_idParent"))
+					if (!dt_row.IsNull("lvl" + k.ToString() + "_idParent") && k != 1)
+					{
 						if (Array.IndexOf(arrayUserDeparmentsForLoadPeople, (int)dt_row["lvl" + k.ToString() + "_idParent"]) == -1)
+						{
+							if (arrayUserDeparmentsForLoadPeople.Length == i)
+							{
+								int[] tmp = new int[arrayUserDeparmentsForLoadPeople.Length + 1];
+								for (int l = 0; l < arrayUserDeparmentsForLoadPeople.Length; l++)
+									tmp[l] = arrayUserDeparmentsForLoadPeople[l];
+
+								arrayUserDeparmentsForLoadPeople = new int[tmp.Length];
+								for (int l = 0; l < tmp.Length; l++)
+									arrayUserDeparmentsForLoadPeople[l] = tmp[l];
+							}
 							arrayUserDeparmentsForLoadPeople[i] = (int)dt_row["lvl" + k.ToString() + "_idParent"];
+							i++;
+						}
+					}
 				}
-				i++;
 			}
 			arrayUserDeparmentsForLoadPeople_String = "";
 			for (i = 0; i < arrayUserDeparmentsForLoadPeople.Length; i++)

@@ -279,10 +279,9 @@
             // 
             // but_newVersion
             // 
-            this.but_newVersion.BackColor = System.Drawing.Color.Red;
+            this.but_newVersion.BackColor = System.Drawing.Color.Firebrick;
             this.but_newVersion.Dock = System.Windows.Forms.DockStyle.Right;
             this.but_newVersion.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.but_newVersion.FontWeight = MetroFramework.MetroButtonWeight.Regular;
             this.but_newVersion.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.but_newVersion.Location = new System.Drawing.Point(514, 0);
             this.but_newVersion.Name = "but_newVersion";
@@ -383,6 +382,7 @@
             this.dgv.RowHeadersWidth = 20;
             this.dgv.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv.Size = new System.Drawing.Size(553, 345);
             this.dgv.TabIndex = 7;
@@ -599,6 +599,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FMain";
+            this.Resizable = false;
             this.Text = "Профсоюз";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);

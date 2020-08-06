@@ -29,21 +29,33 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FPerson));
             this.tp_note = new System.Windows.Forms.TabPage();
             this.tb_hobbies = new System.Windows.Forms.TextBox();
@@ -59,7 +71,7 @@
             this.tp_nagr = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tp_matPoposh = new System.Windows.Forms.TabPage();
-            this.dgv_mat = new System.Windows.Forms.DataGridView();
+            this.dgv_mat = new MetroFramework.Controls.MetroGrid();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.typeEnc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateMat = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -79,7 +91,7 @@
             this.b_saveMat = new System.Windows.Forms.Button();
             this.b_addMat = new System.Windows.Forms.Button();
             this.tp_otherNagrad = new System.Windows.Forms.TabPage();
-            this.dgv_OtherEnc = new System.Windows.Forms.DataGridView();
+            this.dgv_OtherEnc = new MetroFramework.Controls.MetroGrid();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -98,7 +110,7 @@
             this.b_saveOtherEnc = new System.Windows.Forms.Button();
             this.b_addOtherEnc = new System.Windows.Forms.Button();
             this.tp_educ = new System.Windows.Forms.TabPage();
-            this.dgv_educ = new System.Windows.Forms.DataGridView();
+            this.dgv_educ = new MetroFramework.Controls.MetroGrid();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.typeEduc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.educName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -126,18 +138,7 @@
             this.b_saveEduc = new System.Windows.Forms.Button();
             this.b_addEduc = new System.Windows.Forms.Button();
             this.tp_work = new System.Windows.Forms.TabPage();
-            this.dgv_trudKnig = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateTrudKnig = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.info = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateFinish = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isObsh = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.isPed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.isNPed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.isOsn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.isSovm = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.isWorked = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_trudKnig = new MetroFramework.Controls.MetroGrid();
             this.p_allInfoTrudKnig = new System.Windows.Forms.Panel();
             this.cb_sovm = new System.Windows.Forms.CheckBox();
             this.tb_positionWork = new System.Windows.Forms.TextBox();
@@ -254,6 +255,21 @@
             this.peopleTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleTableAdapter();
             this.peopleSocialStatusTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleSocialStatusTableAdapter();
             this.peopleLivingConditionsTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleLivingConditionsTableAdapter();
+            this.peopleDepartmentTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleDepartmentTableAdapter();
+            this.educationTableAdapter1 = new Prof.ProfDataSetTableAdapters.EducationTableAdapter();
+            this.peopleEncouragementTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleEncouragementTableAdapter();
+            this.peopleWorkTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleWorkTableAdapter();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateTrudKnig = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.info = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateFinish = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isObsh = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.isPed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.isNPed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.isOsn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.isSovm = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.isWorked = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tp_note.SuspendLayout();
             this.panel11.SuspendLayout();
             this.tp_nagr.SuspendLayout();
@@ -305,7 +321,7 @@
             this.tp_note.Location = new System.Drawing.Point(4, 24);
             this.tp_note.Name = "tp_note";
             this.tp_note.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_note.Size = new System.Drawing.Size(890, 324);
+            this.tp_note.Size = new System.Drawing.Size(941, 324);
             this.tp_note.TabIndex = 5;
             this.tp_note.Text = "Дополнительные сведения";
             this.tp_note.UseVisualStyleBackColor = true;
@@ -365,14 +381,13 @@
             // 
             // panel11
             // 
-            this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel11.Controls.Add(this.b_deleteDopSved);
             this.panel11.Controls.Add(this.b_cancelDopSved);
             this.panel11.Controls.Add(this.b_saveDopSved);
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(3, 3);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(884, 28);
+            this.panel11.Size = new System.Drawing.Size(935, 28);
             this.panel11.TabIndex = 25;
             // 
             // b_deleteDopSved
@@ -381,7 +396,7 @@
             this.b_deleteDopSved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_deleteDopSved.Location = new System.Drawing.Point(180, 0);
             this.b_deleteDopSved.Name = "b_deleteDopSved";
-            this.b_deleteDopSved.Size = new System.Drawing.Size(90, 26);
+            this.b_deleteDopSved.Size = new System.Drawing.Size(90, 28);
             this.b_deleteDopSved.TabIndex = 2;
             this.b_deleteDopSved.Text = "Удалить";
             this.b_deleteDopSved.UseVisualStyleBackColor = true;
@@ -393,7 +408,7 @@
             this.b_cancelDopSved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_cancelDopSved.Location = new System.Drawing.Point(90, 0);
             this.b_cancelDopSved.Name = "b_cancelDopSved";
-            this.b_cancelDopSved.Size = new System.Drawing.Size(90, 26);
+            this.b_cancelDopSved.Size = new System.Drawing.Size(90, 28);
             this.b_cancelDopSved.TabIndex = 1;
             this.b_cancelDopSved.Text = "Отменить";
             this.b_cancelDopSved.UseVisualStyleBackColor = true;
@@ -405,7 +420,7 @@
             this.b_saveDopSved.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_saveDopSved.Location = new System.Drawing.Point(0, 0);
             this.b_saveDopSved.Name = "b_saveDopSved";
-            this.b_saveDopSved.Size = new System.Drawing.Size(90, 26);
+            this.b_saveDopSved.Size = new System.Drawing.Size(90, 28);
             this.b_saveDopSved.TabIndex = 0;
             this.b_saveDopSved.Text = "Сохранить";
             this.b_saveDopSved.UseVisualStyleBackColor = true;
@@ -418,7 +433,7 @@
             this.tp_nagr.Location = new System.Drawing.Point(4, 24);
             this.tp_nagr.Name = "tp_nagr";
             this.tp_nagr.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_nagr.Size = new System.Drawing.Size(890, 324);
+            this.tp_nagr.Size = new System.Drawing.Size(941, 324);
             this.tp_nagr.TabIndex = 4;
             this.tp_nagr.Text = "Награждения / поощрения";
             this.tp_nagr.UseVisualStyleBackColor = true;
@@ -431,7 +446,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(884, 318);
+            this.tabControl1.Size = new System.Drawing.Size(935, 318);
             this.tabControl1.TabIndex = 0;
             // 
             // tp_matPoposh
@@ -443,7 +458,7 @@
             this.tp_matPoposh.Location = new System.Drawing.Point(4, 22);
             this.tp_matPoposh.Name = "tp_matPoposh";
             this.tp_matPoposh.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_matPoposh.Size = new System.Drawing.Size(876, 292);
+            this.tp_matPoposh.Size = new System.Drawing.Size(927, 292);
             this.tp_matPoposh.TabIndex = 0;
             this.tp_matPoposh.Text = "Материальная помощь";
             this.tp_matPoposh.UseVisualStyleBackColor = true;
@@ -452,33 +467,62 @@
             // 
             this.dgv_mat.AllowUserToAddRows = false;
             this.dgv_mat.AllowUserToDeleteRows = false;
+            this.dgv_mat.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dgv_mat.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_mat.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_mat.BackgroundColor = System.Drawing.Color.White;
             this.dgv_mat.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_mat.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgv_mat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_mat.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dgv_mat.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_mat.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_mat.ColumnHeadersHeight = 34;
+            this.dgv_mat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_mat.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn3,
             this.typeEnc,
             this.dateMat,
             this.sourceMat,
             this.countMat});
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_mat.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_mat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_mat.EnableHeadersVisualStyles = false;
+            this.dgv_mat.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dgv_mat.GridColor = System.Drawing.SystemColors.AppWorkspace;
             this.dgv_mat.Location = new System.Drawing.Point(3, 64);
+            this.dgv_mat.MultiSelect = false;
             this.dgv_mat.Name = "dgv_mat";
             this.dgv_mat.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgv_mat.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgv_mat.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_mat.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgv_mat.RowHeadersVisible = false;
+            this.dgv_mat.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_mat.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_mat.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_mat.Size = new System.Drawing.Size(870, 225);
+            this.dgv_mat.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_mat.Size = new System.Drawing.Size(921, 225);
             this.dgv_mat.TabIndex = 32;
             this.dgv_mat.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_mat_CellDoubleClick);
             // 
@@ -497,9 +541,9 @@
             // 
             // dateMat
             // 
-            dataGridViewCellStyle2.Format = "d";
-            dataGridViewCellStyle2.NullValue = null;
-            this.dateMat.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.dateMat.DefaultCellStyle = dataGridViewCellStyle3;
             this.dateMat.HeaderText = "Дата вручения";
             this.dateMat.Name = "dateMat";
             this.dateMat.ReadOnly = true;
@@ -518,7 +562,6 @@
             // 
             // p_allInfoMat
             // 
-            this.p_allInfoMat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.p_allInfoMat.Controls.Add(this.tb_matCount);
             this.p_allInfoMat.Controls.Add(this.label39);
             this.p_allInfoMat.Controls.Add(this.cb_matSource);
@@ -528,7 +571,7 @@
             this.p_allInfoMat.Dock = System.Windows.Forms.DockStyle.Top;
             this.p_allInfoMat.Location = new System.Drawing.Point(3, 31);
             this.p_allInfoMat.Name = "p_allInfoMat";
-            this.p_allInfoMat.Size = new System.Drawing.Size(870, 33);
+            this.p_allInfoMat.Size = new System.Drawing.Size(921, 33);
             this.p_allInfoMat.TabIndex = 29;
             // 
             // tb_matCount
@@ -550,6 +593,7 @@
             // 
             // cb_matSource
             // 
+            this.cb_matSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_matSource.FormattingEnabled = true;
             this.cb_matSource.Items.AddRange(new object[] {
             "ППО",
@@ -590,7 +634,6 @@
             // 
             // panel7
             // 
-            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel7.Controls.Add(this.b_exportMat);
             this.panel7.Controls.Add(this.b_deleteMat);
             this.panel7.Controls.Add(this.b_cancelMat);
@@ -599,15 +642,15 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(3, 3);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(870, 28);
+            this.panel7.Size = new System.Drawing.Size(921, 28);
             this.panel7.TabIndex = 28;
             // 
             // b_exportMat
             // 
             this.b_exportMat.Dock = System.Windows.Forms.DockStyle.Right;
-            this.b_exportMat.Location = new System.Drawing.Point(758, 0);
+            this.b_exportMat.Location = new System.Drawing.Point(811, 0);
             this.b_exportMat.Name = "b_exportMat";
-            this.b_exportMat.Size = new System.Drawing.Size(110, 26);
+            this.b_exportMat.Size = new System.Drawing.Size(110, 28);
             this.b_exportMat.TabIndex = 4;
             this.b_exportMat.Text = "Экспорт в Excel";
             this.b_exportMat.UseVisualStyleBackColor = true;
@@ -619,7 +662,7 @@
             this.b_deleteMat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_deleteMat.Location = new System.Drawing.Point(270, 0);
             this.b_deleteMat.Name = "b_deleteMat";
-            this.b_deleteMat.Size = new System.Drawing.Size(90, 26);
+            this.b_deleteMat.Size = new System.Drawing.Size(90, 28);
             this.b_deleteMat.TabIndex = 3;
             this.b_deleteMat.Text = "Удалить";
             this.b_deleteMat.UseVisualStyleBackColor = true;
@@ -631,7 +674,7 @@
             this.b_cancelMat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_cancelMat.Location = new System.Drawing.Point(180, 0);
             this.b_cancelMat.Name = "b_cancelMat";
-            this.b_cancelMat.Size = new System.Drawing.Size(90, 26);
+            this.b_cancelMat.Size = new System.Drawing.Size(90, 28);
             this.b_cancelMat.TabIndex = 2;
             this.b_cancelMat.Text = "Отменить";
             this.b_cancelMat.UseVisualStyleBackColor = true;
@@ -643,7 +686,7 @@
             this.b_saveMat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_saveMat.Location = new System.Drawing.Point(90, 0);
             this.b_saveMat.Name = "b_saveMat";
-            this.b_saveMat.Size = new System.Drawing.Size(90, 26);
+            this.b_saveMat.Size = new System.Drawing.Size(90, 28);
             this.b_saveMat.TabIndex = 1;
             this.b_saveMat.Text = "Сохранить";
             this.b_saveMat.UseVisualStyleBackColor = true;
@@ -655,7 +698,7 @@
             this.b_addMat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_addMat.Location = new System.Drawing.Point(0, 0);
             this.b_addMat.Name = "b_addMat";
-            this.b_addMat.Size = new System.Drawing.Size(90, 26);
+            this.b_addMat.Size = new System.Drawing.Size(90, 28);
             this.b_addMat.TabIndex = 0;
             this.b_addMat.Text = "Добавить";
             this.b_addMat.UseVisualStyleBackColor = true;
@@ -670,7 +713,7 @@
             this.tp_otherNagrad.Location = new System.Drawing.Point(4, 22);
             this.tp_otherNagrad.Name = "tp_otherNagrad";
             this.tp_otherNagrad.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_otherNagrad.Size = new System.Drawing.Size(876, 292);
+            this.tp_otherNagrad.Size = new System.Drawing.Size(927, 292);
             this.tp_otherNagrad.TabIndex = 1;
             this.tp_otherNagrad.Text = "Другие поощрения";
             this.tp_otherNagrad.UseVisualStyleBackColor = true;
@@ -679,32 +722,61 @@
             // 
             this.dgv_OtherEnc.AllowUserToAddRows = false;
             this.dgv_OtherEnc.AllowUserToDeleteRows = false;
+            this.dgv_OtherEnc.AllowUserToResizeRows = false;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            this.dgv_OtherEnc.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgv_OtherEnc.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_OtherEnc.BackgroundColor = System.Drawing.Color.White;
             this.dgv_OtherEnc.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_OtherEnc.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.dgv_OtherEnc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_OtherEnc.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dgv_OtherEnc.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_OtherEnc.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            this.dgv_OtherEnc.ColumnHeadersHeight = 34;
+            this.dgv_OtherEnc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_OtherEnc.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5,
             this.dataGridViewTextBoxColumn6,
             this.dataGridViewTextBoxColumn7});
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_OtherEnc.DefaultCellStyle = dataGridViewCellStyle10;
             this.dgv_OtherEnc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_OtherEnc.EnableHeadersVisualStyles = false;
+            this.dgv_OtherEnc.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dgv_OtherEnc.GridColor = System.Drawing.SystemColors.AppWorkspace;
             this.dgv_OtherEnc.Location = new System.Drawing.Point(3, 64);
+            this.dgv_OtherEnc.MultiSelect = false;
             this.dgv_OtherEnc.Name = "dgv_OtherEnc";
             this.dgv_OtherEnc.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgv_OtherEnc.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgv_OtherEnc.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_OtherEnc.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgv_OtherEnc.RowHeadersVisible = false;
+            this.dgv_OtherEnc.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_OtherEnc.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dgv_OtherEnc.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_OtherEnc.Size = new System.Drawing.Size(870, 225);
+            this.dgv_OtherEnc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_OtherEnc.Size = new System.Drawing.Size(921, 225);
             this.dgv_OtherEnc.TabIndex = 33;
             this.dgv_OtherEnc.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_OtherEnc_CellDoubleClick);
             // 
@@ -723,9 +795,9 @@
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle9.Format = "d";
+            dataGridViewCellStyle9.NullValue = null;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewTextBoxColumn6.HeaderText = "Дата вручения";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
@@ -738,7 +810,6 @@
             // 
             // p_allInfoOtherEnc
             // 
-            this.p_allInfoOtherEnc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.p_allInfoOtherEnc.Controls.Add(this.cb_typeOtherEnc);
             this.p_allInfoOtherEnc.Controls.Add(this.label37);
             this.p_allInfoOtherEnc.Controls.Add(this.cb_sourceOtherEnc);
@@ -748,11 +819,12 @@
             this.p_allInfoOtherEnc.Dock = System.Windows.Forms.DockStyle.Top;
             this.p_allInfoOtherEnc.Location = new System.Drawing.Point(3, 31);
             this.p_allInfoOtherEnc.Name = "p_allInfoOtherEnc";
-            this.p_allInfoOtherEnc.Size = new System.Drawing.Size(870, 33);
+            this.p_allInfoOtherEnc.Size = new System.Drawing.Size(921, 33);
             this.p_allInfoOtherEnc.TabIndex = 29;
             // 
             // cb_typeOtherEnc
             // 
+            this.cb_typeOtherEnc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_typeOtherEnc.FormattingEnabled = true;
             this.cb_typeOtherEnc.Location = new System.Drawing.Point(604, 4);
             this.cb_typeOtherEnc.Name = "cb_typeOtherEnc";
@@ -771,6 +843,7 @@
             // 
             // cb_sourceOtherEnc
             // 
+            this.cb_sourceOtherEnc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_sourceOtherEnc.FormattingEnabled = true;
             this.cb_sourceOtherEnc.Items.AddRange(new object[] {
             "ППО",
@@ -811,7 +884,6 @@
             // 
             // panel8
             // 
-            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel8.Controls.Add(this.b_exportOther);
             this.panel8.Controls.Add(this.b_deleteOtherEnc);
             this.panel8.Controls.Add(this.b_cancelOtherEnc);
@@ -820,15 +892,15 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(3, 3);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(870, 28);
+            this.panel8.Size = new System.Drawing.Size(921, 28);
             this.panel8.TabIndex = 28;
             // 
             // b_exportOther
             // 
             this.b_exportOther.Dock = System.Windows.Forms.DockStyle.Right;
-            this.b_exportOther.Location = new System.Drawing.Point(758, 0);
+            this.b_exportOther.Location = new System.Drawing.Point(811, 0);
             this.b_exportOther.Name = "b_exportOther";
-            this.b_exportOther.Size = new System.Drawing.Size(110, 26);
+            this.b_exportOther.Size = new System.Drawing.Size(110, 28);
             this.b_exportOther.TabIndex = 4;
             this.b_exportOther.Text = "Экспорт в Excel";
             this.b_exportOther.UseVisualStyleBackColor = true;
@@ -840,7 +912,7 @@
             this.b_deleteOtherEnc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_deleteOtherEnc.Location = new System.Drawing.Point(270, 0);
             this.b_deleteOtherEnc.Name = "b_deleteOtherEnc";
-            this.b_deleteOtherEnc.Size = new System.Drawing.Size(90, 26);
+            this.b_deleteOtherEnc.Size = new System.Drawing.Size(90, 28);
             this.b_deleteOtherEnc.TabIndex = 3;
             this.b_deleteOtherEnc.Text = "Удалить";
             this.b_deleteOtherEnc.UseVisualStyleBackColor = true;
@@ -852,7 +924,7 @@
             this.b_cancelOtherEnc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_cancelOtherEnc.Location = new System.Drawing.Point(180, 0);
             this.b_cancelOtherEnc.Name = "b_cancelOtherEnc";
-            this.b_cancelOtherEnc.Size = new System.Drawing.Size(90, 26);
+            this.b_cancelOtherEnc.Size = new System.Drawing.Size(90, 28);
             this.b_cancelOtherEnc.TabIndex = 2;
             this.b_cancelOtherEnc.Text = "Отменить";
             this.b_cancelOtherEnc.UseVisualStyleBackColor = true;
@@ -864,7 +936,7 @@
             this.b_saveOtherEnc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_saveOtherEnc.Location = new System.Drawing.Point(90, 0);
             this.b_saveOtherEnc.Name = "b_saveOtherEnc";
-            this.b_saveOtherEnc.Size = new System.Drawing.Size(90, 26);
+            this.b_saveOtherEnc.Size = new System.Drawing.Size(90, 28);
             this.b_saveOtherEnc.TabIndex = 1;
             this.b_saveOtherEnc.Text = "Сохранить";
             this.b_saveOtherEnc.UseVisualStyleBackColor = true;
@@ -876,7 +948,7 @@
             this.b_addOtherEnc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_addOtherEnc.Location = new System.Drawing.Point(0, 0);
             this.b_addOtherEnc.Name = "b_addOtherEnc";
-            this.b_addOtherEnc.Size = new System.Drawing.Size(90, 26);
+            this.b_addOtherEnc.Size = new System.Drawing.Size(90, 28);
             this.b_addOtherEnc.TabIndex = 0;
             this.b_addOtherEnc.Text = "Добавить";
             this.b_addOtherEnc.UseVisualStyleBackColor = true;
@@ -891,7 +963,7 @@
             this.tp_educ.Location = new System.Drawing.Point(4, 24);
             this.tp_educ.Name = "tp_educ";
             this.tp_educ.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_educ.Size = new System.Drawing.Size(890, 324);
+            this.tp_educ.Size = new System.Drawing.Size(941, 324);
             this.tp_educ.TabIndex = 3;
             this.tp_educ.Text = "Образование";
             this.tp_educ.UseVisualStyleBackColor = true;
@@ -900,18 +972,24 @@
             // 
             this.dgv_educ.AllowUserToAddRows = false;
             this.dgv_educ.AllowUserToDeleteRows = false;
+            this.dgv_educ.AllowUserToResizeRows = false;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dgv_educ.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             this.dgv_educ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_educ.BackgroundColor = System.Drawing.Color.White;
             this.dgv_educ.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_educ.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dgv_educ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_educ.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dgv_educ.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_educ.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            this.dgv_educ.ColumnHeadersHeight = 34;
+            this.dgv_educ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_educ.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2,
             this.typeEduc,
@@ -920,13 +998,37 @@
             this.kvalEduc,
             this.serAndNumDocEduc,
             this.dateEduc});
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_educ.DefaultCellStyle = dataGridViewCellStyle16;
             this.dgv_educ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_educ.EnableHeadersVisualStyles = false;
+            this.dgv_educ.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dgv_educ.GridColor = System.Drawing.SystemColors.AppWorkspace;
             this.dgv_educ.Location = new System.Drawing.Point(3, 122);
+            this.dgv_educ.MultiSelect = false;
             this.dgv_educ.Name = "dgv_educ";
             this.dgv_educ.ReadOnly = true;
+            this.dgv_educ.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_educ.RowHeadersDefaultCellStyle = dataGridViewCellStyle17;
+            this.dgv_educ.RowHeadersVisible = false;
+            this.dgv_educ.RowHeadersWidth = 20;
+            this.dgv_educ.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_educ.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_educ.Size = new System.Drawing.Size(884, 199);
+            this.dgv_educ.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_educ.Size = new System.Drawing.Size(935, 199);
             this.dgv_educ.TabIndex = 31;
             this.dgv_educ.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_educ_CellClick);
             this.dgv_educ.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_educ_CellDoubleClick);
@@ -970,16 +1072,15 @@
             // 
             // dateEduc
             // 
-            dataGridViewCellStyle8.Format = "d";
-            dataGridViewCellStyle8.NullValue = null;
-            this.dateEduc.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle15.Format = "d";
+            dataGridViewCellStyle15.NullValue = null;
+            this.dateEduc.DefaultCellStyle = dataGridViewCellStyle15;
             this.dateEduc.HeaderText = "Дата  выдачи";
             this.dateEduc.Name = "dateEduc";
             this.dateEduc.ReadOnly = true;
             // 
             // p_allInfoEduc
             // 
-            this.p_allInfoEduc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.p_allInfoEduc.Controls.Add(this.dtp_educ);
             this.p_allInfoEduc.Controls.Add(this.label34);
             this.p_allInfoEduc.Controls.Add(this.tb_numEduc);
@@ -995,7 +1096,7 @@
             this.p_allInfoEduc.Dock = System.Windows.Forms.DockStyle.Top;
             this.p_allInfoEduc.Location = new System.Drawing.Point(3, 31);
             this.p_allInfoEduc.Name = "p_allInfoEduc";
-            this.p_allInfoEduc.Size = new System.Drawing.Size(884, 91);
+            this.p_allInfoEduc.Size = new System.Drawing.Size(935, 91);
             this.p_allInfoEduc.TabIndex = 29;
             // 
             // dtp_educ
@@ -1115,7 +1216,6 @@
             // 
             // panel4
             // 
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.b_exportEduc);
             this.panel4.Controls.Add(this.b_deleteEduc);
             this.panel4.Controls.Add(this.b_cancelEduc);
@@ -1124,15 +1224,15 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(884, 28);
+            this.panel4.Size = new System.Drawing.Size(935, 28);
             this.panel4.TabIndex = 27;
             // 
             // b_exportEduc
             // 
             this.b_exportEduc.Dock = System.Windows.Forms.DockStyle.Right;
-            this.b_exportEduc.Location = new System.Drawing.Point(772, 0);
+            this.b_exportEduc.Location = new System.Drawing.Point(825, 0);
             this.b_exportEduc.Name = "b_exportEduc";
-            this.b_exportEduc.Size = new System.Drawing.Size(110, 26);
+            this.b_exportEduc.Size = new System.Drawing.Size(110, 28);
             this.b_exportEduc.TabIndex = 4;
             this.b_exportEduc.Text = "Экспорт в Excel";
             this.b_exportEduc.UseVisualStyleBackColor = true;
@@ -1144,7 +1244,7 @@
             this.b_deleteEduc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_deleteEduc.Location = new System.Drawing.Point(270, 0);
             this.b_deleteEduc.Name = "b_deleteEduc";
-            this.b_deleteEduc.Size = new System.Drawing.Size(90, 26);
+            this.b_deleteEduc.Size = new System.Drawing.Size(90, 28);
             this.b_deleteEduc.TabIndex = 3;
             this.b_deleteEduc.Text = "Удалить";
             this.b_deleteEduc.UseVisualStyleBackColor = true;
@@ -1157,7 +1257,7 @@
             this.b_cancelEduc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_cancelEduc.Location = new System.Drawing.Point(180, 0);
             this.b_cancelEduc.Name = "b_cancelEduc";
-            this.b_cancelEduc.Size = new System.Drawing.Size(90, 26);
+            this.b_cancelEduc.Size = new System.Drawing.Size(90, 28);
             this.b_cancelEduc.TabIndex = 2;
             this.b_cancelEduc.Text = "Отменить";
             this.b_cancelEduc.UseVisualStyleBackColor = true;
@@ -1170,7 +1270,7 @@
             this.b_saveEduc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_saveEduc.Location = new System.Drawing.Point(90, 0);
             this.b_saveEduc.Name = "b_saveEduc";
-            this.b_saveEduc.Size = new System.Drawing.Size(90, 26);
+            this.b_saveEduc.Size = new System.Drawing.Size(90, 28);
             this.b_saveEduc.TabIndex = 1;
             this.b_saveEduc.Text = "Сохранить";
             this.b_saveEduc.UseVisualStyleBackColor = true;
@@ -1182,7 +1282,7 @@
             this.b_addEduc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_addEduc.Location = new System.Drawing.Point(0, 0);
             this.b_addEduc.Name = "b_addEduc";
-            this.b_addEduc.Size = new System.Drawing.Size(90, 26);
+            this.b_addEduc.Size = new System.Drawing.Size(90, 28);
             this.b_addEduc.TabIndex = 0;
             this.b_addEduc.Text = "Добавить";
             this.b_addEduc.UseVisualStyleBackColor = true;
@@ -1198,7 +1298,7 @@
             this.tp_work.Location = new System.Drawing.Point(4, 24);
             this.tp_work.Name = "tp_work";
             this.tp_work.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_work.Size = new System.Drawing.Size(890, 324);
+            this.tp_work.Size = new System.Drawing.Size(941, 324);
             this.tp_work.TabIndex = 2;
             this.tp_work.Text = "Трудовая книжка";
             this.tp_work.UseVisualStyleBackColor = true;
@@ -1207,18 +1307,24 @@
             // 
             this.dgv_trudKnig.AllowUserToAddRows = false;
             this.dgv_trudKnig.AllowUserToDeleteRows = false;
+            this.dgv_trudKnig.AllowUserToResizeRows = false;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dgv_trudKnig.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle18;
             this.dgv_trudKnig.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_trudKnig.BackgroundColor = System.Drawing.Color.White;
             this.dgv_trudKnig.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_trudKnig.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            this.dgv_trudKnig.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_trudKnig.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dgv_trudKnig.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_trudKnig.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
+            this.dgv_trudKnig.ColumnHeadersHeight = 34;
+            this.dgv_trudKnig.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_trudKnig.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dateTrudKnig,
@@ -1231,107 +1337,41 @@
             this.isOsn,
             this.isSovm,
             this.isWorked});
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_trudKnig.DefaultCellStyle = dataGridViewCellStyle22;
             this.dgv_trudKnig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_trudKnig.EnableHeadersVisualStyles = false;
+            this.dgv_trudKnig.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.dgv_trudKnig.GridColor = System.Drawing.SystemColors.AppWorkspace;
             this.dgv_trudKnig.Location = new System.Drawing.Point(3, 163);
+            this.dgv_trudKnig.MultiSelect = false;
             this.dgv_trudKnig.Name = "dgv_trudKnig";
             this.dgv_trudKnig.ReadOnly = true;
+            this.dgv_trudKnig.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_trudKnig.RowHeadersDefaultCellStyle = dataGridViewCellStyle23;
             this.dgv_trudKnig.RowHeadersVisible = false;
+            this.dgv_trudKnig.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_trudKnig.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_trudKnig.Size = new System.Drawing.Size(884, 158);
+            this.dgv_trudKnig.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_trudKnig.Size = new System.Drawing.Size(935, 158);
             this.dgv_trudKnig.TabIndex = 30;
             this.dgv_trudKnig.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_trudKnig_CellDoubleClick);
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "id";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Visible = false;
-            // 
-            // dateTrudKnig
-            // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.Format = "d";
-            dataGridViewCellStyle10.NullValue = null;
-            this.dateTrudKnig.DefaultCellStyle = dataGridViewCellStyle10;
-            this.dateTrudKnig.FillWeight = 40F;
-            this.dateTrudKnig.HeaderText = "Дата нач. раб.";
-            this.dateTrudKnig.Name = "dateTrudKnig";
-            this.dateTrudKnig.ReadOnly = true;
-            // 
-            // info
-            // 
-            this.info.HeaderText = "Место работы";
-            this.info.Name = "info";
-            this.info.ReadOnly = true;
-            // 
-            // position
-            // 
-            this.position.HeaderText = "Должность";
-            this.position.Name = "position";
-            this.position.ReadOnly = true;
-            // 
-            // dateFinish
-            // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.Format = "d";
-            this.dateFinish.DefaultCellStyle = dataGridViewCellStyle11;
-            this.dateFinish.FillWeight = 40F;
-            this.dateFinish.HeaderText = "Дата ок. раб.";
-            this.dateFinish.Name = "dateFinish";
-            this.dateFinish.ReadOnly = true;
-            // 
-            // isObsh
-            // 
-            this.isObsh.FillWeight = 30F;
-            this.isObsh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.isObsh.HeaderText = "Общ. стаж";
-            this.isObsh.Name = "isObsh";
-            this.isObsh.ReadOnly = true;
-            // 
-            // isPed
-            // 
-            this.isPed.FillWeight = 30F;
-            this.isPed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.isPed.HeaderText = "Пед. стаж";
-            this.isPed.Name = "isPed";
-            this.isPed.ReadOnly = true;
-            // 
-            // isNPed
-            // 
-            this.isNPed.FillWeight = 30F;
-            this.isNPed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.isNPed.HeaderText = "Науч.-пед. стаж";
-            this.isNPed.Name = "isNPed";
-            this.isNPed.ReadOnly = true;
-            // 
-            // isOsn
-            // 
-            this.isOsn.FillWeight = 30F;
-            this.isOsn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.isOsn.HeaderText = "Осн.";
-            this.isOsn.Name = "isOsn";
-            this.isOsn.ReadOnly = true;
-            // 
-            // isSovm
-            // 
-            this.isSovm.FillWeight = 30F;
-            this.isSovm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.isSovm.HeaderText = "Совм.";
-            this.isSovm.Name = "isSovm";
-            this.isSovm.ReadOnly = true;
-            // 
-            // isWorked
-            // 
-            this.isWorked.HeaderText = "isWorked";
-            this.isWorked.Name = "isWorked";
-            this.isWorked.ReadOnly = true;
-            this.isWorked.Visible = false;
-            // 
             // p_allInfoTrudKnig
             // 
-            this.p_allInfoTrudKnig.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.p_allInfoTrudKnig.Controls.Add(this.cb_sovm);
             this.p_allInfoTrudKnig.Controls.Add(this.tb_positionWork);
             this.p_allInfoTrudKnig.Controls.Add(this.label9);
@@ -1349,7 +1389,7 @@
             this.p_allInfoTrudKnig.Dock = System.Windows.Forms.DockStyle.Top;
             this.p_allInfoTrudKnig.Location = new System.Drawing.Point(3, 65);
             this.p_allInfoTrudKnig.Name = "p_allInfoTrudKnig";
-            this.p_allInfoTrudKnig.Size = new System.Drawing.Size(884, 98);
+            this.p_allInfoTrudKnig.Size = new System.Drawing.Size(935, 98);
             this.p_allInfoTrudKnig.TabIndex = 28;
             // 
             // cb_sovm
@@ -1484,7 +1524,6 @@
             // 
             // panel6
             // 
-            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.l_molodSpec);
             this.panel6.Controls.Add(this.l_NPStaj);
             this.panel6.Controls.Add(this.label29);
@@ -1495,7 +1534,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(3, 31);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(884, 34);
+            this.panel6.Size = new System.Drawing.Size(935, 34);
             this.panel6.TabIndex = 27;
             // 
             // l_molodSpec
@@ -1503,9 +1542,9 @@
             this.l_molodSpec.Dock = System.Windows.Forms.DockStyle.Right;
             this.l_molodSpec.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.l_molodSpec.ForeColor = System.Drawing.Color.Brown;
-            this.l_molodSpec.Location = new System.Drawing.Point(711, 0);
+            this.l_molodSpec.Location = new System.Drawing.Point(764, 0);
             this.l_molodSpec.Name = "l_molodSpec";
-            this.l_molodSpec.Size = new System.Drawing.Size(171, 32);
+            this.l_molodSpec.Size = new System.Drawing.Size(171, 34);
             this.l_molodSpec.TabIndex = 6;
             this.l_molodSpec.Text = "Молодой специалист";
             this.l_molodSpec.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1515,7 +1554,7 @@
             this.l_NPStaj.Dock = System.Windows.Forms.DockStyle.Left;
             this.l_NPStaj.Location = new System.Drawing.Point(484, 0);
             this.l_NPStaj.Name = "l_NPStaj";
-            this.l_NPStaj.Size = new System.Drawing.Size(96, 32);
+            this.l_NPStaj.Size = new System.Drawing.Size(96, 34);
             this.l_NPStaj.TabIndex = 5;
             this.l_NPStaj.Text = "0г. 0м. 0д.";
             this.l_NPStaj.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1526,7 +1565,7 @@
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label29.Location = new System.Drawing.Point(359, 0);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(125, 32);
+            this.label29.Size = new System.Drawing.Size(125, 34);
             this.label29.TabIndex = 4;
             this.label29.Text = "Науч.-пед. стаж:";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1536,7 +1575,7 @@
             this.l_PStaj.Dock = System.Windows.Forms.DockStyle.Left;
             this.l_PStaj.Location = new System.Drawing.Point(271, 0);
             this.l_PStaj.Name = "l_PStaj";
-            this.l_PStaj.Size = new System.Drawing.Size(88, 32);
+            this.l_PStaj.Size = new System.Drawing.Size(88, 34);
             this.l_PStaj.TabIndex = 3;
             this.l_PStaj.Text = "0г. 0м. 0д.";
             this.l_PStaj.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1547,7 +1586,7 @@
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label27.Location = new System.Drawing.Point(181, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(90, 32);
+            this.label27.Size = new System.Drawing.Size(90, 34);
             this.label27.TabIndex = 2;
             this.label27.Text = "Пед. стаж:";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1557,7 +1596,7 @@
             this.l_ObshStaj.Dock = System.Windows.Forms.DockStyle.Left;
             this.l_ObshStaj.Location = new System.Drawing.Point(90, 0);
             this.l_ObshStaj.Name = "l_ObshStaj";
-            this.l_ObshStaj.Size = new System.Drawing.Size(91, 32);
+            this.l_ObshStaj.Size = new System.Drawing.Size(91, 34);
             this.l_ObshStaj.TabIndex = 1;
             this.l_ObshStaj.Text = "0г. 0м. 0д.";
             this.l_ObshStaj.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1568,14 +1607,13 @@
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label21.Location = new System.Drawing.Point(0, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(90, 32);
+            this.label21.Size = new System.Drawing.Size(90, 34);
             this.label21.TabIndex = 0;
             this.label21.Text = "Общий стаж:";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel5
             // 
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.b_exportTrud);
             this.panel5.Controls.Add(this.b_deleteTrudKnig);
             this.panel5.Controls.Add(this.b_cancelTrudKnig);
@@ -1584,15 +1622,15 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(884, 28);
+            this.panel5.Size = new System.Drawing.Size(935, 28);
             this.panel5.TabIndex = 26;
             // 
             // b_exportTrud
             // 
             this.b_exportTrud.Dock = System.Windows.Forms.DockStyle.Right;
-            this.b_exportTrud.Location = new System.Drawing.Point(772, 0);
+            this.b_exportTrud.Location = new System.Drawing.Point(825, 0);
             this.b_exportTrud.Name = "b_exportTrud";
-            this.b_exportTrud.Size = new System.Drawing.Size(110, 26);
+            this.b_exportTrud.Size = new System.Drawing.Size(110, 28);
             this.b_exportTrud.TabIndex = 4;
             this.b_exportTrud.Text = "Экспорт в Excel";
             this.b_exportTrud.UseVisualStyleBackColor = true;
@@ -1604,7 +1642,7 @@
             this.b_deleteTrudKnig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_deleteTrudKnig.Location = new System.Drawing.Point(270, 0);
             this.b_deleteTrudKnig.Name = "b_deleteTrudKnig";
-            this.b_deleteTrudKnig.Size = new System.Drawing.Size(90, 26);
+            this.b_deleteTrudKnig.Size = new System.Drawing.Size(90, 28);
             this.b_deleteTrudKnig.TabIndex = 3;
             this.b_deleteTrudKnig.Text = "Удалить";
             this.b_deleteTrudKnig.UseVisualStyleBackColor = true;
@@ -1616,7 +1654,7 @@
             this.b_cancelTrudKnig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_cancelTrudKnig.Location = new System.Drawing.Point(180, 0);
             this.b_cancelTrudKnig.Name = "b_cancelTrudKnig";
-            this.b_cancelTrudKnig.Size = new System.Drawing.Size(90, 26);
+            this.b_cancelTrudKnig.Size = new System.Drawing.Size(90, 28);
             this.b_cancelTrudKnig.TabIndex = 2;
             this.b_cancelTrudKnig.Text = "Отменить";
             this.b_cancelTrudKnig.UseVisualStyleBackColor = true;
@@ -1628,7 +1666,7 @@
             this.b_saveTrudKnig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_saveTrudKnig.Location = new System.Drawing.Point(90, 0);
             this.b_saveTrudKnig.Name = "b_saveTrudKnig";
-            this.b_saveTrudKnig.Size = new System.Drawing.Size(90, 26);
+            this.b_saveTrudKnig.Size = new System.Drawing.Size(90, 28);
             this.b_saveTrudKnig.TabIndex = 1;
             this.b_saveTrudKnig.Text = "Сохранить";
             this.b_saveTrudKnig.UseVisualStyleBackColor = true;
@@ -1640,7 +1678,7 @@
             this.b_addTrudKnig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_addTrudKnig.Location = new System.Drawing.Point(0, 0);
             this.b_addTrudKnig.Name = "b_addTrudKnig";
-            this.b_addTrudKnig.Size = new System.Drawing.Size(90, 26);
+            this.b_addTrudKnig.Size = new System.Drawing.Size(90, 28);
             this.b_addTrudKnig.TabIndex = 0;
             this.b_addTrudKnig.Text = "Добавить";
             this.b_addTrudKnig.UseVisualStyleBackColor = true;
@@ -1653,7 +1691,7 @@
             this.tp_main.Location = new System.Drawing.Point(4, 24);
             this.tp_main.Name = "tp_main";
             this.tp_main.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_main.Size = new System.Drawing.Size(890, 324);
+            this.tp_main.Size = new System.Drawing.Size(941, 324);
             this.tp_main.TabIndex = 0;
             this.tp_main.Text = "Личный кабинет";
             this.tp_main.UseVisualStyleBackColor = true;
@@ -1667,7 +1705,7 @@
             this.tc_pasp.Location = new System.Drawing.Point(3, 3);
             this.tc_pasp.Name = "tc_pasp";
             this.tc_pasp.SelectedIndex = 0;
-            this.tc_pasp.Size = new System.Drawing.Size(884, 318);
+            this.tc_pasp.Size = new System.Drawing.Size(935, 318);
             this.tc_pasp.TabIndex = 2;
             this.tc_pasp.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tc_pasp_Selecting);
             // 
@@ -1696,7 +1734,7 @@
             this.tp_lich.Location = new System.Drawing.Point(4, 22);
             this.tp_lich.Name = "tp_lich";
             this.tp_lich.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_lich.Size = new System.Drawing.Size(876, 292);
+            this.tp_lich.Size = new System.Drawing.Size(927, 292);
             this.tp_lich.TabIndex = 0;
             this.tp_lich.Text = "Личность";
             this.tp_lich.UseVisualStyleBackColor = true;
@@ -1736,7 +1774,6 @@
             this.cb_dep.Name = "cb_dep";
             this.cb_dep.Size = new System.Drawing.Size(709, 21);
             this.cb_dep.TabIndex = 33;
-            this.cb_dep.SelectedIndexChanged += new System.EventHandler(this.cb_dep_SelectedIndexChanged);
             // 
             // tb_startJob
             // 
@@ -1879,7 +1916,6 @@
             // 
             // panel1
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.b_deleteMain);
             this.panel1.Controls.Add(this.b_cancelMain);
@@ -1887,16 +1923,16 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(870, 28);
+            this.panel1.Size = new System.Drawing.Size(921, 28);
             this.panel1.TabIndex = 24;
             // 
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(746, 0);
+            this.button1.Location = new System.Drawing.Point(799, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 26);
+            this.button1.Size = new System.Drawing.Size(122, 28);
             this.button1.TabIndex = 3;
             this.button1.Text = "Новая персона";
             this.button1.UseVisualStyleBackColor = true;
@@ -1908,7 +1944,7 @@
             this.b_deleteMain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_deleteMain.Location = new System.Drawing.Point(180, 0);
             this.b_deleteMain.Name = "b_deleteMain";
-            this.b_deleteMain.Size = new System.Drawing.Size(90, 26);
+            this.b_deleteMain.Size = new System.Drawing.Size(90, 28);
             this.b_deleteMain.TabIndex = 2;
             this.b_deleteMain.Text = "Удалить";
             this.b_deleteMain.UseVisualStyleBackColor = true;
@@ -1920,7 +1956,7 @@
             this.b_cancelMain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_cancelMain.Location = new System.Drawing.Point(90, 0);
             this.b_cancelMain.Name = "b_cancelMain";
-            this.b_cancelMain.Size = new System.Drawing.Size(90, 26);
+            this.b_cancelMain.Size = new System.Drawing.Size(90, 28);
             this.b_cancelMain.TabIndex = 1;
             this.b_cancelMain.Text = "Отменить";
             this.b_cancelMain.UseVisualStyleBackColor = true;
@@ -1932,7 +1968,7 @@
             this.b_saveMain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_saveMain.Location = new System.Drawing.Point(0, 0);
             this.b_saveMain.Name = "b_saveMain";
-            this.b_saveMain.Size = new System.Drawing.Size(90, 26);
+            this.b_saveMain.Size = new System.Drawing.Size(90, 28);
             this.b_saveMain.TabIndex = 0;
             this.b_saveMain.Text = "Сохранить";
             this.b_saveMain.UseVisualStyleBackColor = true;
@@ -2091,7 +2127,7 @@
             this.tp_paspSecond.Location = new System.Drawing.Point(4, 22);
             this.tp_paspSecond.Name = "tp_paspSecond";
             this.tp_paspSecond.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_paspSecond.Size = new System.Drawing.Size(876, 292);
+            this.tp_paspSecond.Size = new System.Drawing.Size(927, 292);
             this.tp_paspSecond.TabIndex = 1;
             this.tp_paspSecond.Text = "Документ";
             this.tp_paspSecond.UseVisualStyleBackColor = true;
@@ -2111,7 +2147,7 @@
             this.clb_livingConditions.FormattingEnabled = true;
             this.clb_livingConditions.Location = new System.Drawing.Point(565, 64);
             this.clb_livingConditions.Name = "clb_livingConditions";
-            this.clb_livingConditions.Size = new System.Drawing.Size(226, 139);
+            this.clb_livingConditions.Size = new System.Drawing.Size(226, 214);
             this.clb_livingConditions.TabIndex = 40;
             // 
             // label17
@@ -2129,7 +2165,7 @@
             this.clb_socialStatus.FormattingEnabled = true;
             this.clb_socialStatus.Location = new System.Drawing.Point(352, 64);
             this.clb_socialStatus.Name = "clb_socialStatus";
-            this.clb_socialStatus.Size = new System.Drawing.Size(207, 139);
+            this.clb_socialStatus.Size = new System.Drawing.Size(207, 214);
             this.clb_socialStatus.TabIndex = 38;
             // 
             // dtp_docDate
@@ -2163,7 +2199,7 @@
             this.tb_propiska.Location = new System.Drawing.Point(94, 167);
             this.tb_propiska.Multiline = true;
             this.tb_propiska.Name = "tb_propiska";
-            this.tb_propiska.Size = new System.Drawing.Size(252, 36);
+            this.tb_propiska.Size = new System.Drawing.Size(252, 111);
             this.tb_propiska.TabIndex = 33;
             // 
             // label12
@@ -2229,13 +2265,12 @@
             // 
             // panel2
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.b_cancelDoc);
             this.panel2.Controls.Add(this.b_saveDoc);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(870, 28);
+            this.panel2.Size = new System.Drawing.Size(921, 28);
             this.panel2.TabIndex = 25;
             // 
             // b_cancelDoc
@@ -2244,7 +2279,7 @@
             this.b_cancelDoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_cancelDoc.Location = new System.Drawing.Point(90, 0);
             this.b_cancelDoc.Name = "b_cancelDoc";
-            this.b_cancelDoc.Size = new System.Drawing.Size(90, 26);
+            this.b_cancelDoc.Size = new System.Drawing.Size(90, 28);
             this.b_cancelDoc.TabIndex = 1;
             this.b_cancelDoc.Text = "Отменить";
             this.b_cancelDoc.UseVisualStyleBackColor = true;
@@ -2256,7 +2291,7 @@
             this.b_saveDoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_saveDoc.Location = new System.Drawing.Point(0, 0);
             this.b_saveDoc.Name = "b_saveDoc";
-            this.b_saveDoc.Size = new System.Drawing.Size(90, 26);
+            this.b_saveDoc.Size = new System.Drawing.Size(90, 28);
             this.b_saveDoc.TabIndex = 0;
             this.b_saveDoc.Text = "Сохранить";
             this.b_saveDoc.UseVisualStyleBackColor = true;
@@ -2280,7 +2315,7 @@
             this.tp_child.Location = new System.Drawing.Point(4, 22);
             this.tp_child.Name = "tp_child";
             this.tp_child.Padding = new System.Windows.Forms.Padding(3);
-            this.tp_child.Size = new System.Drawing.Size(876, 292);
+            this.tp_child.Size = new System.Drawing.Size(927, 292);
             this.tp_child.TabIndex = 2;
             this.tp_child.Text = "Дети";
             this.tp_child.UseVisualStyleBackColor = true;
@@ -2290,34 +2325,35 @@
             this.dgv_Child.AllowUserToAddRows = false;
             this.dgv_Child.AllowUserToDeleteRows = false;
             this.dgv_Child.AllowUserToResizeRows = false;
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.dgv_Child.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle24.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dgv_Child.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle24;
             this.dgv_Child.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Child.BackgroundColor = System.Drawing.Color.White;
             this.dgv_Child.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_Child.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Child.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            this.dgv_Child.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle25.BackColor = System.Drawing.SystemColors.ControlLight;
+            dataGridViewCellStyle25.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle25.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Child.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             this.dgv_Child.ColumnHeadersHeight = 34;
             this.dgv_Child.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_Child.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
             this.fioChild,
             this.birthday});
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Child.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Child.DefaultCellStyle = dataGridViewCellStyle27;
             this.dgv_Child.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_Child.EnableHeadersVisualStyles = false;
             this.dgv_Child.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -2327,20 +2363,20 @@
             this.dgv_Child.Name = "dgv_Child";
             this.dgv_Child.ReadOnly = true;
             this.dgv_Child.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_Child.RowHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Child.RowHeadersDefaultCellStyle = dataGridViewCellStyle28;
             this.dgv_Child.RowHeadersVisible = false;
             this.dgv_Child.RowHeadersWidth = 20;
             this.dgv_Child.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_Child.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_Child.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Child.Size = new System.Drawing.Size(870, 230);
+            this.dgv_Child.Size = new System.Drawing.Size(921, 230);
             this.dgv_Child.TabIndex = 29;
             this.dgv_Child.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Child_CellDoubleClick);
             // 
@@ -2359,9 +2395,9 @@
             // 
             // birthday
             // 
-            dataGridViewCellStyle14.Format = "d";
-            dataGridViewCellStyle14.NullValue = null;
-            this.birthday.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle26.Format = "d";
+            dataGridViewCellStyle26.NullValue = null;
+            this.birthday.DefaultCellStyle = dataGridViewCellStyle26;
             this.birthday.FillWeight = 30F;
             this.birthday.HeaderText = "Дата рождения";
             this.birthday.Name = "birthday";
@@ -2378,14 +2414,14 @@
             this.p_allInfoChild.Dock = System.Windows.Forms.DockStyle.Top;
             this.p_allInfoChild.Location = new System.Drawing.Point(3, 31);
             this.p_allInfoChild.Name = "p_allInfoChild";
-            this.p_allInfoChild.Size = new System.Drawing.Size(870, 28);
+            this.p_allInfoChild.Size = new System.Drawing.Size(921, 28);
             this.p_allInfoChild.TabIndex = 28;
             // 
             // l_yearChild
             // 
             this.l_yearChild.Dock = System.Windows.Forms.DockStyle.Right;
             this.l_yearChild.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.l_yearChild.Location = new System.Drawing.Point(700, 0);
+            this.l_yearChild.Location = new System.Drawing.Point(751, 0);
             this.l_yearChild.Name = "l_yearChild";
             this.l_yearChild.Size = new System.Drawing.Size(170, 28);
             this.l_yearChild.TabIndex = 8;
@@ -2438,7 +2474,6 @@
             // 
             // panel3
             // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.b_exportChild);
             this.panel3.Controls.Add(this.b_deleteChild);
             this.panel3.Controls.Add(this.b_cancelChild);
@@ -2447,15 +2482,15 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(870, 28);
+            this.panel3.Size = new System.Drawing.Size(921, 28);
             this.panel3.TabIndex = 26;
             // 
             // b_exportChild
             // 
             this.b_exportChild.Dock = System.Windows.Forms.DockStyle.Right;
-            this.b_exportChild.Location = new System.Drawing.Point(758, 0);
+            this.b_exportChild.Location = new System.Drawing.Point(811, 0);
             this.b_exportChild.Name = "b_exportChild";
-            this.b_exportChild.Size = new System.Drawing.Size(110, 26);
+            this.b_exportChild.Size = new System.Drawing.Size(110, 28);
             this.b_exportChild.TabIndex = 8;
             this.b_exportChild.Text = "Экспорт в Excel";
             this.b_exportChild.UseVisualStyleBackColor = true;
@@ -2467,7 +2502,7 @@
             this.b_deleteChild.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_deleteChild.Location = new System.Drawing.Point(270, 0);
             this.b_deleteChild.Name = "b_deleteChild";
-            this.b_deleteChild.Size = new System.Drawing.Size(90, 26);
+            this.b_deleteChild.Size = new System.Drawing.Size(90, 28);
             this.b_deleteChild.TabIndex = 7;
             this.b_deleteChild.Text = "Удалить";
             this.b_deleteChild.UseVisualStyleBackColor = true;
@@ -2479,7 +2514,7 @@
             this.b_cancelChild.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_cancelChild.Location = new System.Drawing.Point(180, 0);
             this.b_cancelChild.Name = "b_cancelChild";
-            this.b_cancelChild.Size = new System.Drawing.Size(90, 26);
+            this.b_cancelChild.Size = new System.Drawing.Size(90, 28);
             this.b_cancelChild.TabIndex = 6;
             this.b_cancelChild.Text = "Отменить";
             this.b_cancelChild.UseVisualStyleBackColor = true;
@@ -2491,7 +2526,7 @@
             this.b_saveChild.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_saveChild.Location = new System.Drawing.Point(90, 0);
             this.b_saveChild.Name = "b_saveChild";
-            this.b_saveChild.Size = new System.Drawing.Size(90, 26);
+            this.b_saveChild.Size = new System.Drawing.Size(90, 28);
             this.b_saveChild.TabIndex = 5;
             this.b_saveChild.Text = "Сохранить";
             this.b_saveChild.UseVisualStyleBackColor = true;
@@ -2503,7 +2538,7 @@
             this.b_addChild.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.b_addChild.Location = new System.Drawing.Point(0, 0);
             this.b_addChild.Name = "b_addChild";
-            this.b_addChild.Size = new System.Drawing.Size(90, 26);
+            this.b_addChild.Size = new System.Drawing.Size(90, 28);
             this.b_addChild.TabIndex = 4;
             this.b_addChild.Text = "Добавить";
             this.b_addChild.UseVisualStyleBackColor = true;
@@ -2521,7 +2556,7 @@
             this.tc_main.Location = new System.Drawing.Point(20, 60);
             this.tc_main.Name = "tc_main";
             this.tc_main.SelectedIndex = 0;
-            this.tc_main.Size = new System.Drawing.Size(898, 352);
+            this.tc_main.Size = new System.Drawing.Size(949, 352);
             this.tc_main.TabIndex = 0;
             // 
             // saveFileDialog1
@@ -2560,14 +2595,130 @@
             // 
             this.peopleLivingConditionsTableAdapter1.ClearBeforeFill = true;
             // 
+            // peopleDepartmentTableAdapter1
+            // 
+            this.peopleDepartmentTableAdapter1.ClearBeforeFill = true;
+            // 
+            // educationTableAdapter1
+            // 
+            this.educationTableAdapter1.ClearBeforeFill = true;
+            // 
+            // peopleEncouragementTableAdapter1
+            // 
+            this.peopleEncouragementTableAdapter1.ClearBeforeFill = true;
+            // 
+            // peopleWorkTableAdapter1
+            // 
+            this.peopleWorkTableAdapter1.ClearBeforeFill = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "id";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dateTrudKnig
+            // 
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.Format = "d";
+            dataGridViewCellStyle20.NullValue = null;
+            this.dateTrudKnig.DefaultCellStyle = dataGridViewCellStyle20;
+            this.dateTrudKnig.FillWeight = 40F;
+            this.dateTrudKnig.HeaderText = "Дата нач. раб.";
+            this.dateTrudKnig.Name = "dateTrudKnig";
+            this.dateTrudKnig.ReadOnly = true;
+            // 
+            // info
+            // 
+            this.info.HeaderText = "Место работы";
+            this.info.Name = "info";
+            this.info.ReadOnly = true;
+            // 
+            // position
+            // 
+            this.position.HeaderText = "Должность";
+            this.position.Name = "position";
+            this.position.ReadOnly = true;
+            // 
+            // dateFinish
+            // 
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.Format = "d";
+            this.dateFinish.DefaultCellStyle = dataGridViewCellStyle21;
+            this.dateFinish.FillWeight = 40F;
+            this.dateFinish.HeaderText = "Дата ок. раб.";
+            this.dateFinish.Name = "dateFinish";
+            this.dateFinish.ReadOnly = true;
+            // 
+            // isObsh
+            // 
+            this.isObsh.FalseValue = "F";
+            this.isObsh.FillWeight = 30F;
+            this.isObsh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.isObsh.HeaderText = "Общ. стаж";
+            this.isObsh.Name = "isObsh";
+            this.isObsh.ReadOnly = true;
+            this.isObsh.TrueValue = "T";
+            // 
+            // isPed
+            // 
+            this.isPed.FalseValue = "F";
+            this.isPed.FillWeight = 30F;
+            this.isPed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.isPed.HeaderText = "Пед. стаж";
+            this.isPed.Name = "isPed";
+            this.isPed.ReadOnly = true;
+            this.isPed.TrueValue = "T";
+            // 
+            // isNPed
+            // 
+            this.isNPed.FalseValue = "F";
+            this.isNPed.FillWeight = 30F;
+            this.isNPed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.isNPed.HeaderText = "Науч.-пед. стаж";
+            this.isNPed.Name = "isNPed";
+            this.isNPed.ReadOnly = true;
+            this.isNPed.TrueValue = "T";
+            // 
+            // isOsn
+            // 
+            this.isOsn.FalseValue = "F";
+            this.isOsn.FillWeight = 30F;
+            this.isOsn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.isOsn.HeaderText = "Осн.";
+            this.isOsn.Name = "isOsn";
+            this.isOsn.ReadOnly = true;
+            this.isOsn.TrueValue = "T";
+            // 
+            // isSovm
+            // 
+            this.isSovm.FalseValue = "F";
+            this.isSovm.FillWeight = 30F;
+            this.isSovm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.isSovm.HeaderText = "Совм.";
+            this.isSovm.Name = "isSovm";
+            this.isSovm.ReadOnly = true;
+            this.isSovm.TrueValue = "T";
+            // 
+            // isWorked
+            // 
+            this.isWorked.HeaderText = "isWorked";
+            this.isWorked.Name = "isWorked";
+            this.isWorked.ReadOnly = true;
+            this.isWorked.Visible = false;
+            // 
             // FPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(938, 432);
+            this.ClientSize = new System.Drawing.Size(989, 432);
             this.Controls.Add(this.tc_main);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FPerson";
+            this.Resizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Редактор персон";
             this.Load += new System.EventHandler(this.FPerson_Load);
@@ -2709,11 +2860,11 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox tb_whereWork;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.DataGridView dgv_trudKnig;
+        private MetroFramework.Controls.MetroGrid dgv_trudKnig;
         private System.Windows.Forms.CheckBox cb_stajNPed;
         private System.Windows.Forms.CheckBox cb_stajPed;
         private System.Windows.Forms.CheckBox cb_stajObsh;
-        private System.Windows.Forms.DataGridView dgv_educ;
+        private MetroFramework.Controls.MetroGrid dgv_educ;
         private System.Windows.Forms.Panel p_allInfoEduc;
         private System.Windows.Forms.DateTimePicker dtp_educ;
         private System.Windows.Forms.Label label34;
@@ -2754,13 +2905,13 @@
         private System.Windows.Forms.TextBox tb_matCount;
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.ComboBox cb_matSource;
-        private System.Windows.Forms.DataGridView dgv_mat;
+        private MetroFramework.Controls.MetroGrid dgv_mat;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.ComboBox cb_sourceOtherEnc;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.DateTimePicker dtp_dateOtherEnc;
         private System.Windows.Forms.Label label40;
-        private System.Windows.Forms.DataGridView dgv_OtherEnc;
+        private MetroFramework.Controls.MetroGrid dgv_OtherEnc;
         private System.Windows.Forms.ComboBox cb_typeOtherEnc;
         private System.Windows.Forms.TextBox tb_startJob;
         private System.Windows.Forms.Label label41;
@@ -2801,17 +2952,6 @@
         private System.Windows.Forms.TextBox tb_positionWork;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox cb_sovm;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dateTrudKnig;
-        private System.Windows.Forms.DataGridViewTextBoxColumn info;
-        private System.Windows.Forms.DataGridViewTextBoxColumn position;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dateFinish;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isObsh;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isPed;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isNPed;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isOsn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn isSovm;
-        private System.Windows.Forms.DataGridViewTextBoxColumn isWorked;
         private System.Windows.Forms.Button b_exportMat;
         private System.Windows.Forms.Button b_exportOther;
         private System.Windows.Forms.Button b_exportEduc;
@@ -2832,5 +2972,20 @@
         private ProfDataSetTableAdapters.PeopleTableAdapter peopleTableAdapter1;
         private ProfDataSetTableAdapters.PeopleSocialStatusTableAdapter peopleSocialStatusTableAdapter1;
         private ProfDataSetTableAdapters.PeopleLivingConditionsTableAdapter peopleLivingConditionsTableAdapter1;
+        private ProfDataSetTableAdapters.PeopleDepartmentTableAdapter peopleDepartmentTableAdapter1;
+        private ProfDataSetTableAdapters.EducationTableAdapter educationTableAdapter1;
+        private ProfDataSetTableAdapters.PeopleEncouragementTableAdapter peopleEncouragementTableAdapter1;
+        private ProfDataSetTableAdapters.PeopleWorkTableAdapter peopleWorkTableAdapter1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateTrudKnig;
+        private System.Windows.Forms.DataGridViewTextBoxColumn info;
+        private System.Windows.Forms.DataGridViewTextBoxColumn position;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateFinish;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isObsh;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isPed;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isNPed;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isOsn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isSovm;
+        private System.Windows.Forms.DataGridViewTextBoxColumn isWorked;
     }
 }
