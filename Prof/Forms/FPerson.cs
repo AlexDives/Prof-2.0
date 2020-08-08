@@ -305,7 +305,6 @@ namespace Prof
             int[] stajObsh = new int[3];
             int[] pStaj = new int[3];
             int[] npStaj = new int[3];
-            int[] tmp;
             ProfDataSet.PeopleWorkDataTable dtPersWork = new ProfDataSet.PeopleWorkDataTable();
             try
             {

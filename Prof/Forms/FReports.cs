@@ -1,126 +1,195 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace Prof
 {
-    public partial class FReports : Form
+    public partial class FReports : MetroFramework.Forms.MetroForm
     {
-        int[] arrayUserDeparments;
-        int ii = 0;
-        int idDepart = 0;
-        int countAll = 0;
-        int countMale = 0;
-        int countFemale = 0;
-        int countChild = 0;
+        private int[] arrayUserDeparments;
+        private int countAll = 0;
+        private int countMale = 0;
+        private int countFemale = 0;
+        private int countChild = 0;
+        private readonly int idUser;
+        private bool showNoAllPeople = true;
+        private DataTable dt_persons = new DataTable();
 
+        private int[] arrayUserDeparmentsForLoadPeople;
+        private string arrayUserDeparmentsForLoadPeople_String = "";
 
-        bool showNoAllPeople = true;
-
-        public FReports(int[] arrayUserDeparments)
+        public FReports(int[] arrayUserDeparments, int idUser)
         {
             InitializeComponent();
             this.arrayUserDeparments = arrayUserDeparments;
+            this.idUser = idUser;
         }
 
-        private void loadTree()
+        private void FillArrayUserDeparmentsForLoadPeople(int id_dep)
         {
-            for (int i = 0; i < arrayUserDeparments.Length; i++)
+            if (showNoAllPeople)
             {
-                CreateTree(null, arrayUserDeparments[i], true);
+                arrayUserDeparmentsForLoadPeople = new int[1];
+                arrayUserDeparmentsForLoadPeople[0] = id_dep;
+                arrayUserDeparmentsForLoadPeople_String = $"{id_dep}";
+            }
+            else
+            {
+                DataTable dt = get_treeTableAdapter1.GetData(null, id_dep);
+                arrayUserDeparmentsForLoadPeople = new int[dt.Rows.Count];
+                int i = 0;
+
+                foreach (DataRow dt_row in dt.Rows)
+                {
+                    for (int k = 1; k <= 10; k++)
+                    {
+                        if (!dt_row.IsNull("lvl" + k.ToString() + "_id"))
+                        {
+                            if (Array.IndexOf(arrayUserDeparmentsForLoadPeople, (int)dt_row["lvl" + k.ToString() + "_id"]) == -1)
+                            {
+                                if (arrayUserDeparmentsForLoadPeople.Length == i)
+                                {
+                                    int[] tmp = new int[arrayUserDeparmentsForLoadPeople.Length + 1];
+                                    for (int l = 0; l < arrayUserDeparmentsForLoadPeople.Length; l++)
+                                    {
+                                        tmp[l] = arrayUserDeparmentsForLoadPeople[l];
+                                    }
+
+                                    arrayUserDeparmentsForLoadPeople = new int[tmp.Length];
+                                    for (int l = 0; l < tmp.Length; l++)
+                                    {
+                                        arrayUserDeparmentsForLoadPeople[l] = tmp[l];
+                                    }
+                                }
+                                arrayUserDeparmentsForLoadPeople[i] = (int)dt_row["lvl" + k.ToString() + "_id"];
+                                i++;
+                            }
+                        }
+
+                        if (!dt_row.IsNull("lvl" + k.ToString() + "_idParent") && k != 1)
+                        {
+                            if (Array.IndexOf(arrayUserDeparmentsForLoadPeople, (int)dt_row["lvl" + k.ToString() + "_idParent"]) == -1)
+                            {
+                                if (arrayUserDeparmentsForLoadPeople.Length == i)
+                                {
+                                    int[] tmp = new int[arrayUserDeparmentsForLoadPeople.Length + 1];
+                                    for (int l = 0; l < arrayUserDeparmentsForLoadPeople.Length; l++)
+                                    {
+                                        tmp[l] = arrayUserDeparmentsForLoadPeople[l];
+                                    }
+
+                                    arrayUserDeparmentsForLoadPeople = new int[tmp.Length];
+                                    for (int l = 0; l < tmp.Length; l++)
+                                    {
+                                        arrayUserDeparmentsForLoadPeople[l] = tmp[l];
+                                    }
+                                }
+                                arrayUserDeparmentsForLoadPeople[i] = (int)dt_row["lvl" + k.ToString() + "_idParent"];
+                                i++;
+                            }
+                        }
+                    }
+                }
+                arrayUserDeparmentsForLoadPeople_String = "";
+                for (i = 0; i < arrayUserDeparmentsForLoadPeople.Length; i++)
+                {
+                    if (i == arrayUserDeparmentsForLoadPeople.Length - 1)
+                    {
+                        arrayUserDeparmentsForLoadPeople_String += arrayUserDeparmentsForLoadPeople[i].ToString();
+                    }
+                    else
+                    {
+                        arrayUserDeparmentsForLoadPeople_String += arrayUserDeparmentsForLoadPeople[i].ToString() + ",";
+                    }
+                }
             }
         }
 
-        private bool CreateTree(TreeNode rootNode, int idDepartment, bool first)
+        private void CreateTree()
         {
-            bool result = true;
-            using (Database.DataBase db = new Database.DataBase())
+            tree_department.Nodes.Clear();
+            DataTable dt = get_treeTableAdapter1.GetData(idUser, null);
+            arrayUserDeparments = new int[1];
+
+            int i = 0;
+
+            foreach (DataRow dt_row in dt.Rows)
             {
-                if (first)
+                for (int k = 1; k <= 10; k++)
                 {
-                    tree_department.Nodes.Clear();
-                    Database.Department d = db.Departments.FirstOrDefault(p => p.id == idDepartment); // p.isOst == "T"
-                    TreeNode node = new TreeNode();
-                    tree_department.Nodes.Add(d.id.ToString(), d.shortName);
-                    node = tree_department.Nodes[0];
-                    CreateTree(node, idDepartment, false);
-                    node.Expand();
-                }
-                else
-                {
-                    var dd = db.Departments.Where(p => p.idParent == idDepartment).ToList();
-                    int i = 0;
-                    foreach (Database.Department nd in dd)
+                    arrayUserDeparments[0] = (int)dt_row["lvl1_id"];
+                    if (!dt_row.IsNull("lvl" + k.ToString() + "_id"))
                     {
-                        TreeNode childNode = new TreeNode();
-                        rootNode.Nodes.Add(nd.id.ToString(), nd.shortName);
-                        childNode = rootNode.Nodes[i];
-                        if (CreateTree(childNode, nd.id, false))
+                        if (findNode(null, dt_row["lvl" + k.ToString() + "_id"].ToString()) == null)
                         {
-                            var peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == nd.id).ToList();
-                            if (peopleDep != null)
+                            if (!dt_row.IsNull("lvl" + k.ToString() + "_idParent"))
                             {
-                                if (peopleDep.Where(p => p.Person.type == "W").Count() > 0)
+                                TreeNode treeNode = findNode(null, dt_row["lvl" + k.ToString() + "_idParent"].ToString());
+                                if (treeNode == null)
                                 {
-                                    TreeNode endNode = new TreeNode();
-                                    endNode.Name = "W";
-                                    endNode.Text = "Сотрудники";
-                                    childNode.Nodes.Add("W", "Сотрудники");
+                                    tree_department.Nodes.Add(dt_row["lvl" + k.ToString() + "_id"].ToString(), dt_row["lvl" + k.ToString() + "_shortName"].ToString());
                                 }
-                                if (peopleDep.Where(p => p.Person.type == "S").Count() > 0)
+                                else
                                 {
-                                    TreeNode endNode = new TreeNode();
-                                    endNode.Name = "S";
-                                    endNode.Text = "Студенты";
-                                    childNode.Nodes.Add("S", "Студенты");
+                                    TreeNode childNode = new TreeNode();
+                                    treeNode.Nodes.Add(dt_row["lvl" + k.ToString() + "_id"].ToString(), dt_row["lvl" + k.ToString() + "_shortName"].ToString());
                                 }
                             }
                         }
-                        i++;
                     }
-
                 }
+                i++;
             }
-            return result;
+            tree_department.Nodes[0].Expand();
         }
 
         private void loadLivingConditions()
         {
-            using (Database.DataBase db = new Database.DataBase())
+            clb_livingConditions.SelectedIndexChanged -= clb_socialStatus_SelectedIndexChanged;
+            ProfDataSet.TypeLivingConditionsDataTable dt = new ProfDataSet.TypeLivingConditionsDataTable();
+            try
             {
-                clb_livingConditions.Items.Clear();
-                var livingConditions = db.TypeLivingConditions.ToList();
-                foreach (Database.TypeLivingCondition lc in livingConditions)
-                {
-                    clb_livingConditions.Items.Add(lc.name, false);
-                }
+                typeLivingConditionsTableAdapter1.Fill(dt);
+                clb_livingConditions.DataSource = dt;
+                clb_livingConditions.DisplayMember = "name";
+                clb_livingConditions.ValueMember = "id";
             }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            clb_livingConditions.SelectedIndexChanged += new System.EventHandler(clb_socialStatus_SelectedIndexChanged);
         }
 
         private void loadSocialStatus()
         {
-            using (Database.DataBase db = new Database.DataBase())
+            clb_socialStatus.SelectedIndexChanged -= clb_socialStatus_SelectedIndexChanged;
+            ProfDataSet.TypeSocialStatusDataTable dt = new ProfDataSet.TypeSocialStatusDataTable();
+            try
             {
-                clb_socialStatus.Items.Clear();
-                var socialStatus = db.TypeSocialStatus.ToList();
-                foreach (Database.TypeSocialStatu ss in socialStatus)
-                {
-                    clb_socialStatus.Items.Add(ss.name, false);
-                }
+                typeSocialStatusTableAdapter1.Fill(dt);
+                clb_socialStatus.DataSource = dt;
+                clb_socialStatus.DisplayMember = "name";
+                clb_socialStatus.ValueMember = "id";
             }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            clb_socialStatus.SelectedIndexChanged += new System.EventHandler(clb_socialStatus_SelectedIndexChanged);
         }
 
         private void FReports_Load(object sender, EventArgs e)
         {
             showNoAllPeople = Properties.Settings.Default.showNoAllPeople;
             tsmi_showNotAll.Checked = showNoAllPeople;
-            loadTree();
-            Visible = true;
+            CreateTree();
             tree_department.SelectedNode = tree_department.Nodes[0];
             dtp_periodStart.Enabled = dtp_periodEnd.Enabled = cb_period.Checked;
 
@@ -131,36 +200,16 @@ namespace Prof
         public bool loadWorks(int idPerson)
         {
             bool molSpece = false;
-            DataTable works = peopleWorkTableAdapter1.GetDataByPeopleId(idPerson);
-            if (works.Rows.Count != 0)
+            ProfDataSet.PeopleWorkDataTable pwdt = new ProfDataSet.PeopleWorkDataTable();
+            peopleWorkTableAdapter1.FillByPeopleObshStag(pwdt, idPerson);
+            if (pwdt.Rows.Count != 0)
             {
                 int[] stajObsh = new int[3];
-                int[] pStaj = new int[3];
-                int[] npStaj = new int[3];
-                int[] tmp;
-                foreach (DataRow pk in works.Rows)
+                foreach (DataRow pk in pwdt.Rows)
                 {
-                    if (pk["stajObsh"].ToString().Equals("T") && pk["isActual"].ToString().Equals("T"))
-                    {
-                        tmp = getStaj(Convert.ToDateTime(pk["dateStart"]), !pk.IsNull("dateEnd") ? Convert.ToDateTime(pk["dateEnd"]) : DateTime.Now);
-                        stajObsh[0] += tmp[0];
-                        stajObsh[1] += tmp[1];
-                        stajObsh[2] += tmp[2];
-                    }
-                    if (pk["stajPed"].ToString().Equals("T"))
-                    {
-                        tmp = getStaj(Convert.ToDateTime(pk["dateStart"]), !pk.IsNull("dateEnd") ? Convert.ToDateTime(pk["dateEnd"]) : DateTime.Now);
-                        pStaj[0] += tmp[0];
-                        pStaj[1] += tmp[1];
-                        pStaj[2] += tmp[2];
-                    }
-                    if (pk["stajNPed"].ToString().Equals("T"))
-                    {
-                        tmp = getStaj(Convert.ToDateTime(pk["dateStart"]), !pk.IsNull("dateEnd") ? Convert.ToDateTime(pk["dateEnd"]) : DateTime.Now);
-                        npStaj[0] += tmp[0];
-                        npStaj[1] += tmp[1];
-                        npStaj[2] += tmp[2];
-                    }
+                    stajObsh[0] += (int)pk["day_s"];
+                    stajObsh[1] += (int)pk["month_s"];
+                    stajObsh[2] += (int)pk["year_s"];
                 }
                 while (stajObsh[0] > 31)
                 {
@@ -172,98 +221,17 @@ namespace Prof
                     stajObsh[2]++;
                     stajObsh[1] -= 12;
                 }
-                while (pStaj[0] > 31)
-                {
-                    pStaj[1]++;
-                    pStaj[0] -= 30;
-                }
-                while (pStaj[1] > 12)
-                {
-                    pStaj[2]++;
-                    pStaj[1] -= 12;
-                }
-                while (npStaj[0] > 31)
-                {
-                    npStaj[1]++;
-                    npStaj[0] -= 30;
-                }
-                while (npStaj[1] > 12)
-                {
-                    npStaj[2]++;
-                    npStaj[1] -= 12;
-                }
 
-                if (stajObsh[2] < 3) molSpece = true;
-                else molSpece = false;
+                if (stajObsh[2] < 3)
+                {
+                    molSpece = true;
+                }
+                else
+                {
+                    molSpece = false;
+                }
             }
             return molSpece;
-        }
-
-        private int[] getStaj(DateTime startDate, DateTime endTime)
-        {
-            int[] staj = new int[3];
-            DateTime dt2 = endTime;
-            DateTime tmp = startDate;
-            int years = 0;
-            int months = 0;
-            int day = 0;
-            while (tmp < dt2)
-            {
-                years++;
-                tmp = tmp.AddYears(1);
-            }
-            years--;
-            tmp = startDate.AddYears(years);
-            while (tmp < dt2)
-            {
-                months++;
-                tmp = tmp.AddMonths(1);
-            }
-            if (startDate.Day < dt2.Day) months--;
-
-            day = dt2.Day - startDate.Day;
-            if (day < 0)
-            {
-                months--;
-                day = 30 + day;
-            }
-            DateTime.IsLeapYear(startDate.Year);
-            staj[0] = day;
-            staj[1] = months;
-            staj[2] = years;
-            return staj;
-        }
-
-        public int getAge(DateTime startDate, DateTime endTime)
-        {
-            DateTime dt2 = endTime;
-            DateTime tmp = startDate;
-            int years = 0;
-            int months = 0;
-            int day = 0;
-            while (tmp < dt2)
-            {
-                years++;
-                tmp = tmp.AddYears(1);
-            }
-            years--;
-            tmp = startDate.AddYears(years);
-            while (tmp < dt2)
-            {
-                months++;
-                tmp = tmp.AddMonths(1);
-            }
-            if (startDate.Day < dt2.Day) months--;
-
-            day = dt2.Day - startDate.Day;
-            if (day < 0)
-            {
-                months--;
-                day = 30 + day;
-            }
-            DateTime.IsLeapYear(startDate.Year);
-
-            return years;
         }
 
         private void clb_socialStatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -271,73 +239,62 @@ namespace Prof
             preLoadPeople();
         }
 
-        // функция экспорта в Excel файл
-        private void ExportToExcel()
+        private void ExportDtToExcel()
         {
-            // Книга Excel.
-            Microsoft.Office.Interop.Excel.Workbook m_workBook = null;
-            // Страница Excel.
-            Microsoft.Office.Interop.Excel.Worksheet m_workSheet = null;
-            Microsoft.Office.Interop.Excel._Application m_app = null;
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application(); // запускаем Excel для чтения входного файла
+            Microsoft.Office.Interop.Excel.Workbook wb = xlApp.Workbooks.Add(Microsoft.Office.Interop.Excel.XlWBATemplate.xlWBATWorksheet); // открываем шаблон указываю документ, в который я буду записывать данные
+            Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)xlApp.ActiveSheet;   //  выбор листа 
+            int x = 1; // строка листа excel
+
+            metroProgressBar1.Maximum = dt_persons.Rows.Count + dgv.Columns.Count - 1;
+            for (int j = 0; j < dgv.Columns.Count; j++)
+            {
+                if (dgv.Columns[j].Visible)
+                {
+                    ws.Cells[1, j + x] = dgv.Columns[j].HeaderText;
+                    ((Microsoft.Office.Interop.Excel.Range)ws.Cells[1, j + x]).Font.Bold = true;
+                    ((Microsoft.Office.Interop.Excel.Range)ws.Cells[1, j + x]).Borders.Color = Color.Black;
+                }
+                else
+                {
+                    x = 0;
+                }
+
+                metroProgressBar1.Value++;
+            }
+            x = 2;
+            foreach (DataRow nc in dt_persons.Rows)
+            {
+                ws.Cells[x, 1] = nc[1].ToString();
+                ws.Cells[x, 2] = nc[2].ToString();
+                ws.Cells[x, 3] = nc[3].ToString();
+                ws.Cells[x, 4] = nc[4].ToString();
+                ws.Cells[x, 5] = nc[5].ToString();
+                ws.Cells[x, 6] = nc[6].ToString();
+                ws.Cells[x, 7] = nc[7].ToString();
+                ws.Cells[x, 8] = nc[8].ToString();
+                ws.Cells[x, 9] = nc[9].ToString();
+                ws.Cells[x, 10] = nc[10].ToString();
+                x++;
+                metroProgressBar1.Value++;
+            }
+            ws.Columns.AutoFit();
             saveFileDialog1.FileName = DateTime.Now.Day + "." +
                 DateTime.Now.Month + "." +
-                DateTime.Now.Year + ".xlsx";// по умолчанию сохраняет в корень диска С:
+                DateTime.Now.Year + ".xlsx";
             saveFileDialog1.ShowDialog();
-            try
-            {
-                // Создание приложения Excel.
-                m_app = new Microsoft.Office.Interop.Excel.Application();
-                // Приложение "невидимо".
-                m_app.Visible = false;
-                // Приложение управляется пользователем.
-                m_app.UserControl = true;
-                // Добавление книги Excel.
-                m_workBook = m_app.Workbooks.Add(Microsoft.Office.Interop.Excel.XlWBATemplate.xlWBATWorksheet);
-                // Связь со страницей Excel.
-                m_workSheet = (Microsoft.Office.Interop.Excel.Worksheet)m_app.ActiveSheet;
-                // Заполняем шапку
-                int k = 1;
-                for (int j = 0; j < dgv.Columns.Count; j++)
-                {
-                    if (dgv.Columns[j].Visible)
-                    {
-                        m_workSheet.Cells[1, j + k] = dgv.Columns[j].HeaderText;
-                        ((Microsoft.Office.Interop.Excel.Range)m_workSheet.Cells[1, j + k]).Font.Bold = true;
-                        ((Microsoft.Office.Interop.Excel.Range)m_workSheet.Cells[1, j + k]).Borders.Color = Color.Black;
-                    }
-                    else k = 0;
-                }
-                k = 1;
-                // Пишем строку
-                for (int l = 0; l < dgv.Rows.Count; l++)
-                {
-                    for (int j = 0; j < dgv.Columns.Count; j++)
-                    {
-                        if (dgv.Columns[j].Visible)
-                        {
-                            m_workSheet.Cells[l + 2, j + k] = dgv[j, l].Value;
-                            ((Microsoft.Office.Interop.Excel.Range)m_workSheet.Cells[1, j + k]).Borders.Color = Color.Black;
-                        }
-                        else k = 0;
-                    }
-                }
-                // Сохранение файла Excel.
-                m_workSheet.Columns.AutoFit();
-                m_workBook.SaveCopyAs(saveFileDialog1.FileName);
-            }
-            finally
-            {
-                m_app.Visible = true;
-                m_app.Interactive = true;
-                m_app.ScreenUpdating = true;
-                m_app.UserControl = true;
-                GC.Collect();
-            }
+            wb.SaveAs(saveFileDialog1.FileName);
+            xlApp.Visible = true;
+            xlApp.Interactive = true;
+            xlApp.ScreenUpdating = true;
+            xlApp.UserControl = true;
+            GC.Collect();
+            metroProgressBar1.Value = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ExportToExcel();
+            ExportDtToExcel();
         }
 
         private void rb_male_CheckedChanged(object sender, EventArgs e)
@@ -350,609 +307,217 @@ namespace Prof
             preLoadPeople();
         }
 
-        private void loadPeople(TreeNode idDep, bool first)
+        private void loadPeople()
         {
-            using (Database.DataBase db = new Database.DataBase())
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            int idD = Convert.ToInt32(tree_department.SelectedNode.Name);
+            SqlConnection conn = DB.GetDBConnection();
+            string select = " select distinct p.id, p.famil, p.name, p.otch, p.birthday, p.gender, " +
+                         " p.type, " +
+                         " (SELECT distinct pw.workPlace FROM prof.PeopleWork pw WHERE (pw.idPeople = p.id) AND (isWorked = 'T') AND (isActual = 'T')) as workPlace, " +
+                         " (SELECT distinct pw.doljn FROM prof.PeopleWork pw WHERE (pw.idPeople = p.id) AND (isWorked = 'T') AND (isActual = 'T')) as doljn," +
+                         " (select childrens from ( select distinct pc.idPeople, stuff((select ', ' + fioChildren + '( ' + CAST(YEAR(birthday) as VARCHAR) + 'г. )' from prof.PeopleChildren where idPeople = pc.idPeople order by id for XML path('')),1,1,'') childrens from prof.PeopleChildren pc) as www where www.idPeople = p.id) as child, ";
+            string from = " from prof.PeopleDepartment pd ";
+            string leftJoin = " left join prof.People p on p.id = pd.idPeople ";
+            string where = "";
+            string whereSocialStatus = "";
+            string whereLivingConditions = "";
+            FillArrayUserDeparmentsForLoadPeople(idD);
+            string paramArr = arrayUserDeparmentsForLoadPeople_String;
+            bool ms = false;
+            bool do35 = false;
+            bool pens = false;
+
+            if (rb_all_prof.Checked)
             {
-                bool noFlag = true;
-                if (showNoAllPeople)
+                if (rb_male.Checked)
                 {
-                    int idD = 0;
-                    IQueryable<Database.PeopleDepartment> peopleDep = null;
-                    if (idDep.Name == "W")
-                    {
-                        idD = Convert.ToInt32(idDep.Parent.Name);
-                        
-                        Database.Department department = db.Departments.FirstOrDefault(p => p.id == idD);
+                    where += $" pd.idDepartment in ({paramArr}) and p.gender = 'Муж' ";
+                }
+                else if (rb_femaly.Checked)
+                {
+                    where += $" pd.idDepartment in ({paramArr}) and p.gender = 'Жен' ";
+                }
+                else
+                {
+                    where += $" pd.idDepartment in ({paramArr}) ";
+                }
+            }
+            else if (rb_inProf.Checked)
+            {
+                if (rb_male.Checked)
+                {
+                    where += $" pd.idDepartment in ({paramArr}) and p.gender = 'Муж' and p.isProf = 'T' ";
+                }
+                else if (rb_femaly.Checked)
+                {
+                    where += $" pd.idDepartment in ({paramArr}) and p.gender = 'Жен' and p.isProf = 'T' ";
+                }
+                else
+                {
+                    where += $" pd.idDepartment in ({paramArr}) and p.isProf = 'T' ";
+                }
+            }
+            else if (rb_exitProf.Checked)
+            {
+                if (rb_male.Checked)
+                {
+                    where += $" pd.idDepartment in ({paramArr}) and p.gender = 'Муж' and p.isProf = 'F' ";
+                }
+                else if (rb_femaly.Checked)
+                {
+                    where += $" pd.idDepartment in ({paramArr}) and p.gender = 'Жен' and p.isProf = 'F' ";
+                }
+                else
+                {
+                    where += $" pd.idDepartment in ({paramArr}) and p.isProf = 'F' ";
+                }
+            }
 
-                        if (rb_all_prof.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Муж" && p.Person.type == "W");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Жен" && p.Person.type == "W");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.type == "W");
-                        }
-                        else if (rb_inProf.Checked)
-                        {
-                            if(rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Муж" && p.Person.type == "W");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Жен" && p.Person.type == "W");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.type == "W");
-                        }
-                        else if (rb_exitProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Муж" && p.Person.type == "W");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Жен" && p.Person.type == "W");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.type == "W");
-                        }
-
-                    }
-                    else if (idDep.Name == "S")
+            string socIn = "";
+            if (clb_socialStatus.CheckedItems.Count > 0)
+            {
+                socIn += " where ";
+                for (int k = 0; k < clb_socialStatus.CheckedItems.Count; k++)
+                {
+                    DataRowView drv = (DataRowView)clb_socialStatus.CheckedItems[k];
+                    whereSocialStatus += $" pss.idTypeSocialStatus = {drv.Row["id"]} and ";
+                    if (k == clb_socialStatus.CheckedItems.Count - 1)
                     {
-                        idD = Convert.ToInt32(idDep.Parent.Name);
-                        if (rb_all_prof.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Муж" && p.Person.type == "S");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Жен" && p.Person.type == "S");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.type == "S");
-                        }
-                        else if (rb_inProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Муж" && p.Person.type == "S");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Жен" && p.Person.type == "S");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.type == "S");
-                        }
-                        else if (rb_exitProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Муж" && p.Person.type == "S");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Жен" && p.Person.type == "S");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.type == "S");
-                        }
+                        socIn += $" soc.idTypeSocialStatus = {drv.Row["id"]} ";
                     }
                     else
                     {
-                        idD = Convert.ToInt32(idDep.Name);
-
-                        if (rb_all_prof.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Муж");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Жен");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD);
-                        }
-                        else if (rb_inProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Муж");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Жен");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T");
-                        }
-                        else if (rb_exitProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Муж");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Жен");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F");
-                        }
+                        socIn += $" soc.idTypeSocialStatus = {drv.Row["id"]} and ";
                     }
-                    if (peopleDep.Count() > 0)
+                }
+                where += $" and (select count(id) from prof.PeopleSocialStatus pss where {whereSocialStatus} pss.idPeople = p.id ) > 0 ";
+            }
+            select += $" (select socName from ( select distinct soc.idPeople, stuff((select ', ' + ptss.name from prof.PeopleSocialStatus psoc left join prof.TypeSocialStatus ptss on ptss.id = psoc.idTypeSocialStatus where psoc.idPeople = soc.idPeople order by ptss.id for XML path('')),1,1,'') socName from prof.PeopleSocialStatus soc {socIn}) as www where www.idPeople = p.id) as socialStatus, ";
+
+            string plcIn = "";
+            if (clb_livingConditions.CheckedItems.Count > 0)
+            {
+                plcIn += " where ";
+                for (int k = 0; k < clb_livingConditions.CheckedItems.Count; k++)
+                {
+                    DataRowView drv = (DataRowView)clb_livingConditions.CheckedItems[k];
+                    whereLivingConditions += $" plc.idTypeLivingConditions = {drv.Row["id"]} and ";
+                    if (k == clb_livingConditions.CheckedItems.Count - 1)
                     {
-                        int[] arrayFiltr = new int[peopleDep.Count()];
-                        if (clb_socialStatus.CheckedItems.Count > 0)
-                        {
-                            noFlag = false;
-                            int arrayIndex = 0;
-                            foreach (Database.PeopleDepartment dp in peopleDep)
-                            {
-                                arrayFiltr[arrayIndex] = arrayFiltr[arrayIndex] != -1 ? (int)dp.idPeople : -1;
-                                for (int k = 0; k < clb_socialStatus.CheckedItems.Count; k++)
-                                {
-                                    string nTss = clb_socialStatus.CheckedItems[k].ToString();
-                                    Database.TypeSocialStatu tss = db.TypeSocialStatus.FirstOrDefault(p => p.name == nTss);
-                                    Database.PeopleSocialStatu pss = db.PeopleSocialStatus.FirstOrDefault(p => p.idPeople == dp.idPeople && p.idTypeSocialStatus == tss.id);
-                                    if (pss == null)
-                                    {
-                                        arrayFiltr[arrayIndex] = -1;
-                                        break;
-                                    }
-                                }
-                                arrayIndex++;
-                            }
+                        plcIn += $" plcc.idTypeLivingConditions = {drv.Row["id"]} ";
+                    }
+                    else
+                    {
+                        plcIn += $" plcc.idTypeLivingConditions = {drv.Row["id"]} and ";
+                    }
+                }
+                where += $" and (select count(id) from prof.PeopleLivingConditions plc where {whereLivingConditions} plc.idPeople = p.id ) > 0 ";
+            }
+            select += $" (select livName from(select distinct plcc.idPeople, stuff((select ', ' + ptlc.name from prof.PeopleLivingConditions pplc left join prof.TypeLivingConditions ptlc on ptlc.id = pplc.idTypeLivingConditions where pplc.idPeople = plcc.idPeople order by ptlc.id for XML path('')),1,1,'') livName from prof.PeopleLivingConditions plcc {plcIn}) as www where www.idPeople = p.id) as livinCond ";
 
-                        }
-                        if (clb_livingConditions.CheckedItems.Count > 0)
-                        {
-                            noFlag = false;
-                            int arrayIndex = 0;
-                            foreach (Database.PeopleDepartment dp in peopleDep)
-                            {
-                                arrayFiltr[arrayIndex] = arrayFiltr[arrayIndex] != -1 ? (int)dp.idPeople : -1;
-                                for (int k = 0; k < clb_livingConditions.CheckedItems.Count; k++)
-                                {
-                                    string nTlc = clb_livingConditions.CheckedItems[k].ToString();
-                                    Database.TypeLivingCondition tss = db.TypeLivingConditions.FirstOrDefault(p => p.name == nTlc);
-                                    Database.PeopleLivingCondition pss = db.PeopleLivingConditions.FirstOrDefault(p => p.idPeople == dp.idPeople && p.idTypeLivingConditions == tss.id);
-                                    if (pss == null)
-                                    {
-                                        arrayFiltr[arrayIndex] = -1;
-                                        break;
-                                    }
-                                }
-                                arrayIndex++;
-                            }
-                        }
-                        if (clb_other.CheckedItems.Count > 0)
-                        {
-                            noFlag = false;
-                            int arrayIndex = 0;
-                            foreach (Database.PeopleDepartment dp in peopleDep)
-                            {
-                                arrayFiltr[arrayIndex] = arrayFiltr[arrayIndex] != -1 ? (int)dp.idPeople : -1;
-                                for (int k = 0; k < clb_other.CheckedItems.Count; k++)
-                                {
-                                    string nOther = clb_other.CheckedItems[k].ToString();
-                                    if (nOther.Contains("Младший специалист (до 3х лет)"))
-                                    {
-                                        if (!loadWorks((int)dp.idPeople))
-                                        {
-                                            arrayFiltr[arrayIndex] = -1;
-                                            break;
-                                        }
-                                    }
-                                    if (nOther.Contains("До 35 лет"))
-                                    {
-                                        if (getAge((DateTime)dp.Person.birthday, DateTime.Now) > 34)
-                                        {
-                                            arrayFiltr[arrayIndex] = -1;
-                                            break;
-                                        }
-                                    }
-                                    else if (nOther.Contains("Пенсионер"))
-                                    {
-                                        if (dp.Person.isPensioner == "F")
-                                        {
-                                            arrayFiltr[arrayIndex] = -1;
-                                            break;
-                                        }
-                                    }
-                                }
-                                arrayIndex++;
-                            }
-                        }
-                        if (cb_period.Checked)
-                        {
-                            noFlag = false;
-                            int arrayIndex = 0;
-                            foreach (Database.PeopleDepartment dp in peopleDep)
-                            {
-                                arrayFiltr[arrayIndex] = arrayFiltr[arrayIndex] != -1 ? (int)dp.idPeople : -1;
-                                if ((dp.Person.dateEnter.Value.Date < dtp_periodStart.Value.Date || dp.Person.dateEnter.Value.Date > dtp_periodEnd.Value.Date) ||
-                                    (dp.Person.dateExit.Value.Date >= dtp_periodStart.Value.Date && dp.Person.dateExit.Value.Date <= dtp_periodEnd.Value.Date))
-                                    arrayFiltr[arrayIndex] = -1;
-                                arrayIndex++;
-                            }
+            if (clb_other.CheckedItems.Count > 0)
+            {
+                for (int k = 0; k < clb_other.CheckedItems.Count; k++)
+                {
+                    string nOther = clb_other.CheckedItems[k].ToString();
+                    if (nOther.Contains("Младший специалист (до 3х лет)"))
+                    {
+                        ms = true;
+                    }
+                    if (nOther.Contains("До 35 лет"))
+                    {
+                        do35 = true;
+                        where += $" and dbo.fullAge(p.birthday, CURRENT_TIMESTAMP) < 35 ";
+                    }
+                    else if (nOther.Contains("Пенсионер"))
+                    {
+                        pens = true;
+                        where += $" and p.isPensioner = 'T' ";
+                    }
+                }
+            }
 
-                        }
-                        if (noFlag)
-                        {
-                            foreach (Database.PeopleDepartment dp in peopleDep)
-                            {
-                                Database.PeopleWork pw = db.PeopleWorks.FirstOrDefault(p => p.isActual == "T" && p.idPeople == dp.idPeople && p.isWorked == "T");
+            if (cb_period.Checked)
+            {
+                where += $" and ((p.dateEnter < '{ dtp_periodStart.Value.ToShortDateString() }' or p.dateEnter > '{ dtp_periodEnd.Value.ToShortDateString() }') ";
+                where += $" or (p.dateExit >= '{ dtp_periodStart.Value.ToShortDateString() }' and p.dateExit <= '{ dtp_periodEnd.Value.ToShortDateString() }')) ";
+            }
+            string sql = select + " " + from + " " + leftJoin + " where " + where;
+            SqlCommand sqlCommand = new SqlCommand(sql)
+            {
+                Connection = conn
+            };
 
-                                dgv.Rows.Add();
-                                dgv[0, ii].Value = dp.Person.id;
-                                dgv[1, ii].Value = decryptoStr(dp.Person.famil) + " " + decryptoStr(dp.Person.name) + " " + decryptoStr(dp.Person.otch);
-                                dgv[2, ii].Value = dp.Person.birthday;
-                                if (dp.Person.gender == "Муж")
-                                {
-                                    dgv[3, ii].Value = "Мужской";
-                                    countMale++;
-                                }
-                                else
-                                {
-                                    dgv[3, ii].Value = "Женский";
-                                    countFemale++;
-                                }
-                                
-                                dgv[4, ii].Value = pw != null ? pw.workPlace : "";
-                                dgv[5, ii].Value = pw != null ? pw.doljn : "";
-                                dgv[6, ii].Value = dp.Person.type == "W" ? "Сотрудник" : dp.Person.type == "S" ? "Студент" : "";
-                                string soc = "";
-                                var socialStatus = db.PeopleSocialStatus.Where(p => p.idPeople == dp.idPeople).ToList();
-                                if (socialStatus.Count() > 0)
-                                {
-                                    foreach (Database.PeopleSocialStatu pss in socialStatus)
-                                        soc += pss.TypeSocialStatu.name + "; ";
-                                }
-                                dgv[7, ii].Value = soc.Trim();
-                                string child = "";
-                                var children = db.PeopleChildrens.Where(p => p.idPeople == dp.idPeople).ToList();
-                                if (children.Count() > 0)
-                                {
-                                    foreach (Database.PeopleChildren ch in children)
-                                    {
-                                        child += ch.fioChildren + " ( " + getAge(ch.birthday.Value, DateTime.Now).ToString() + " г.); ";
-                                        countChild++;
-                                    }
-                                }
-                                dgv[8, ii].Value = child.Trim();
+            conn.Open();
+            using (DbDataReader reader = sqlCommand.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    ProfDataSet.PeopleWorkDataTable dtpw = new ProfDataSet.PeopleWorkDataTable();
+                    while (reader.Read())
+                    {
+                        if (ms)
+                        {
+                            if (loadWorks(reader.GetInt32(0)))
+                            {
+                                DataRow dr = dt_persons.NewRow();
+                                dr[0] = reader.GetInt32(0);
+                                dr[1] = decryptoStr(reader.GetString(1)) + " " + decryptoStr(reader.GetString(2)) + " " + decryptoStr(reader.GetString(3));
+                                dr[2] = !reader.IsDBNull(4) ? reader.GetDateTime(4) : DateTime.Now;
+                                if (reader.GetString(5).Equals("Муж")) { dr[3] = "Мужской"; countMale++; }
+                                else { dr[3] = "Женский"; countFemale++; }
+                                dr[4] = !reader.IsDBNull(7) ? reader.GetString(7) : "";
+                                dr[5] = !reader.IsDBNull(8) ? reader.GetString(8) : "";
+                                dr[6] = reader.GetString(6).Equals("W") ? "Сотрудник" : "Студент";
+                                dr[7] = !reader.IsDBNull(10) ? reader.GetString(10) : "";
+                                dr[8] = !reader.IsDBNull(11) ? reader.GetString(11) : "";
+                                dr[9] = !reader.IsDBNull(9) ? reader.GetString(9) : "";
                                 string other = "";
-                                other += dp.Person.isPensioner == "T" ? "Пенсионер; " : "";
-                                other += getAge(dp.Person.birthday.Value, DateTime.Now) < 36 ? "До 35 лет; " : "";
-                                other += loadWorks(dp.Person.id) ? "Молодой специалист (до 35 лет); " : "";
-                                dgv[9, ii].Value = other;
-
+                                other += pens ? "Пенсионер; " : "";
+                                other += do35 ? "До 35 лет; " : "";
+                                other += ms ? "Молодой специалист (до 35 лет); " : "";
+                                dr[10] = other;
+                                dt_persons.Rows.Add(dr);
                                 countAll++;
-
-                                ii++;
                             }
                         }
                         else
                         {
-                            for (int k = 0; k < arrayFiltr.Length; k++)
-                            {
-                                if (arrayFiltr[k] != -1)
-                                {
-                                    int idP = arrayFiltr[k];
-                                    Database.Person pers = db.People.FirstOrDefault(p => p.id == idP);
-                                    Database.PeopleWork pw = db.PeopleWorks.FirstOrDefault(p => p.isActual == "T" && p.idPeople == pers.id && p.isWorked == "T");
-                                    dgv.Rows.Add();
-                                    dgv[0, ii].Value = pers.id;
-                                    dgv[1, ii].Value = decryptoStr(pers.famil) + " " + decryptoStr(pers.name) + " " + decryptoStr(pers.otch);
-                                    dgv[2, ii].Value = pers.birthday;
-                                    if (pers.gender == "Муж")
-                                    {
-                                        dgv[3, ii].Value = "Мужской";
-                                        countMale++;
-                                    }
-                                    else
-                                    {
-                                        dgv[3, ii].Value = "Женский";
-                                        countFemale++;
-                                    }
-                                    dgv[4, ii].Value = pw != null ? pw.workPlace : "";
-                                    dgv[5, ii].Value = pw != null ? pw.doljn : "";
-                                    dgv[6, ii].Value = pers.type == "W" ? "Сотрудник" : pers.type == "S" ? "Студент" : "";
-                                    string soc = "";
-                                    var socialStatus = db.PeopleSocialStatus.Where(p => p.idPeople == pers.id).ToList();
-                                    if (socialStatus.Count() > 0)
-                                    {
-                                        foreach (Database.PeopleSocialStatu pss in socialStatus)
-                                            soc += pss.TypeSocialStatu.name + "; ";
-                                    }
-                                    dgv[7, ii].Value = soc.Trim();
-                                    string child = "";
-                                    var children = db.PeopleChildrens.Where(p => p.idPeople == pers.id).ToList();
-                                    if (children.Count() > 0)
-                                    {
-                                        foreach (Database.PeopleChildren ch in children)
-                                        {
-                                            child += ch.fioChildren + " ( " + getAge(ch.birthday.Value, DateTime.Now).ToString() + " г.); ";
-                                            countChild++;
-                                        }
-                                    }
-                                    dgv[8, ii].Value = child.Trim();
-                                    string other = "";
-                                    other += pers.isPensioner == "T" ? "Пенсионер; " : "";
-                                    other += getAge(pers.birthday.Value, DateTime.Now) < 36 ? "До 35 лет; " : "";
-                                    other += loadWorks(pers.id) ? "Молодой специалист (до 35 лет); " : "";
-                                    dgv[9, ii].Value = other;
-                                    countAll++;
-                                    ii++;
-                                }
-                            }
+                            DataRow dr = dt_persons.NewRow();
+                            dr[0] = reader.GetInt32(0);
+                            dr[1] = decryptoStr(reader.GetString(1)) + " " + decryptoStr(reader.GetString(2)) + " " + decryptoStr(reader.GetString(3));
+                            dr[2] = !reader.IsDBNull(4) ? reader.GetDateTime(4) : DateTime.Now;
+                            if (reader.GetString(5).Equals("Муж")) { dr[3] = "Мужской"; countMale++; }
+                            else { dr[3] = "Женский"; countFemale++; }
+                            dr[4] = !reader.IsDBNull(7) ? reader.GetString(7) : "";
+                            dr[5] = !reader.IsDBNull(8) ? reader.GetString(8) : "";
+                            dr[6] = reader.GetString(6).Equals("W") ? "Сотрудник" : "Студент";
+                            dr[7] = !reader.IsDBNull(10) ? reader.GetString(10) : "";
+                            dr[8] = !reader.IsDBNull(11) ? reader.GetString(11) : "";
+                            dr[9] = !reader.IsDBNull(9) ? reader.GetString(9) : "";
+                            string other = "";
+                            other += pens ? "Пенсионер; " : "";
+                            other += do35 ? "До 35 лет; " : "";
+                            other += ms ? "Молодой специалист (до 35 лет); " : "";
+                            dr[10] = other;
+                            dt_persons.Rows.Add(dr);
+                            countAll++;
                         }
-                    }
-                }
-                else
-                {
-                    int idD = 0;
-                    IQueryable<Prof.Database.PeopleDepartment> peopleDep = null;
-                    if ((idDep.Name == "W" || idDep.Name == "S") && first)
-                    {
-                        idD = Convert.ToInt32(idDep.Parent.Name);
-                        if (rb_all_prof.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Муж" && p.Person.type == idDep.Name);
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Жен" && p.Person.type == idDep.Name);
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.type == idDep.Name);
-                        }
-                        else if (rb_inProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Муж" && p.Person.type == idDep.Name);
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Жен" && p.Person.type == idDep.Name);
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.type == idDep.Name);
-                        }
-                        else if (rb_exitProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Муж" && p.Person.type == idDep.Name);
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Жен" && p.Person.type == idDep.Name);
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.type == idDep.Name);
-                        }
-                    }
-                    else if (idDep.Name != "W" && idDep.Name != "S")
-                    {
-                        idD = Convert.ToInt32(idDep.Name);
-
-                        if (rb_all_prof.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Муж");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.gender == "Жен");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD);
-                        }
-                        else if (rb_inProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Муж");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T" && p.Person.gender == "Жен");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "T");
-                        }
-                        else if (rb_exitProf.Checked)
-                        {
-                            if (rb_male.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Муж");
-                            else if (rb_femaly.Checked)
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F" && p.Person.gender == "Жен");
-                            else
-                                peopleDep = db.PeopleDepartments.Where(p => p.idDepartment == idD && p.Person.isProf == "F");
-                        }
-                    }
-                    if (first)
-                    {
-                        dgv.Rows.Clear();
-                        first = false;
-                        idDepart = idD;
-                    }
-                    if (peopleDep != null)
-                    {
-                        if (peopleDep.Count() > 0)
-                        {
-                            int[] arrayFiltr = new int[peopleDep.Count()];
-                            if (clb_socialStatus.CheckedItems.Count > 0)
-                            {
-                                noFlag = false;
-                                int arrayIndex = 0;
-                                foreach (Database.PeopleDepartment dp in peopleDep)
-                                {
-                                    arrayFiltr[arrayIndex] = arrayFiltr[arrayIndex] != -1 ? (int)dp.idPeople : -1;
-                                    for (int k = 0; k < clb_socialStatus.CheckedItems.Count; k++)
-                                    {
-                                        string nTss = clb_socialStatus.CheckedItems[k].ToString();
-                                        Database.TypeSocialStatu tss = db.TypeSocialStatus.FirstOrDefault(p => p.name == nTss);
-                                        Database.PeopleSocialStatu pss = db.PeopleSocialStatus.FirstOrDefault(p => p.idPeople == dp.idPeople && p.idTypeSocialStatus == tss.id);
-                                        if (pss == null)
-                                        {
-                                            arrayFiltr[arrayIndex] = -1;
-                                            break;
-                                        }
-                                    }
-                                    arrayIndex++;
-                                }
-
-                            }
-                            if (clb_livingConditions.CheckedItems.Count > 0)
-                            {
-                                noFlag = false;
-                                int arrayIndex = 0;
-                                foreach (Database.PeopleDepartment dp in peopleDep)
-                                {
-                                    arrayFiltr[arrayIndex] = arrayFiltr[arrayIndex] != -1 ? (int)dp.idPeople : -1;
-                                    for (int k = 0; k < clb_livingConditions.CheckedItems.Count; k++)
-                                    {
-                                        string nTlc = clb_livingConditions.CheckedItems[k].ToString();
-                                        Database.TypeLivingCondition tss = db.TypeLivingConditions.FirstOrDefault(p => p.name == nTlc);
-                                        Database.PeopleLivingCondition pss = db.PeopleLivingConditions.FirstOrDefault(p => p.idPeople == dp.idPeople && p.idTypeLivingConditions == tss.id);
-                                        if (pss == null)
-                                        {
-                                            arrayFiltr[arrayIndex] = -1;
-                                            break;
-                                        }
-                                    }
-                                    arrayIndex++;
-                                }
-                            }
-                            if (clb_other.CheckedItems.Count > 0)
-                            {
-                                noFlag = false;
-                                int arrayIndex = 0;
-                                foreach (Database.PeopleDepartment dp in peopleDep)
-                                {
-                                    arrayFiltr[arrayIndex] = arrayFiltr[arrayIndex] != -1 ? (int)dp.idPeople : -1;
-                                    for (int k = 0; k < clb_other.CheckedItems.Count; k++)
-                                    {
-                                        string nOther = clb_other.CheckedItems[k].ToString();
-                                        if (nOther.Contains("Младший специалист (до 3х лет)"))
-                                        {
-                                            if (!loadWorks((int)dp.idPeople))
-                                            {
-                                                arrayFiltr[arrayIndex] = -1;
-                                                break;
-                                            }
-                                        }
-                                        if (nOther.Contains("До 35 лет"))
-                                        {
-                                            if (getAge((DateTime)dp.Person.birthday, DateTime.Now) > 34)
-                                            {
-                                                arrayFiltr[arrayIndex] = -1;
-                                                break;
-                                            }
-                                        }
-                                        else if (nOther.Contains("Пенсионер"))
-                                        {
-                                            if (dp.Person.isPensioner == "F")
-                                            {
-                                                arrayFiltr[arrayIndex] = -1;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    arrayIndex++;
-                                }
-                            }
-                            if (cb_period.Checked)
-                            {
-                                noFlag = false;
-                                int arrayIndex = 0;
-                                foreach (Database.PeopleDepartment dp in peopleDep)
-                                {
-                                    arrayFiltr[arrayIndex] = arrayFiltr[arrayIndex] != -1 ? (int)dp.idPeople : -1;
-                                    if ((dp.Person.dateEnter.Value.Date < dtp_periodStart.Value.Date || dp.Person.dateEnter.Value.Date > dtp_periodEnd.Value.Date) ||
-                                        (dp.Person.dateExit.Value.Date >= dtp_periodStart.Value.Date && dp.Person.dateExit.Value.Date <= dtp_periodEnd.Value.Date))
-                                        arrayFiltr[arrayIndex] = -1; 
-                                    arrayIndex++;
-                                }
-                                
-                            }
-                            if (noFlag)
-                            {
-                                foreach (Database.PeopleDepartment dp in peopleDep)
-                                {
-                                    Database.PeopleWork pw = db.PeopleWorks.FirstOrDefault(p => p.isActual == "T" && p.idPeople == dp.idPeople && p.isWorked == "T");
-
-                                    dgv.Rows.Add();
-                                    dgv[0, ii].Value = dp.Person.id;
-                                    dgv[1, ii].Value = decryptoStr(dp.Person.famil) + " " + decryptoStr(dp.Person.name) + " " + decryptoStr(dp.Person.otch);
-                                    dgv[2, ii].Value = dp.Person.birthday;
-                                    if (dp.Person.gender == "Муж")
-                                    {
-                                        dgv[3, ii].Value = "Мужской";
-                                        countMale++;
-                                    }
-                                    else
-                                    {
-                                        dgv[3, ii].Value = "Женский";
-                                        countFemale++;
-                                    }
-                                    dgv[4, ii].Value = pw != null ? pw.workPlace : "";
-                                    dgv[5, ii].Value = pw != null ? pw.doljn : "";
-                                    dgv[6, ii].Value = dp.Person.type == "W" ? "Сотрудник" : dp.Person.type == "S" ? "Студент" : "";
-                                    string soc = "";
-                                    var socialStatus = db.PeopleSocialStatus.Where(p => p.idPeople == dp.idPeople).ToList();
-                                    if (socialStatus.Count() > 0)
-                                    {
-                                        foreach (Database.PeopleSocialStatu pss in socialStatus)
-                                            soc += pss.TypeSocialStatu.name + "; ";
-                                    }
-                                    dgv[7, ii].Value = soc.Trim();
-                                    string child = "";
-                                    var children = db.PeopleChildrens.Where(p => p.idPeople == dp.Person.id).ToList();
-                                    if (children.Count() > 0)
-                                    {
-                                        foreach (Database.PeopleChildren ch in children)
-                                        {
-                                            child += ch.fioChildren + " ( " + getAge(ch.birthday.Value, DateTime.Now).ToString() + " г.); ";
-                                            countChild++;
-                                        }
-                                    }
-                                    dgv[8, ii].Value = child.Trim();
-                                    string other = "";
-                                    other += dp.Person.isPensioner == "T" ? "Пенсионер; " : "";
-                                    other += getAge(dp.Person.birthday.Value, DateTime.Now) < 36 ? "До 35 лет; " : "";
-                                    other += loadWorks(dp.Person.id) ? "Молодой специалист (до 35 лет); " : "";
-                                    dgv[9, ii].Value = other;
-                                    countAll++;
-                                    ii++;
-                                }
-                            }
-                            else
-                            {
-                                for (int k = 0; k < arrayFiltr.Length; k++)
-                                {
-                                    if (arrayFiltr[k] != -1)
-                                    {
-                                        int idP = arrayFiltr[k];
-                                        Database.Person pers = db.People.FirstOrDefault(p => p.id == idP);
-                                        Database.PeopleWork pw = db.PeopleWorks.FirstOrDefault(p => p.isActual == "T" && p.idPeople == pers.id && p.isWorked == "T");
-                                        dgv.Rows.Add();
-                                        dgv[0, ii].Value = pers.id;
-                                        dgv[1, ii].Value = decryptoStr(pers.famil) + " " + decryptoStr(pers.name) + " " + decryptoStr(pers.otch);
-                                        dgv[2, ii].Value = pers.birthday;
-                                        if (pers.gender == "Муж")
-                                        {
-                                            dgv[3, ii].Value = "Мужской";
-                                            countMale++;
-                                        }
-                                        else
-                                        {
-                                            dgv[3, ii].Value = "Женский";
-                                            countFemale++;
-                                        }
-                                        dgv[4, ii].Value = pw != null ? pw.workPlace : "";
-                                        dgv[5, ii].Value = pw != null ? pw.doljn : "";
-                                        dgv[6, ii].Value = pers.type == "W" ? "Сотрудник" : pers.type == "S" ? "Студент" : "";
-                                        string soc = "";
-                                        var socialStatus = db.PeopleSocialStatus.Where(p => p.idPeople == pers.id).ToList();
-                                        if (socialStatus.Count() > 0)
-                                        {
-                                            foreach (Database.PeopleSocialStatu pss in socialStatus)
-                                                soc += pss.TypeSocialStatu.name + "; ";
-                                        }
-                                        dgv[7, ii].Value = soc.Trim();
-                                        string child = "";
-                                        var children = db.PeopleChildrens.Where(p => p.idPeople == pers.id).ToList();
-                                        if (children.Count() > 0)
-                                        {
-                                            foreach (Database.PeopleChildren ch in children)
-                                            {
-                                                child += ch.fioChildren + " ( " + getAge(ch.birthday.Value, DateTime.Now).ToString() + " г.); ";
-                                                countChild++;
-                                            }
-                                        }
-                                        dgv[8, ii].Value = child.Trim();
-                                        string other = "";
-                                        other += pers.isPensioner == "T" ? "Пенсионер; " : "";
-                                        other += getAge(pers.birthday.Value, DateTime.Now) < 36 ? "До 35 лет; " : "";
-                                        other += loadWorks(pers.id) ? "Молодой специалист (до 35 лет); " : "";
-                                        dgv[9, ii].Value = other;
-                                        countAll++;
-                                        ii++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    for (int i = 0; i < idDep.Nodes.Count; i++)
-                    {
-                        loadPeople(idDep.Nodes[i], first);
                     }
                 }
             }
+            conn.Close();
+            conn.Dispose();
+
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = string.Format("{0:00}м. {1:00}с. {2:00}мс.", ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            speedLoadGrid.Text = "Скорость загрузки таблицы: " + elapsedTime;
         }
 
         private void tsmi_showNotAll_Click(object sender, EventArgs e)
@@ -961,10 +526,9 @@ namespace Prof
             tsmi_showNotAll.Checked = showNoAllPeople;
             Properties.Settings.Default.showNoAllPeople = showNoAllPeople;
             Properties.Settings.Default.Save();
-            string selectNode = tree_department.SelectedNode.Name;
-            loadTree();
-            tree_department.SelectedNode = findNode(null, selectNode);
+            preLoadPeople();
         }
+
         private TreeNode findNode(TreeNode node, string name)
         {
             bool find = false;
@@ -976,7 +540,10 @@ namespace Prof
                     for (int i = 0; i < tree_department.Nodes.Count; i++)
                     {
                         n = findNode(tree_department.Nodes[i], name);
-                        if (n != null) break;
+                        if (n != null)
+                        {
+                            break;
+                        }
                     }
                 }
                 else
@@ -990,7 +557,10 @@ namespace Prof
                         for (int i = 0; i < node.Nodes.Count; i++)
                         {
                             n = findNode(node.Nodes[i], name);
-                            if (n != null) break;
+                            if (n != null)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
@@ -1025,63 +595,49 @@ namespace Prof
                 }
                 return sb.ToString();
             }
-            else return "";
-        }
-
-        private void reportChild(bool first, int idDepartment)
-        {
-            using (Database.DataBase db = new Database.DataBase())
+            else
             {
-                if (first)
-                {
-                    var pd = db.PeopleDepartments.Where(p => p.idDepartment == idDepartment && p.Person.isProf == "T").ToList();
-
-                    if (pd.Count() != 0)
-                    {
-                        foreach (Database.PeopleDepartment ppd in pd)
-                        {
-                            var child = db.PeopleChildrens.Where(p => p.idPeople == ppd.idPeople).ToList();
-                            if (child.Count() != 0)
-                                foreach (Database.PeopleChildren pc in child)
-                                    countChild++;
-                        }
-                    }
-                    reportChild(false, idDepartment);
-                }
-                else
-                {
-                    var dd = db.Departments.Where(p => p.idParent == idDepartment);
-                    foreach (Database.Department nd in dd)
-                    {
-                        var pd = db.PeopleDepartments.Where(p => p.idDepartment == nd.id && p.Person.isProf == "T");
-                        if (pd.Count() != 0)
-                        {
-                            foreach (Database.PeopleDepartment ppd in pd)
-                            {
-                                Database.PeopleWork pw = db.PeopleWorks.FirstOrDefault(p => p.isActual == "T" && p.idPeople == ppd.idPeople && p.isWorked == "T");
-                                var child = db.PeopleChildrens.Where(p => p.idPeople == ppd.idPeople);
-                                if (child.Count() != 0)
-                                    foreach (Database.PeopleChildren pc in child)
-                                        countChild++;
-                            }
-                        }
-                        reportChild(false, nd.id);
-                    }
-                }
+                return "";
             }
         }
+
         private void preLoadPeople()
         {
-            ii = 0;
             countAll = 0;
             countMale = 0;
             countFemale = 0;
             countChild = 0;
-            loadPeople(tree_department.SelectedNode, true);
+
+            dt_persons = new DataTable("persons");
+            dt_persons.Columns.Add(new DataColumn("id", typeof(int)));
+            dt_persons.Columns.Add(new DataColumn("Ф.И.О.", typeof(string)));
+            dt_persons.Columns.Add(new DataColumn("Дата рождения", typeof(DateTime)));
+            dt_persons.Columns.Add(new DataColumn("Пол", typeof(string)));
+            dt_persons.Columns.Add(new DataColumn("Место работы", typeof(string)));
+            dt_persons.Columns.Add(new DataColumn("Должность", typeof(string)));
+            dt_persons.Columns.Add(new DataColumn("Сотрудник / студент", typeof(string)));
+            dt_persons.Columns.Add(new DataColumn("Социальный статус", typeof(string)));
+            dt_persons.Columns.Add(new DataColumn("Жилищные условия", typeof(string)));
+            dt_persons.Columns.Add(new DataColumn("Дети", typeof(string)));
+            dt_persons.Columns.Add(new DataColumn("Другое", typeof(string)));
+
+            loadPeople();
             tssl_All.Text = $"Всего: {countAll}";
             tssl_male.Text = $"Мужчин: {countMale}";
             tssl_female.Text = $"Женщин: {countFemale}";
             tssl_Child.Text = $"Детей: {countChild}";
+
+            dgv.Enabled = false;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dgv.DataSource = dt_persons;
+            dgv.Columns[0].Visible = false;
+            dgv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
+            dgv.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+            dgv.Sort(dgv.Columns[1], ListSortDirection.Ascending);
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.Enabled = true;
         }
     }
 }

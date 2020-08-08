@@ -12462,7 +12462,7 @@ SELECT id, idParent, fullName, shortName, dateCrt FROM prof.Departments WHERE (i
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[4];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[5];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT id, idParent, fullName, shortName, dateCrt FROM prof.Departments";
@@ -12481,9 +12481,15 @@ SELECT id, idParent, fullName, shortName, dateCrt FROM prof.Departments WHERE (i
             this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[3].Connection = this.Connection;
             this._commandCollection[3].CommandText = "SELECT        id, idParent, fullName, shortName, dateCrt\r\nFROM            prof.De" +
-                "partments\r\nWHERE        (id = @id)";
+                "partments\r\nWHERE        (fullName = @fullName)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@fullName", global::System.Data.SqlDbType.NVarChar, 1500, global::System.Data.ParameterDirection.Input, 0, 0, "fullName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "SELECT        id, idParent, fullName, shortName, dateCrt\r\nFROM            prof.De" +
+                "partments\r\nWHERE        (id = @id)";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12550,8 +12556,44 @@ SELECT id, idParent, fullName, shortName, dateCrt FROM prof.Departments WHERE (i
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
-        public virtual int FillById(ProfDataSet.DepartmentsDataTable dataTable, int id) {
+        public virtual int FillByFullName(ProfDataSet.DepartmentsDataTable dataTable, string fullName) {
             this.Adapter.SelectCommand = this.CommandCollection[3];
+            if ((fullName == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(fullName));
+            }
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual ProfDataSet.DepartmentsDataTable GetDataByFullName(string fullName) {
+            this.Adapter.SelectCommand = this.CommandCollection[3];
+            if ((fullName == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(fullName));
+            }
+            ProfDataSet.DepartmentsDataTable dataTable = new ProfDataSet.DepartmentsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillById(ProfDataSet.DepartmentsDataTable dataTable, int id) {
+            this.Adapter.SelectCommand = this.CommandCollection[4];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(id));
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -12565,7 +12607,7 @@ SELECT id, idParent, fullName, shortName, dateCrt FROM prof.Departments WHERE (i
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual ProfDataSet.DepartmentsDataTable GetDataById(int id) {
-            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand = this.CommandCollection[4];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(id));
             ProfDataSet.DepartmentsDataTable dataTable = new ProfDataSet.DepartmentsDataTable();
             this.Adapter.Fill(dataTable);
@@ -13879,7 +13921,7 @@ SELECT id, famil, name, otch, birthday, pasp_ser, pasp_num, pasp_date, pasp_issu
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[3];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[4];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = @"SELECT id, famil, name, otch, birthday, pasp_ser, pasp_num, pasp_date, pasp_issue, phone, gender, propiska, isPensioner, startTrudYear, isProf, numProfTicket, dateEnter, dateExit, dateCrt, type, activity, socialWork, typeDoc, hobbies, startTrudYearStr FROM prof.People";
@@ -13894,9 +13936,20 @@ SELECT id, famil, name, otch, birthday, pasp_ser, pasp_num, pasp_date, pasp_issu
             this._commandCollection[2].CommandText = @"SELECT        id, famil, name, otch, birthday, pasp_ser, pasp_num, pasp_date, pasp_issue, phone, gender, propiska, isPensioner, startTrudYear, isProf, numProfTicket, dateEnter, dateExit, dateCrt, type, activity, socialWork, typeDoc, 
                          hobbies, startTrudYearStr
 FROM            prof.People
-WHERE        (id = @id)";
+WHERE        (famil = @fam) AND (name = @nam) AND (otch = @oth) AND (numProfTicket = @np)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@fam", global::System.Data.SqlDbType.NVarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "famil", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@nam", global::System.Data.SqlDbType.NVarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@oth", global::System.Data.SqlDbType.NVarChar, 100, global::System.Data.ParameterDirection.Input, 0, 0, "otch", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@np", global::System.Data.SqlDbType.NVarChar, 500, global::System.Data.ParameterDirection.Input, 0, 0, "numProfTicket", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = @"SELECT        id, famil, name, otch, birthday, pasp_ser, pasp_num, pasp_date, pasp_issue, phone, gender, propiska, isPensioner, startTrudYear, isProf, numProfTicket, dateEnter, dateExit, dateCrt, type, activity, socialWork, typeDoc, 
+                         hobbies, startTrudYearStr
+FROM            prof.People
+WHERE        (id = @id)";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13927,8 +13980,80 @@ WHERE        (id = @id)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
-        public virtual int FillByPers(ProfDataSet.PeopleDataTable dataTable, int id) {
+        public virtual int FillByFIO(ProfDataSet.PeopleDataTable dataTable, string fam, string nam, string oth, string np) {
             this.Adapter.SelectCommand = this.CommandCollection[2];
+            if ((fam == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(fam));
+            }
+            if ((nam == null)) {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(nam));
+            }
+            if ((oth == null)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(oth));
+            }
+            if ((np == null)) {
+                this.Adapter.SelectCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[3].Value = ((string)(np));
+            }
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual ProfDataSet.PeopleDataTable GetDataByFIO(string fam, string nam, string oth, string np) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
+            if ((fam == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(fam));
+            }
+            if ((nam == null)) {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(nam));
+            }
+            if ((oth == null)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(oth));
+            }
+            if ((np == null)) {
+                this.Adapter.SelectCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[3].Value = ((string)(np));
+            }
+            ProfDataSet.PeopleDataTable dataTable = new ProfDataSet.PeopleDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByPers(ProfDataSet.PeopleDataTable dataTable, int id) {
+            this.Adapter.SelectCommand = this.CommandCollection[3];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(id));
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -13942,7 +14067,7 @@ WHERE        (id = @id)";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual ProfDataSet.PeopleDataTable GetDataByPers(int id) {
-            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand = this.CommandCollection[3];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(id));
             ProfDataSet.PeopleDataTable dataTable = new ProfDataSet.PeopleDataTable();
             this.Adapter.Fill(dataTable);
@@ -15098,8 +15223,9 @@ SELECT id, idPeople, fioChildren, birthday, dateCrt FROM prof.PeopleChildren WHE
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@idChild", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "SELECT birthday, dateCrt, fioChildren, id, idPeople FROM prof.PeopleChildren WHER" +
-                "E (idPeople = @idPeople)";
+            this._commandCollection[3].CommandText = "SELECT        id, idPeople, fioChildren, birthday, dateCrt, dbo.fullAge(birthday," +
+                " CURRENT_TIMESTAMP) AS age, YEAR(birthday) AS b_year\r\nFROM            prof.Peopl" +
+                "eChildren\r\nWHERE        (idPeople = @idPeople)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@idPeople", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "idPeople", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
@@ -17704,7 +17830,7 @@ SELECT id, idPeople, workPlace, doljn, dateStart, dateEnd, isActual, dateCrt, is
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[4];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[5];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT id, idPeople, workPlace, doljn, dateStart, dateEnd, isActual, dateCrt, isW" +
@@ -17731,11 +17857,24 @@ ORDER BY dateStart";
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@idpeople", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "idPeople", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "SELECT        id, idPeople, workPlace, doljn, dateStart, dateEnd, isActual, dateC" +
+            this._commandCollection[3].CommandText = @"SELECT        id, idPeople, workPlace, doljn, dateStart, dateEnd, isActual, dateCrt, isWorked, stajObsh, stajPed, stajNPed, isSovm,
+                             (SELECT        year_s
+                               FROM            dbo.getddiff_table(prof.PeopleWork.dateStart, prof.PeopleWork.dateEnd) AS ddd) AS year_s,
+                             (SELECT        month_s
+                               FROM            dbo.getddiff_table(prof.PeopleWork.dateStart, prof.PeopleWork.dateEnd) AS ddd) AS month_s,
+                             (SELECT        day_s
+                               FROM            dbo.getddiff_table(prof.PeopleWork.dateStart, prof.PeopleWork.dateEnd) AS ddd) AS day_s
+FROM            prof.PeopleWork
+WHERE        (idPeople = @idPers) AND (stajObsh = 'T') AND (isActual = 'T')";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@idPers", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "idPeople", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "SELECT        id, idPeople, workPlace, doljn, dateStart, dateEnd, isActual, dateC" +
                 "rt, isWorked, stajObsh, stajPed, stajNPed, isSovm\r\nFROM            prof.PeopleWo" +
                 "rk\r\nWHERE        (id = @idWork)";
-            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@idWork", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@idWork", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17792,8 +17931,34 @@ ORDER BY dateStart";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
-        public virtual int FillByWorkId(ProfDataSet.PeopleWorkDataTable dataTable, int idWork) {
+        public virtual int FillByPeopleObshStag(ProfDataSet.PeopleWorkDataTable dataTable, int idPers) {
             this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(idPers));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual ProfDataSet.PeopleWorkDataTable GetDataByObshStag(int idPers) {
+            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(idPers));
+            ProfDataSet.PeopleWorkDataTable dataTable = new ProfDataSet.PeopleWorkDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByWorkId(ProfDataSet.PeopleWorkDataTable dataTable, int idWork) {
+            this.Adapter.SelectCommand = this.CommandCollection[4];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(idWork));
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -17807,7 +17972,7 @@ ORDER BY dateStart";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual ProfDataSet.PeopleWorkDataTable GetDataByWorkId(int idWork) {
-            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand = this.CommandCollection[4];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(idWork));
             ProfDataSet.PeopleWorkDataTable dataTable = new ProfDataSet.PeopleWorkDataTable();
             this.Adapter.Fill(dataTable);

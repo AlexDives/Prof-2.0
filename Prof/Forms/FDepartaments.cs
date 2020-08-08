@@ -111,27 +111,24 @@ namespace Prof
         {
             if (idDep > 0)
             {
-                using (Database.DataBase db = new Database.DataBase())
+                ProfDataSet.DepartmentsDataTable dt = new ProfDataSet.DepartmentsDataTable();
+                departmentsTableAdapter1.FillByDepChild(dt, idDep);
+                ProfDataSet.PeopleDepartmentDataTable dtp = new ProfDataSet.PeopleDepartmentDataTable();
+                peopleDepartmentTableAdapter1.FillByDep(dtp, idDep);
+                int childDep = dt.Rows.Count;
+                int countPeople = dtp.Rows.Count;
+                if (childDep == 0)
                 {
-                    ProfDataSet.DepartmentsDataTable dt = new ProfDataSet.DepartmentsDataTable();
-                    departmentsTableAdapter1.FillByDepChild(dt, idDep);
-                    ProfDataSet.PeopleDepartmentDataTable dtp = new ProfDataSet.PeopleDepartmentDataTable();
-                    peopleDepartmentTableAdapter1.FillByDep(dtp, idDep);
-                    int childDep = dt.Rows.Count;
-                    int countPeople = dtp.Rows.Count;
-                    if (childDep == 0)
+                    if (countPeople == 0)
                     {
-                        if (countPeople == 0)
-                        {
-                            departmentsTableAdapter1.DeleteByDep(idDep);
+                        departmentsTableAdapter1.DeleteByDep(idDep);
 
-                            MessageBox.Show("Информация удалена!");
-                            loadDepartmentsGrid();
-                        }
-                        else MessageBox.Show("Вы не можете удалить данное подразделение, т.к. у него есть члены профсоюза!");
+                        MessageBox.Show("Информация удалена!");
+                        loadDepartmentsGrid();
                     }
-                    else MessageBox.Show("Вы не можете удалить данное подразделение, т.к. у него есть дочерние подразделения!");
+                    else MessageBox.Show("Вы не можете удалить данное подразделение, т.к. у него есть члены профсоюза!");
                 }
+                else MessageBox.Show("Вы не можете удалить данное подразделение, т.к. у него есть дочерние подразделения!");
             }
             else MessageBox.Show("Не выбрано подразделение!");
         }

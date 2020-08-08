@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
+using System.Data.SqlClient;
 using System.Text;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -11,14 +11,14 @@ namespace Prof
     {
         int idUser = 0;
         int idDep = 0;
-        private int[] arrayUserDeparments;
-        public FImport(int idUser, int idDep, int[] arrayUserDeparments)
+        string arrayUserDeparmentsAll_String = "";
+        public FImport(int idUser, int idDep, string arrayUserDeparmentsAll_String)
         {
             InitializeComponent();
             
             this.idUser = idUser;
             this.idDep = idDep;
-            this.arrayUserDeparments = arrayUserDeparments;
+            this.arrayUserDeparmentsAll_String = arrayUserDeparmentsAll_String;
         }
 
         private void B_browse_Click(object sender, EventArgs e)
@@ -109,8 +109,6 @@ namespace Prof
             }
             else
             {
-                Database.DataBase db = new Database.DataBase();
-
                 int idPerson = 0;
                 progressBar1.Value = 0;
                 progressBar1.Maximum = dgv2.Rows.Count;
@@ -118,52 +116,48 @@ namespace Prof
                 {
                     string ssp = "";
                     string ssv = "";
-                    idDep = db.Departments.FirstOrDefault(pp => pp.fullName == cb_dep.SelectedItem.ToString().Trim()).id;
-
+                    idDep = (int)cb_dep.SelectedValue;
 
                     if (dgv2.Rows[i].Cells[1].Value.ToString().Trim() != "")
                     {
                         ssp = dgv2.Rows[i].Cells[1].Value.ToString().Trim();
 
-                        Database.Department dp = db.Departments.FirstOrDefault(pp => pp.fullName == ssp);
-                        if (dp == null)
-                        {
-                            dp = new Database.Department();
-                            dp.idParent = idDep;
-                            dp.fullName = ssp;
-                            dp.shortName = ssp;
-                            dp.dateCrt = DateTime.Now;
-                            db.Departments.Add(dp);
-                            db.SaveChanges();
-                            db = new Database.DataBase();
-                            idDep = dp.id;
+                        ProfDataSet.DepartmentsDataTable ddt = new ProfDataSet.DepartmentsDataTable();
+                        departmentsTableAdapter1.FillByFullName(ddt, ssp);
 
-                        }
-                        else if (dp != null)
+                        if (ddt.Rows.Count == 0)
                         {
-                            idDep = dp.id;
+                            ProfDataSet.DepartmentsRow dr = ddt.NewDepartmentsRow();
+                            dr.idParent = idDep;
+                            dr.fullName = ssp;
+                            dr.shortName = ssp;
+                            departmentsTableAdapter1.Update(dr);
+                            idDep = dr.id;
+                        }
+                        else
+                        {
+                            idDep = (int)ddt.Rows[0]["id"];
                         }
                     }
                     if (dgv2.Rows[i].Cells[2].Value.ToString().Trim() != "")
                     {
                         ssv = dgv2.Rows[i].Cells[2].Value.ToString().Trim();
 
-                        Database.Department dp = db.Departments.FirstOrDefault(pp => pp.fullName == ssv);
-                        if (dp == null)
+                        ProfDataSet.DepartmentsDataTable ddt = new ProfDataSet.DepartmentsDataTable();
+                        departmentsTableAdapter1.FillByFullName(ddt, ssp);
+
+                        if (ddt.Rows.Count == 0)
                         {
-                            dp = new Database.Department();
-                            dp.idParent = idDep;
-                            dp.fullName = ssv;
-                            dp.shortName = ssv;
-                            dp.dateCrt = DateTime.Now;
-                            db.Departments.Add(dp);
-                            db.SaveChanges();
-                            db = new Database.DataBase();
-                            idDep = dp.id;
+                            ProfDataSet.DepartmentsRow dr = ddt.NewDepartmentsRow();
+                            dr.idParent = idDep;
+                            dr.fullName = ssv;
+                            dr.shortName = ssv;
+                            departmentsTableAdapter1.Update(dr);
+                            idDep = dr.id;
                         }
-                        else if (dp != null)
+                        else
                         {
-                            idDep = dp.id;
+                            idDep = (int)ddt.Rows[0]["id"];
                         }
                     }
 
@@ -173,14 +167,13 @@ namespace Prof
                     string pn = dgv2.Rows[i].Cells[9].Value.ToString().Trim();
                     DateTime dt = DateTime.Parse(dgv2.Rows[i].Cells[7].Value.ToString().Trim());
 
-                    Database.Person p = db.People.FirstOrDefault(pp => pp.famil == fam &&
-                                                                       pp.name == nam &&
-                                                                       pp.otch == otc &&
-                                                                       pp.birthday == dt &&
-                                                                       pp.numProfTicket == pn);
-                    if (p == null)
+
+                    ProfDataSet.PeopleDataTable pdt = new ProfDataSet.PeopleDataTable();
+                    peopleTableAdapter1.FillByFIO(pdt, fam, nam, otc, pn);
+
+                    if (pdt.Rows.Count == 0)
                     {
-                        p = new Database.Person();
+                        ProfDataSet.PeopleRow p = pdt.NewPeopleRow();
                         p.famil = cryptoStr(dgv2.Rows[i].Cells[3].Value.ToString().Trim());
                         p.name = cryptoStr(dgv2.Rows[i].Cells[4].Value.ToString().Trim());
                         p.otch = cryptoStr(dgv2.Rows[i].Cells[5].Value.ToString().Trim());
@@ -204,14 +197,10 @@ namespace Prof
                         p.type = rb_w.Checked ? "W" : rb_s.Checked ? "S" : "";
                         p.isProf = "T";
                         p.dateExit = DateTime.Parse("01.01.1970");
-                        p.dateCrt = DateTime.Now;
-                        db.People.Add(p);
+                        peopleTableAdapter1.Update(p);
                         idPerson = p.id;
-
-                        db.PeopleDepartments.Add(new Database.PeopleDepartment { idPeople = idPerson, idDepartment = idDep, dateCrt = DateTime.Now });
-
+                        peopleDepartmentTableAdapter1.Insert(idPerson, idDep, DateTime.Now);
                     }
-                    db.SaveChanges();
                     progressBar1.Value++;
                 }
 
@@ -223,38 +212,33 @@ namespace Prof
         {
             b_import.Enabled = false;
             dgv2.Visible = false;
-
-            for (int i = 0; i < arrayUserDeparments.Length; i++)
-            {
-                LoadDepartments(true, arrayUserDeparments[i]);
-            }
-            cb_dep.SelectedIndex = Array.IndexOf(arrayUserDeparments, idDep);//idDep
+            LoadDepartments();
+            cb_dep.SelectedValue = idDep;
         }
 
-        private bool LoadDepartments(bool first, int idDepartment)
+        private void LoadDepartments()
         {
-            bool result = true;
-            using (Database.DataBase db = new Database.DataBase())
+            cb_dep.Items.Clear();
+            SqlConnection conn = DB.GetDBConnection();
+            SqlCommand cmd2 = conn.CreateCommand();
+            cmd2.CommandText = " select dp.id as did, case when CONCAT(d.fullname,'')= '' then dp.fullName else concat('(', d.shortName, ') ', dp.fullName) end as fname from prof.Departments d  " +
+                         " right join prof.Departments dp on dp.idparent = d.id  " +
+                         $" where dp.idParent in ({arrayUserDeparmentsAll_String}) order by d.shortName, dp.fullName ";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd2);
+            conn.Open();
+            try
             {
-                if (first)
-                {
-                    cb_dep.Items.Clear();
-                    Database.Department d = db.Departments.FirstOrDefault(p => p.id == idDepartment);
-                    cb_dep.Items.Add(d.fullName);
-                    LoadDepartments(false, idDepartment);
-                }
-                else
-                {
-                    var dd = db.Departments.Where(p => p.idParent == idDepartment).ToList();
-                    foreach (Database.Department nd in dd)
-                    {
-                        cb_dep.Items.Add(nd.fullName);
-                        LoadDepartments(false, nd.id);
-                    }
-
-                }
+                adapter.Fill(dt);
+                cb_dep.DataSource = dt;
+                cb_dep.DisplayMember = "fname";
+                cb_dep.ValueMember = "did";
             }
-            return result;
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
         }
 
         private void Button2_Click(object sender, EventArgs e)

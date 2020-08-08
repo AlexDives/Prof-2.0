@@ -65,6 +65,9 @@
             this.nagr = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.obshDejat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hobbies = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.peopleTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleTableAdapter();
+            this.departmentsTableAdapter1 = new Prof.ProfDataSetTableAdapters.DepartmentsTableAdapter();
+            this.peopleDepartmentTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleDepartmentTableAdapter();
             this.p_top.SuspendLayout();
             this.p_browse.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv2)).BeginInit();
@@ -78,9 +81,9 @@
             this.p_top.Controls.Add(this.cb_dep);
             this.p_top.Controls.Add(this.p_browse);
             this.p_top.Dock = System.Windows.Forms.DockStyle.Top;
-            this.p_top.Location = new System.Drawing.Point(0, 0);
+            this.p_top.Location = new System.Drawing.Point(20, 60);
             this.p_top.Name = "p_top";
-            this.p_top.Size = new System.Drawing.Size(1247, 59);
+            this.p_top.Size = new System.Drawing.Size(1207, 59);
             this.p_top.TabIndex = 0;
             // 
             // rb_s
@@ -135,14 +138,14 @@
             this.p_browse.Dock = System.Windows.Forms.DockStyle.Top;
             this.p_browse.Location = new System.Drawing.Point(0, 0);
             this.p_browse.Name = "p_browse";
-            this.p_browse.Size = new System.Drawing.Size(1247, 26);
+            this.p_browse.Size = new System.Drawing.Size(1207, 26);
             this.p_browse.TabIndex = 2;
             // 
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Right;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(1123, 0);
+            this.button2.Location = new System.Drawing.Point(1083, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(122, 24);
             this.button2.TabIndex = 5;
@@ -177,9 +180,9 @@
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.progressBar1.Location = new System.Drawing.Point(0, 59);
+            this.progressBar1.Location = new System.Drawing.Point(20, 119);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1247, 17);
+            this.progressBar1.Size = new System.Drawing.Size(1207, 17);
             this.progressBar1.TabIndex = 1;
             // 
             // dgv2
@@ -211,14 +214,14 @@
             this.obshDejat,
             this.hobbies});
             this.dgv2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv2.Location = new System.Drawing.Point(0, 76);
+            this.dgv2.Location = new System.Drawing.Point(20, 136);
             this.dgv2.MultiSelect = false;
             this.dgv2.Name = "dgv2";
             this.dgv2.ReadOnly = true;
             this.dgv2.RowHeadersVisible = false;
             this.dgv2.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv2.Size = new System.Drawing.Size(1247, 374);
+            this.dgv2.Size = new System.Drawing.Size(1207, 294);
             this.dgv2.TabIndex = 3;
             // 
             // number
@@ -386,6 +389,18 @@
             this.hobbies.ReadOnly = true;
             this.hobbies.Width = 63;
             // 
+            // peopleTableAdapter1
+            // 
+            this.peopleTableAdapter1.ClearBeforeFill = true;
+            // 
+            // departmentsTableAdapter1
+            // 
+            this.departmentsTableAdapter1.ClearBeforeFill = true;
+            // 
+            // peopleDepartmentTableAdapter1
+            // 
+            this.peopleDepartmentTableAdapter1.ClearBeforeFill = true;
+            // 
             // FImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -394,7 +409,6 @@
             this.Controls.Add(this.dgv2);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.p_top);
-            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -444,5 +458,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn nagr;
         private System.Windows.Forms.DataGridViewTextBoxColumn obshDejat;
         private System.Windows.Forms.DataGridViewTextBoxColumn hobbies;
+        private ProfDataSetTableAdapters.DepartmentsTableAdapter departmentsTableAdapter1;
+        private ProfDataSetTableAdapters.PeopleTableAdapter peopleTableAdapter1;
+        private ProfDataSetTableAdapters.PeopleDepartmentTableAdapter peopleDepartmentTableAdapter1;
     }
 }

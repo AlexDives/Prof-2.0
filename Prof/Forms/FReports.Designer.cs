@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FReports));
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -68,18 +71,14 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssl_Child = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.dgv = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.birthday = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.departament = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.socialStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.child = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.other = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.speedLoadGrid = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dgv = new MetroFramework.Controls.MetroGrid();
             this.peopleWorkTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleWorkTableAdapter();
+            this.get_treeTableAdapter1 = new Prof.ProfDataSetTableAdapters.get_treeTableAdapter();
+            this.typeSocialStatusTableAdapter1 = new Prof.ProfDataSetTableAdapters.TypeSocialStatusTableAdapter();
+            this.typeLivingConditionsTableAdapter1 = new Prof.ProfDataSetTableAdapters.TypeLivingConditionsTableAdapter();
+            this.peopleChildrenTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleChildrenTableAdapter();
+            this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
             this.panel3.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -106,9 +105,9 @@
             this.panel3.Controls.Add(this.tree_department);
             this.panel3.Controls.Add(this.panel4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Location = new System.Drawing.Point(20, 60);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(184, 602);
+            this.panel3.Size = new System.Drawing.Size(184, 522);
             this.panel3.TabIndex = 7;
             // 
             // tree_department
@@ -118,7 +117,7 @@
             this.tree_department.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree_department.Location = new System.Drawing.Point(0, 69);
             this.tree_department.Name = "tree_department";
-            this.tree_department.Size = new System.Drawing.Size(182, 531);
+            this.tree_department.Size = new System.Drawing.Size(182, 451);
             this.tree_department.TabIndex = 1;
             this.tree_department.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tree_department_AfterSelect);
             // 
@@ -186,16 +185,17 @@
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(184, 0);
+            this.splitter1.Location = new System.Drawing.Point(204, 60);
             this.splitter1.MinExtra = 5;
             this.splitter1.MinSize = 5;
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(5, 602);
+            this.splitter1.Size = new System.Drawing.Size(5, 522);
             this.splitter1.TabIndex = 8;
             this.splitter1.TabStop = false;
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.metroProgressBar1);
             this.panel2.Controls.Add(this.groupBox5);
             this.panel2.Controls.Add(this.groupBox4);
             this.panel2.Controls.Add(this.groupBox3);
@@ -203,9 +203,9 @@
             this.panel2.Controls.Add(this.groupBox2);
             this.panel2.Controls.Add(this.button1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(189, 0);
+            this.panel2.Location = new System.Drawing.Point(209, 60);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1007, 123);
+            this.panel2.Size = new System.Drawing.Size(1008, 123);
             this.panel2.TabIndex = 10;
             // 
             // groupBox5
@@ -410,6 +410,7 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.White;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssl_All,
             this.toolStripStatusLabel2,
@@ -418,10 +419,12 @@
             this.tssl_female,
             this.toolStripStatusLabel3,
             this.tssl_Child,
-            this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(189, 580);
+            this.toolStripStatusLabel4,
+            this.speedLoadGrid});
+            this.statusStrip1.Location = new System.Drawing.Point(209, 560);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1007, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1008, 22);
+            this.statusStrip1.Stretch = false;
             this.statusStrip1.TabIndex = 13;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -473,107 +476,101 @@
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(10, 17);
             this.toolStripStatusLabel4.Text = "|";
             // 
+            // speedLoadGrid
+            // 
+            this.speedLoadGrid.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.speedLoadGrid.Name = "speedLoadGrid";
+            this.speedLoadGrid.Size = new System.Drawing.Size(193, 17);
+            this.speedLoadGrid.Text = "Скорость загрузки таблицы: 0 сек";
+            // 
             // dgv
             // 
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dgv.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id,
-            this.fio,
-            this.birthday,
-            this.gender,
-            this.departament,
-            this.position,
-            this.type,
-            this.socialStatus,
-            this.child,
-            this.other});
+            this.dgv.BackgroundColor = System.Drawing.Color.White;
+            this.dgv.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dgv.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv.ColumnHeadersHeight = 40;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.Location = new System.Drawing.Point(189, 123);
+            this.dgv.EnableHeadersVisualStyles = false;
+            this.dgv.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.dgv.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.dgv.Location = new System.Drawing.Point(209, 183);
             this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
+            this.dgv.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dgv.RowHeadersVisible = false;
             this.dgv.RowHeadersWidth = 20;
+            this.dgv.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv.Size = new System.Drawing.Size(1007, 457);
+            this.dgv.Size = new System.Drawing.Size(1008, 377);
             this.dgv.TabIndex = 14;
-            // 
-            // id
-            // 
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            // 
-            // fio
-            // 
-            this.fio.HeaderText = "Ф.И.О.";
-            this.fio.Name = "fio";
-            this.fio.ReadOnly = true;
-            // 
-            // birthday
-            // 
-            dataGridViewCellStyle1.Format = "d";
-            this.birthday.DefaultCellStyle = dataGridViewCellStyle1;
-            this.birthday.HeaderText = "Дата рождения";
-            this.birthday.Name = "birthday";
-            this.birthday.ReadOnly = true;
-            // 
-            // gender
-            // 
-            this.gender.FillWeight = 50F;
-            this.gender.HeaderText = "Пол";
-            this.gender.Name = "gender";
-            this.gender.ReadOnly = true;
-            // 
-            // departament
-            // 
-            this.departament.HeaderText = "Место работы";
-            this.departament.Name = "departament";
-            this.departament.ReadOnly = true;
-            // 
-            // position
-            // 
-            this.position.HeaderText = "Должность";
-            this.position.Name = "position";
-            this.position.ReadOnly = true;
-            // 
-            // type
-            // 
-            this.type.HeaderText = "Сотрудник / студент";
-            this.type.Name = "type";
-            this.type.ReadOnly = true;
-            // 
-            // socialStatus
-            // 
-            this.socialStatus.HeaderText = "Социальный статус";
-            this.socialStatus.Name = "socialStatus";
-            this.socialStatus.ReadOnly = true;
-            // 
-            // child
-            // 
-            this.child.HeaderText = "Дети";
-            this.child.Name = "child";
-            this.child.ReadOnly = true;
-            // 
-            // other
-            // 
-            this.other.HeaderText = "Другое";
-            this.other.Name = "other";
-            this.other.ReadOnly = true;
             // 
             // peopleWorkTableAdapter1
             // 
             this.peopleWorkTableAdapter1.ClearBeforeFill = true;
             // 
+            // get_treeTableAdapter1
+            // 
+            this.get_treeTableAdapter1.ClearBeforeFill = true;
+            // 
+            // typeSocialStatusTableAdapter1
+            // 
+            this.typeSocialStatusTableAdapter1.ClearBeforeFill = true;
+            // 
+            // typeLivingConditionsTableAdapter1
+            // 
+            this.typeLivingConditionsTableAdapter1.ClearBeforeFill = true;
+            // 
+            // peopleChildrenTableAdapter1
+            // 
+            this.peopleChildrenTableAdapter1.ClearBeforeFill = true;
+            // 
+            // metroProgressBar1
+            // 
+            this.metroProgressBar1.FontSize = MetroFramework.MetroProgressBarSize.Small;
+            this.metroProgressBar1.Location = new System.Drawing.Point(892, 81);
+            this.metroProgressBar1.Name = "metroProgressBar1";
+            this.metroProgressBar1.Size = new System.Drawing.Size(110, 12);
+            this.metroProgressBar1.TabIndex = 53;
+            this.metroProgressBar1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1196, 602);
+            this.ClientSize = new System.Drawing.Size(1237, 602);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel2);
@@ -644,17 +641,13 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel tssl_Child;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
-        private System.Windows.Forms.DataGridView dgv;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fio;
-        private System.Windows.Forms.DataGridViewTextBoxColumn birthday;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gender;
-        private System.Windows.Forms.DataGridViewTextBoxColumn departament;
-        private System.Windows.Forms.DataGridViewTextBoxColumn position;
-        private System.Windows.Forms.DataGridViewTextBoxColumn type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn socialStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn child;
-        private System.Windows.Forms.DataGridViewTextBoxColumn other;
+        private MetroFramework.Controls.MetroGrid dgv;
         private ProfDataSetTableAdapters.PeopleWorkTableAdapter peopleWorkTableAdapter1;
+        private ProfDataSetTableAdapters.get_treeTableAdapter get_treeTableAdapter1;
+        private ProfDataSetTableAdapters.TypeSocialStatusTableAdapter typeSocialStatusTableAdapter1;
+        private ProfDataSetTableAdapters.TypeLivingConditionsTableAdapter typeLivingConditionsTableAdapter1;
+        private ProfDataSetTableAdapters.PeopleChildrenTableAdapter peopleChildrenTableAdapter1;
+        private System.Windows.Forms.ToolStripStatusLabel speedLoadGrid;
+        private MetroFramework.Controls.MetroProgressBar metroProgressBar1;
     }
 }

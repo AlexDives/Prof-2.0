@@ -207,31 +207,6 @@ namespace Prof
 			showNoAllPeople = Properties.Settings.Default.showNoAllPeople;
 			tsmi_showNotAll.Checked = showNoAllPeople;
 			timer_update.Enabled = true;
-			//WindowState = FormWindowState.Maximized;
-			/*Visible = false;
-
-			f_DBLogin dBLogin = new f_DBLogin();
-			dBLogin.ShowDialog();
-			if (dBLogin.Login)
-			{
-				projectVersion = Application.ProductVersion.ToString();
-				idUser = dBLogin.idUser;
-				userRole = dBLogin.userRole;
-				userLogin = dBLogin.userLogin;
-				label1.Text = $"Профсоюз (образование) | пользователь: {userLogin} | роль: {userRole} | версия {projectVersion}";
-				CheckRole();
-				CreateTree();
-				FillArrayUserDeparmentsAll();
-				showNoAllPeople = Properties.Settings.Default.showNoAllPeople;
-				tsmi_showNotAll.Checked = showNoAllPeople;
-				Visible = true;
-
-				timer_update.Enabled = true;
-			}
-			else
-			{
-				Close();
-			}*/
 		}
 
 		private void tsm_userMeneger_Click(object sender, EventArgs e)
@@ -241,95 +216,55 @@ namespace Prof
 
 		private void sumPeople(bool first)
 		{
-			if (first)
-			{
-				countAll = 0;
-				countInProf = 0;
-				countOutProf = 0;
-				countChild = 0;
-			}
-			else
-			{
-				string paramArr = arrayUserDeparmentsForLoadPeople_String;
-
-				SqlConnection conn = DB.GetDBConnection();
-				string sql = $"select count(pd.id) from prof.PeopleDepartment pd left join prof.people p on p.id = pd.idPeople where pd.idDepartment in ({paramArr})";
-
-				SqlCommand cmd = new SqlCommand();
-				// Сочетать Command с Connection.
-				cmd.Connection = conn;
-				cmd.CommandText = sql;
-				conn.Open();
-				using (DbDataReader reader = cmd.ExecuteReader())
-				{
-					if (reader.HasRows)
-					{ 
-						reader.Read(); countAll += !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
-					}
-					else countAll += 0;
-				}
-				conn.Close();
-				sql = $"select count(pd.id) from prof.PeopleDepartment pd left join prof.people p on p.id = pd.idPeople where pd.idDepartment in ({paramArr}) and p.isProf = 'T' ";
-				cmd.CommandText = sql;
-				conn.Open();
-				using (DbDataReader reader = cmd.ExecuteReader())
-				{
-					if (reader.HasRows)
-					{
-						reader.Read(); countInProf += !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
-					}
-					else countInProf += 0;
-				}
-				conn.Close();
-				sql = $"select count(pd.id) from prof.PeopleDepartment pd left join prof.people p on p.id = pd.idPeople where pd.idDepartment in ({paramArr}) and p.isProf = 'F'";
-				cmd.CommandText = sql;
-				conn.Open();
-				using (DbDataReader reader = cmd.ExecuteReader())
-				{
-					if (reader.HasRows)
-					{
-						reader.Read(); countOutProf += !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
-					}
-					else countOutProf += 0;
-				}
-				conn.Close();
-
-				sql = "select count(pc.id) from prof.PeopleDepartment pd " +
-					  "left join prof.People p on p.id = pd.idPeople " +
-					  "left join prof.PeopleChildren pc on pc.idPeople = pd.idPeople ";
-
-				if (rb_all.Checked)
-					sql += $" where pd.idDepartment in ({paramArr})";
-				else if (rb_inProf.Checked)
-					sql += $" where pd.idDepartment in ({paramArr}) and p.isProf = 'T'";
-				else if (rb_exitProf.Checked)
-					sql += $" where pd.idDepartment in ({paramArr}) and p.isProf = 'F'";
-
-				cmd.CommandText = sql;
-				conn.Open();
-				using (DbDataReader reader = cmd.ExecuteReader())
-				{
-					if (reader.HasRows)
-					{
-						reader.Read();
-						countChild += reader.GetInt32(0);
-					}
-				}
-				conn.Close();
-				conn.Dispose();
-			}
-		}
-
-		private bool loadPeople()
-		{
-			bool flag = false;
 			int idD = Convert.ToInt32(tree_department.SelectedNode.Name);
-			SqlConnection conn = DB.GetDBConnection();
-			string sql = "select distinct p.id, p.famil, p.name, p.otch, p.activity, p.socialWork, p.type, p.phone from prof.PeopleDepartment pd " +
-						 "left join prof.people p on p.id = pd.idPeople ";
-
 			FillArrayUserDeparmentsForLoadPeople(idD);
 			string paramArr = arrayUserDeparmentsForLoadPeople_String;
+
+			SqlConnection conn = DB.GetDBConnection();
+			string sql = $"select count(pd.id) from prof.PeopleDepartment pd left join prof.people p on p.id = pd.idPeople where pd.idDepartment in ({paramArr})";
+
+			SqlCommand cmd = new SqlCommand();
+			// Сочетать Command с Connection.
+			cmd.Connection = conn;
+			cmd.CommandText = sql;
+			conn.Open();
+			using (DbDataReader reader = cmd.ExecuteReader())
+			{
+				if (reader.HasRows)
+				{ 
+					reader.Read(); countAll += !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
+				}
+				else countAll += 0;
+			}
+			conn.Close();
+			sql = $"select count(pd.id) from prof.PeopleDepartment pd left join prof.people p on p.id = pd.idPeople where pd.idDepartment in ({paramArr}) and p.isProf = 'T' ";
+			cmd.CommandText = sql;
+			conn.Open();
+			using (DbDataReader reader = cmd.ExecuteReader())
+			{
+				if (reader.HasRows)
+				{
+					reader.Read(); countInProf += !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
+				}
+				else countInProf += 0;
+			}
+			conn.Close();
+			sql = $"select count(pd.id) from prof.PeopleDepartment pd left join prof.people p on p.id = pd.idPeople where pd.idDepartment in ({paramArr}) and p.isProf = 'F'";
+			cmd.CommandText = sql;
+			conn.Open();
+			using (DbDataReader reader = cmd.ExecuteReader())
+			{
+				if (reader.HasRows)
+				{
+					reader.Read(); countOutProf += !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
+				}
+				else countOutProf += 0;
+			}
+			conn.Close();
+
+			sql = "select count(pc.id) from prof.PeopleDepartment pd " +
+					"left join prof.People p on p.id = pd.idPeople " +
+					"left join prof.PeopleChildren pc on pc.idPeople = pd.idPeople ";
 
 			if (rb_all.Checked)
 				sql += $" where pd.idDepartment in ({paramArr})";
@@ -337,6 +272,39 @@ namespace Prof
 				sql += $" where pd.idDepartment in ({paramArr}) and p.isProf = 'T'";
 			else if (rb_exitProf.Checked)
 				sql += $" where pd.idDepartment in ({paramArr}) and p.isProf = 'F'";
+
+			cmd.CommandText = sql;
+			conn.Open();
+			using (DbDataReader reader = cmd.ExecuteReader())
+			{
+				if (reader.HasRows)
+				{
+					reader.Read();
+					countChild += reader.GetInt32(0);
+				}
+			}
+			conn.Close();
+			conn.Dispose();
+			
+		}
+
+		private void loadPeople()
+		{
+			int idD = Convert.ToInt32(tree_department.SelectedNode.Name);
+			FillArrayUserDeparmentsForLoadPeople(idD);
+
+			SqlConnection conn = DB.GetDBConnection();
+			string sql = "select distinct p.id, p.famil, p.name, p.otch, p.activity, p.socialWork, p.type, p.phone from prof.PeopleDepartment pd " +
+						 "left join prof.people p on p.id = pd.idPeople ";
+
+			
+
+			if (rb_all.Checked)
+				sql += $" where pd.idDepartment in ({arrayUserDeparmentsForLoadPeople_String})";
+			else if (rb_inProf.Checked)
+				sql += $" where pd.idDepartment in ({arrayUserDeparmentsForLoadPeople_String}) and p.isProf = 'T'";
+			else if (rb_exitProf.Checked)
+				sql += $" where pd.idDepartment in ({arrayUserDeparmentsForLoadPeople_String}) and p.isProf = 'F'";
 
 			l_fullDepart.Text = departmentsTableAdapter1.GetDataById(idD).Rows[0]["fullName"].ToString();
 			idDepart = idD;
@@ -367,17 +335,16 @@ namespace Prof
 			}
 			conn.Close();
 			conn.Dispose();
-			return flag;
-
 		}
 		
 		private void loadNoAllPeople()
 		{
+			int idD = Convert.ToInt32(tree_department.SelectedNode.Name);
+			FillArrayUserDeparmentsForLoadPeople(idD);
+
 			SqlConnection conn = DB.GetDBConnection();
 			string sql = "select distinct p.id, p.famil, p.name, p.otch, p.activity, p.socialWork, p.type, p.phone from prof.PeopleDepartment pd " +
 						 "left join prof.people p on p.id = pd.idPeople ";
-			
-			int idD = Convert.ToInt32(tree_department.SelectedNode.Name);
 
 			l_fullDepart.Text = departmentsTableAdapter1.GetDataById(idD).Rows[0]["fullName"].ToString();
 
@@ -426,10 +393,14 @@ namespace Prof
 
 		private void fillDgv()
 		{
+			countAll = 0;
+			countInProf = 0;
+			countOutProf = 0;
+			countChild = 0;
+
 			dgv.Enabled = false;
 			
 			dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-			sumPeople(true);
 			dt_persons = new DataTable("persons");
 			dt_persons.Columns.Add(new DataColumn("id", typeof(int)));
 			dt_persons.Columns.Add(new DataColumn("Фамилия", typeof(string)));
@@ -536,7 +507,7 @@ namespace Prof
 
 		private void мастерОтчетовToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new FReports(arrayUserDeparments).ShowDialog();
+			new FReports(arrayUserDeparments, idUser).ShowDialog();
 		}
 
 		private void tsm_search_Click(object sender, EventArgs e)
@@ -847,12 +818,7 @@ namespace Prof
 
 		private void ИмпортИзToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new FImport(idUser, idDepart, arrayUserDeparments).ShowDialog();
-			string selectNode = "";
-			if (tree_department.SelectedNode != null)
-				selectNode = tree_department.SelectedNode.Name;
-			CreateTree();
-			tree_department.SelectedNode = findNode(null, selectNode);
+			new FImport(idUser, idDepart, arrayUserDeparmentsAll_String).ShowDialog();
 		}
 
 		private void refreshTree_Click(object sender, EventArgs e)
