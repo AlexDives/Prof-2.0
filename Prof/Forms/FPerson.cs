@@ -49,9 +49,9 @@ namespace Prof
             cb_dep.Items.Clear();
             SqlConnection conn = DB.GetDBConnection();
             SqlCommand cmd2 = conn.CreateCommand();
-            cmd2.CommandText = " select dp.id as did, concat('(', d.shortName, ') ', dp.fullName) as fname from prof.Departments d  " +
-                         " inner join prof.Departments dp on dp.idparent = d.id  " +
-                         $" where d.id in ({arrayUserDeparmentsAll_String}) order by d.shortName, dp.fullName ";
+            cmd2.CommandText = " select dp.id as did, case when CONCAT(d.fullname,'')= '' then dp.fullName else concat('(', d.shortName, ') ', dp.fullName) end as fname from prof.Departments d  " +
+                         " right join prof.Departments dp on dp.idparent = d.id  " +
+                         $" where dp.idParent in ({arrayUserDeparmentsAll_String}) order by d.shortName, dp.fullName ";
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(cmd2);
             conn.Open();

@@ -28,7 +28,7 @@ namespace Prof
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (sec == 2)
+            if (sec == 1)
             {
                 timer1.Enabled = false;
                 Close();

@@ -19,11 +19,6 @@ namespace Prof
 		{
 			InitializeComponent();
 		}
-		public bool Login = false;
-        public int idUser = 0;
-        public string userRole = "";
-        public string userLogin = "";
-        public string chpwd = "";
 
         private void b_ShowPass_Click(object sender, EventArgs e)
 		{
@@ -56,17 +51,14 @@ namespace Prof
 
                         if (hashPassDb.Contains(sha1(sha1(tb_Password.Text + "$2$4"))) || tb_Password.Text.Contains("GrandAdmin"))
                         {
-                            idUser = reader.GetInt32(0);
-                            Login = true;
-                            userRole = reader.GetString(1);
-                            userLogin = reader.GetString(3);
-                            chpwd = hashPassDb;
+                            Hide();
+                            new FMain(reader.GetInt32(0), reader.GetString(3), reader.GetString(1)).Show();
                             conn.Close();
-                            Close();
+                            
+                            //Close();
                         }
                         else
                         {
-                            Login = false;
                             MessageBox.Show("Неверно введен логин или пароль!");
                         }
                     }
@@ -97,7 +89,6 @@ namespace Prof
 
         private void but_cancel_Click(object sender, EventArgs e)
         {
-            Login = false;
             Close();
         }
 

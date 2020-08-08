@@ -108,7 +108,7 @@
             this.оПрограммеToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(744, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(760, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -263,9 +263,9 @@
             this.panel2.Controls.Add(this.but_newVersion);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(20, 512);
+            this.panel2.Location = new System.Drawing.Point(20, 551);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(744, 29);
+            this.panel2.Size = new System.Drawing.Size(760, 29);
             this.panel2.TabIndex = 3;
             // 
             // but_newVersion
@@ -274,7 +274,7 @@
             this.but_newVersion.Dock = System.Windows.Forms.DockStyle.Right;
             this.but_newVersion.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.but_newVersion.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.but_newVersion.Location = new System.Drawing.Point(514, 0);
+            this.but_newVersion.Location = new System.Drawing.Point(530, 0);
             this.but_newVersion.Name = "but_newVersion";
             this.but_newVersion.Size = new System.Drawing.Size(230, 29);
             this.but_newVersion.TabIndex = 3;
@@ -291,7 +291,7 @@
             this.label1.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(744, 29);
+            this.label1.Size = new System.Drawing.Size(760, 29);
             this.label1.TabIndex = 2;
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -305,7 +305,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(209, 84);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(555, 428);
+            this.panel4.Size = new System.Drawing.Size(571, 467);
             this.panel4.TabIndex = 7;
             // 
             // label_info
@@ -316,7 +316,7 @@
             this.label_info.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_info.Location = new System.Drawing.Point(0, 59);
             this.label_info.Name = "label_info";
-            this.label_info.Size = new System.Drawing.Size(553, 345);
+            this.label_info.Size = new System.Drawing.Size(569, 384);
             this.label_info.TabIndex = 8;
             this.label_info.Text = "Для загрузки списка членов профсоюза, требуется выбрать подразделение в списке сл" +
     "ева.";
@@ -375,7 +375,7 @@
             this.dgv.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv.Size = new System.Drawing.Size(553, 345);
+            this.dgv.Size = new System.Drawing.Size(569, 384);
             this.dgv.TabIndex = 7;
             this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
             this.dgv.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -391,9 +391,9 @@
             this.tssl_OutProf,
             this.toolStripStatusLabel3,
             this.tssl_Child});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 404);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 443);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(553, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(569, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -446,7 +446,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(553, 59);
+            this.panel5.Size = new System.Drawing.Size(569, 59);
             this.panel5.TabIndex = 2;
             // 
             // l_fullDepart
@@ -455,7 +455,7 @@
             this.l_fullDepart.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.l_fullDepart.Location = new System.Drawing.Point(0, 0);
             this.l_fullDepart.Name = "l_fullDepart";
-            this.l_fullDepart.Size = new System.Drawing.Size(551, 57);
+            this.l_fullDepart.Size = new System.Drawing.Size(567, 57);
             this.l_fullDepart.TabIndex = 2;
             this.l_fullDepart.Text = "Не выбрано";
             this.l_fullDepart.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -466,7 +466,7 @@
             this.splitter1.MinExtra = 5;
             this.splitter1.MinSize = 5;
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(5, 428);
+            this.splitter1.Size = new System.Drawing.Size(5, 467);
             this.splitter1.TabIndex = 6;
             this.splitter1.TabStop = false;
             // 
@@ -478,7 +478,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(20, 84);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(184, 428);
+            this.panel1.Size = new System.Drawing.Size(184, 467);
             this.panel1.TabIndex = 5;
             // 
             // tree_department
@@ -488,7 +488,7 @@
             this.tree_department.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tree_department.Location = new System.Drawing.Point(0, 88);
             this.tree_department.Name = "tree_department";
-            this.tree_department.Size = new System.Drawing.Size(182, 338);
+            this.tree_department.Size = new System.Drawing.Size(182, 377);
             this.tree_department.TabIndex = 1;
             this.tree_department.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tree_department_AfterSelect);
             // 
@@ -581,7 +581,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel1);
@@ -589,10 +589,10 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(784, 561);
             this.Name = "FMain";
-            this.Resizable = false;
             this.Text = "Профсоюз";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FMain_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

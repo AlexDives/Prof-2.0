@@ -13,9 +13,13 @@ namespace Prof
 {
 	public partial class FMain : MetroFramework.Forms.MetroForm
 	{
-		public FMain()
+		public FMain(int idUser, string userLogin, string userRole)
 		{
 			InitializeComponent();
+			this.idUser = idUser;
+			this.userLogin = userLogin;
+			this.userRole = userRole;
+
 		}
 
 		string projectVersion = "1.0.0";
@@ -89,7 +93,8 @@ namespace Prof
 				}
 				i++;
 			}
-			arrayUserDeparmentsAll_String = "";
+			if (userRole.Equals("GrandAdmin")) arrayUserDeparmentsAll_String = "0,";
+			else arrayUserDeparmentsAll_String = "";
 			for (i = 0; i < arrayUserDeparmentsAll.Length; i++)
 			{
 				if (i == arrayUserDeparmentsAll.Length - 1)
@@ -195,7 +200,15 @@ namespace Prof
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			Visible = false;
+			label1.Text = $"Профсоюз (образование) | пользователь: {userLogin} | роль: {userRole} | версия {projectVersion}";
+			CheckRole();
+			CreateTree();
+			FillArrayUserDeparmentsAll();
+			showNoAllPeople = Properties.Settings.Default.showNoAllPeople;
+			tsmi_showNotAll.Checked = showNoAllPeople;
+			timer_update.Enabled = true;
+			//WindowState = FormWindowState.Maximized;
+			/*Visible = false;
 
 			f_DBLogin dBLogin = new f_DBLogin();
 			dBLogin.ShowDialog();
@@ -218,7 +231,7 @@ namespace Prof
 			else
 			{
 				Close();
-			}
+			}*/
 		}
 
 		private void tsm_userMeneger_Click(object sender, EventArgs e)
@@ -512,7 +525,7 @@ namespace Prof
 
 		private void tsm_sprav_Click(object sender, EventArgs e)
 		{
-			new FDepartaments(arrayUserDeparments).ShowDialog();
+			new FDepartaments(arrayUserDeparmentsAll_String).ShowDialog();
 			CreateTree();
 		}
 
@@ -697,6 +710,7 @@ namespace Prof
 					m_app.Interactive = true;
 					m_app.ScreenUpdating = true;
 					m_app.UserControl = true;
+					
 					GC.Collect();
 					dt.Clear();
 				}
@@ -872,6 +886,11 @@ namespace Prof
 						but_newVersion.Visible = true;
 					else but_newVersion.Visible = false;
 			}
+		}
+
+		private void FMain_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Application.Exit();
 		}
 	}
 

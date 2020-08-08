@@ -79,7 +79,7 @@
             this.tb_Username.MaxLength = 32767;
             this.tb_Username.Name = "tb_Username";
             this.tb_Username.PasswordChar = '\0';
-            //this.tb_Username.PromptText = "Логин";
+            this.tb_Username.PromptText = "Логин";
             this.tb_Username.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_Username.SelectedText = "";
             this.tb_Username.SelectionLength = 0;
@@ -110,7 +110,7 @@
             this.tb_Password.MaxLength = 32767;
             this.tb_Password.Name = "tb_Password";
             this.tb_Password.PasswordChar = '●';
-            //this.tb_Password.PromptText = "Пароль";
+            this.tb_Password.PromptText = "Пароль";
             this.tb_Password.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.tb_Password.SelectedText = "";
             this.tb_Password.SelectionLength = 0;
@@ -152,6 +152,7 @@
             this.Name = "f_DBLogin";
             this.Resizable = false;
             this.Text = "Авторизация";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.f_DBLogin_Load);
             this.ResumeLayout(false);
 

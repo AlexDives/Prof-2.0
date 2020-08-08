@@ -39,7 +39,7 @@ namespace Prof
                 ShowWindow(wndHandle, WinStyle.ShowMaximized);
                 return;
             }
-            Application.Run(new FMain());
+            Application.Run(new f_DBLogin());
         }
     }
 }
