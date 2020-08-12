@@ -17843,16 +17843,30 @@ SELECT id, idPeople, workPlace, doljn, dateStart, dateEnd, isActual, dateCrt, is
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@idWork", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = @"SELECT        id, idPeople, workPlace, doljn, dateStart, dateEnd, isActual, dateCrt, isWorked, stajObsh, stajPed, stajNPed, isSovm,
-                             (SELECT        year_s
-                               FROM            dbo.getddiff_table(prof.PeopleWork.dateStart, prof.PeopleWork.dateEnd) AS ddd) AS year_s,
-                             (SELECT        month_s
-                               FROM            dbo.getddiff_table(prof.PeopleWork.dateStart, prof.PeopleWork.dateEnd) AS ddd) AS month_s,
-                             (SELECT        day_s
-                               FROM            dbo.getddiff_table(prof.PeopleWork.dateStart, prof.PeopleWork.dateEnd) AS ddd) AS day_s
-FROM            prof.PeopleWork
-WHERE        (idPeople = @idpeople)
-ORDER BY dateStart";
+            this._commandCollection[2].CommandText = "SELECT        id, idPeople, workPlace, doljn, dateStart, dateEnd, isActual, dateC" +
+                "rt, isWorked, stajObsh, stajPed, stajNPed, isSovm,\r\n                            " +
+                " (SELECT        years_out\r\n                               FROM            dbo.ge" +
+                "t_staj_func(prof.PeopleWork.idPeople) AS get_staj_func_9) AS year_s_obsh,\r\n     " +
+                "                        (SELECT        month_out\r\n                              " +
+                " FROM            dbo.get_staj_func(prof.PeopleWork.idPeople) AS get_staj_func_8)" +
+                " AS month_s_obsh,\r\n                             (SELECT        day_out\r\n        " +
+                "                       FROM            dbo.get_staj_func(prof.PeopleWork.idPeopl" +
+                "e) AS get_staj_func_7) AS day_s_obsh,\r\n                             (SELECT     " +
+                "   years_ped_out\r\n                               FROM            dbo.get_staj_fu" +
+                "nc(prof.PeopleWork.idPeople) AS get_staj_func_6) AS year_s_ped,\r\n               " +
+                "              (SELECT        month_ped_out\r\n                               FROM " +
+                "           dbo.get_staj_func(prof.PeopleWork.idPeople) AS get_staj_func_5) AS mo" +
+                "nth_s_ped,\r\n                             (SELECT        day_ped_out\r\n           " +
+                "                    FROM            dbo.get_staj_func(prof.PeopleWork.idPeople) " +
+                "AS get_staj_func_4) AS day_s_ped,\r\n                             (SELECT        y" +
+                "ears_nped_out\r\n                               FROM            dbo.get_staj_func(" +
+                "prof.PeopleWork.idPeople) AS get_staj_func_3) AS year_s_nped,\r\n                 " +
+                "            (SELECT        month_nped_out\r\n                               FROM  " +
+                "          dbo.get_staj_func(prof.PeopleWork.idPeople) AS get_staj_func_2) AS mon" +
+                "th_s_nped,\r\n                             (SELECT        day_nped_out\r\n          " +
+                "                     FROM            dbo.get_staj_func(prof.PeopleWork.idPeople)" +
+                " AS get_staj_func_1) AS day_s_nped\r\nFROM            prof.PeopleWork\r\nWHERE      " +
+                "  (idPeople = @idpeople)\r\nORDER BY dateStart";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@idpeople", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "idPeople", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();

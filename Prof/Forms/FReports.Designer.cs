@@ -45,6 +45,7 @@
             this.rb_all_prof = new System.Windows.Forms.RadioButton();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cb_period = new System.Windows.Forms.CheckBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -78,7 +79,6 @@
             this.typeSocialStatusTableAdapter1 = new Prof.ProfDataSetTableAdapters.TypeSocialStatusTableAdapter();
             this.typeLivingConditionsTableAdapter1 = new Prof.ProfDataSetTableAdapters.TypeLivingConditionsTableAdapter();
             this.peopleChildrenTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleChildrenTableAdapter();
-            this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
             this.panel3.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -208,6 +208,15 @@
             this.panel2.Size = new System.Drawing.Size(1008, 123);
             this.panel2.TabIndex = 10;
             // 
+            // metroProgressBar1
+            // 
+            this.metroProgressBar1.FontSize = MetroFramework.MetroProgressBarSize.Small;
+            this.metroProgressBar1.Location = new System.Drawing.Point(892, 81);
+            this.metroProgressBar1.Name = "metroProgressBar1";
+            this.metroProgressBar1.Size = new System.Drawing.Size(110, 12);
+            this.metroProgressBar1.TabIndex = 53;
+            this.metroProgressBar1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.cb_period);
@@ -297,7 +306,7 @@
             this.clb_other.Dock = System.Windows.Forms.DockStyle.Fill;
             this.clb_other.FormattingEnabled = true;
             this.clb_other.Items.AddRange(new object[] {
-            "Младший специалист (до 3х лет)",
+            "Молодой специалист (до 3х лет)",
             "До 35 лет",
             "Пенсионер"});
             this.clb_other.Location = new System.Drawing.Point(3, 16);
@@ -556,15 +565,6 @@
             // peopleChildrenTableAdapter1
             // 
             this.peopleChildrenTableAdapter1.ClearBeforeFill = true;
-            // 
-            // metroProgressBar1
-            // 
-            this.metroProgressBar1.FontSize = MetroFramework.MetroProgressBarSize.Small;
-            this.metroProgressBar1.Location = new System.Drawing.Point(892, 81);
-            this.metroProgressBar1.Name = "metroProgressBar1";
-            this.metroProgressBar1.Size = new System.Drawing.Size(110, 12);
-            this.metroProgressBar1.TabIndex = 53;
-            this.metroProgressBar1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FReports
             // 

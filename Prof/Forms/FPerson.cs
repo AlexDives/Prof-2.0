@@ -302,9 +302,6 @@ namespace Prof
 
         private void loadWorks()
         {
-            int[] stajObsh = new int[3];
-            int[] pStaj = new int[3];
-            int[] npStaj = new int[3];
             ProfDataSet.PeopleWorkDataTable dtPersWork = new ProfDataSet.PeopleWorkDataTable();
             try
             {
@@ -314,9 +311,9 @@ namespace Prof
                 peopleWorkTableAdapter1.FillByPeopleId(dtPersWork, idPerson);
                 dgv_trudKnig.DataSource = dtPersWork;
                 dgv_trudKnig.Columns[0].DataPropertyName = "id";
-                dgv_trudKnig.Columns[1].DataPropertyName = "dateStart";
-                dgv_trudKnig.Columns[2].DataPropertyName = "workPlace";
-                dgv_trudKnig.Columns[3].DataPropertyName = "doljn";
+                dgv_trudKnig.Columns[1].DataPropertyName = "workPlace";
+                dgv_trudKnig.Columns[2].DataPropertyName = "doljn";
+                dgv_trudKnig.Columns[3].DataPropertyName = "dateStart";
                 dgv_trudKnig.Columns[4].DataPropertyName = "dateEnd";
                 dgv_trudKnig.Columns[5].DataPropertyName = "stajObsh";
                 dgv_trudKnig.Columns[6].DataPropertyName = "stajPed";
@@ -330,65 +327,23 @@ namespace Prof
                 MessageBox.Show(e.Message);
             }
 
-            foreach (DataRow dr in dtPersWork.Rows)
+            if (dtPersWork.Rows.Count > 0)
             {
-                if (dr["stajObsh"].ToString().Equals("T") && dr["isActual"].ToString().Equals("T"))
-                {
-                    stajObsh[2] += (int)dr["year_s"];
-                    stajObsh[1] += (int)dr["month_s"];
-                    stajObsh[0] += (int)dr["day_s"];
-                }
-                if (dr["stajPed"].ToString().Equals("T"))
-                {
-                    pStaj[2] += (int)dr["year_s"];
-                    pStaj[1] += (int)dr["month_s"];
-                    pStaj[0] += (int)dr["day_s"];
-                }
-                if (dr["stajNPed"].ToString().Equals("T"))
-                {
-                    npStaj[2] += (int)dr["year_s"];
-                    npStaj[1] += (int)dr["month_s"];
-                    npStaj[0] += (int)dr["day_s"];
-                }
-            }
-  
-            while (stajObsh[0] > 31)
-            {
-                stajObsh[1]++;
-                stajObsh[0] -= 30;
-            }
-            while (stajObsh[1] > 12)
-            {
-                stajObsh[2]++;
-                stajObsh[1] -= 12;
-            }
-            while (pStaj[0] > 31)
-            {
-                pStaj[1]++;
-                pStaj[0] -= 30;
-            }
-            while (pStaj[1] > 12)
-            {
-                pStaj[2]++;
-                pStaj[1] -= 12;
-            }
-            while (npStaj[0] > 31)
-            {
-                npStaj[1]++;
-                npStaj[0] -= 30;
-            }
-            while (npStaj[1] > 12)
-            {
-                npStaj[2]++;
-                npStaj[1] -= 12;
-            }
+                l_ObshStaj.Text = $"{dtPersWork.Rows[0]["year_s_obsh"]}г. {dtPersWork.Rows[0]["month_s_obsh"]}м. {dtPersWork.Rows[0]["day_s_obsh"]}д.";
+                l_PStaj.Text = $"{dtPersWork.Rows[0]["year_s_ped"]}г. {dtPersWork.Rows[0]["month_s_ped"]}м. {dtPersWork.Rows[0]["day_s_ped"]}д.";
+                l_NPStaj.Text = $"{dtPersWork.Rows[0]["year_s_nped"]}г. {dtPersWork.Rows[0]["month_s_nped"]}м. {dtPersWork.Rows[0]["day_s_nped"]}д.";
 
-            l_ObshStaj.Text = $"{stajObsh[2]}г. {stajObsh[1]}м. {stajObsh[0]}д.";
-            l_PStaj.Text = $"{pStaj[2]}г. {pStaj[1]}м. {pStaj[0]}д.";
-            l_NPStaj.Text = $"{npStaj[2]}г. {npStaj[1]}м. {npStaj[0]}д.";
+                if ((int)dtPersWork.Rows[0]["year_s_obsh"] < 3) l_molodSpec.Visible = true;
+                else l_molodSpec.Visible = false;
+            }
+            else
+            {
+                l_ObshStaj.Text = $"0г. 0м. 0д.";
+                l_PStaj.Text = $"0г. 0м. 0д.";
+                l_NPStaj.Text = $"0г. 0м. 0д.";
 
-            if (stajObsh[2] < 3) l_molodSpec.Visible = true;
-            else l_molodSpec.Visible = false;
+                l_molodSpec.Visible = false;
+            }
         }
         #endregion
 

@@ -260,9 +260,9 @@
             this.peopleEncouragementTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleEncouragementTableAdapter();
             this.peopleWorkTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleWorkTableAdapter();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dateTrudKnig = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.info = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dateTrudKnig = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateFinish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isObsh = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.isPed = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -1327,9 +1327,9 @@
             this.dgv_trudKnig.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_trudKnig.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
-            this.dateTrudKnig,
             this.info,
             this.position,
+            this.dateTrudKnig,
             this.dateFinish,
             this.isObsh,
             this.isPed,
@@ -2618,17 +2618,6 @@
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Visible = false;
             // 
-            // dateTrudKnig
-            // 
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle20.Format = "d";
-            dataGridViewCellStyle20.NullValue = null;
-            this.dateTrudKnig.DefaultCellStyle = dataGridViewCellStyle20;
-            this.dateTrudKnig.FillWeight = 40F;
-            this.dateTrudKnig.HeaderText = "Дата нач. раб.";
-            this.dateTrudKnig.Name = "dateTrudKnig";
-            this.dateTrudKnig.ReadOnly = true;
-            // 
             // info
             // 
             this.info.HeaderText = "Место работы";
@@ -2640,6 +2629,17 @@
             this.position.HeaderText = "Должность";
             this.position.Name = "position";
             this.position.ReadOnly = true;
+            // 
+            // dateTrudKnig
+            // 
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.Format = "d";
+            dataGridViewCellStyle20.NullValue = null;
+            this.dateTrudKnig.DefaultCellStyle = dataGridViewCellStyle20;
+            this.dateTrudKnig.FillWeight = 40F;
+            this.dateTrudKnig.HeaderText = "Дата нач. раб.";
+            this.dateTrudKnig.Name = "dateTrudKnig";
+            this.dateTrudKnig.ReadOnly = true;
             // 
             // dateFinish
             // 
@@ -2977,9 +2977,9 @@
         private ProfDataSetTableAdapters.PeopleEncouragementTableAdapter peopleEncouragementTableAdapter1;
         private ProfDataSetTableAdapters.PeopleWorkTableAdapter peopleWorkTableAdapter1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dateTrudKnig;
         private System.Windows.Forms.DataGridViewTextBoxColumn info;
         private System.Windows.Forms.DataGridViewTextBoxColumn position;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dateTrudKnig;
         private System.Windows.Forms.DataGridViewTextBoxColumn dateFinish;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isObsh;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isPed;

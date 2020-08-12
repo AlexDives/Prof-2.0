@@ -40,8 +40,11 @@ namespace Prof
 		int countMan = 0;
 
 		DataTable dt = new DataTable();
-
 		DataTable dt_persons = new DataTable();
+
+
+		private Microsoft.Office.Interop.Excel.Workbook m_workBook = null;
+		private Microsoft.Office.Interop.Excel._Application m_app = null;
 
 		private int[] arrayUserDeparments;
 		private int[] arrayUserDeparmentsForLoadPeople;
@@ -200,13 +203,14 @@ namespace Prof
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			label1.Text = $"Профсоюз (образование) | пользователь: {userLogin} | роль: {userRole} | версия {projectVersion}";
+			label1.Text = $"Профсоюз (образование) | пользователь: {userLogin} | роль: {userRole} | версия {Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
 			CheckRole();
 			CreateTree();
 			FillArrayUserDeparmentsAll();
 			showNoAllPeople = Properties.Settings.Default.showNoAllPeople;
 			tsmi_showNotAll.Checked = showNoAllPeople;
 			timer_update.Enabled = true;
+			check_update();
 		}
 
 		private void tsm_userMeneger_Click(object sender, EventArgs e)
@@ -624,18 +628,23 @@ namespace Prof
 
 		private void ExportToExcel(DataTable dt)
 		{
+			if (m_app != null)
+			{
+				m_app.Quit();
+				System.Runtime.InteropServices.Marshal.ReleaseComObject(m_app);
+			}
 			// Книга Excel.
-			Microsoft.Office.Interop.Excel.Workbook m_workBook = null;
+			m_workBook = null;
 			// Страница Excel.
 			Microsoft.Office.Interop.Excel.Worksheet m_workSheet = null;
-			Microsoft.Office.Interop.Excel._Application m_app = null;
+			m_app = null;
 			string name = "";
 			if (dt.TableName == "statistic") name = "Статистика на ";
 			else if (dt.TableName == "child") name = "Список детей на ";
 			saveFileDialog1.FileName = name + DateTime.Now.Day + "." +
 				DateTime.Now.Month + "." +
 				DateTime.Now.Year + ".xlsx";// по умолчанию сохраняет в корень диска С:
-			if (saveFileDialog1.ShowDialog() == DialogResult.Yes)
+			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				try
 				{
@@ -673,15 +682,14 @@ namespace Prof
 					}
 					// Сохранение файла Excel.
 					m_workSheet.Columns.AutoFit();
-					m_workBook.SaveCopyAs(saveFileDialog1.FileName);
+					m_workBook.SaveAs(saveFileDialog1.FileName);
 				}
 				finally
 				{
 					m_app.Visible = true;
 					m_app.Interactive = true;
 					m_app.ScreenUpdating = true;
-					m_app.UserControl = true;
-					
+					m_app.UserControl = true; 
 					GC.Collect();
 					dt.Clear();
 				}
@@ -691,38 +699,44 @@ namespace Prof
 		private void статистическийОтчетToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 
-			DataTable dt = new DataTable("statistic");
+			try
+			{
+				DataTable dt = new DataTable("statistic");
 
-			dt.Columns.Add(new DataColumn("Всего", typeof(int)));
-			dt.Columns.Add(new DataColumn("Состоит в профсоюзе", typeof(int)));
-			dt.Columns.Add(new DataColumn("Выбыл из профсоюза", typeof(int)));
-			dt.Columns.Add(new DataColumn("Всего детей", typeof(int)));
-			dt.Columns.Add(new DataColumn("Количество молодых специалистов", typeof(int)));
-			dt.Columns.Add(new DataColumn("Количество до 35 лет", typeof(int)));
-			dt.Columns.Add(new DataColumn("Количество пенсионеров", typeof(int)));
-			dt.Columns.Add(new DataColumn("Количество женщин", typeof(int)));
-			dt.Columns.Add(new DataColumn("Количество мужчин", typeof(int)));
+				dt.Columns.Add(new DataColumn("Всего", typeof(int)));
+				dt.Columns.Add(new DataColumn("Состоит в профсоюзе", typeof(int)));
+				dt.Columns.Add(new DataColumn("Выбыл из профсоюза", typeof(int)));
+				dt.Columns.Add(new DataColumn("Всего детей", typeof(int)));
+				dt.Columns.Add(new DataColumn("Количество молодых специалистов", typeof(int)));
+				dt.Columns.Add(new DataColumn("Количество до 35 лет", typeof(int)));
+				dt.Columns.Add(new DataColumn("Количество пенсионеров", typeof(int)));
+				dt.Columns.Add(new DataColumn("Количество женщин", typeof(int)));
+				dt.Columns.Add(new DataColumn("Количество мужчин", typeof(int)));
 
-			count35 = 0;
-			countMS = 0;
-			countPens = 0;
-			countWoman = 0;
-			countMan = 0;
-			FillReportOther();
+				count35 = 0;
+				countMS = 0;
+				countPens = 0;
+				countWoman = 0;
+				countMan = 0;
+				FillReportOther();
 
-			DataRow dr = dt.NewRow();
-			dr[0] = countAll;
-			dr[1] = countInProf;
-			dr[2] = countOutProf;
-			dr[3] = countChild;
-			dr[4] = countMS;
-			dr[5] = count35;
-			dr[6] = countPens;
-			dr[7] = countWoman;
-			dr[8] = countMan;
-			dt.Rows.Add(dr);
-			ExportToExcel(dt);
-
+				DataRow dr = dt.NewRow();
+				dr[0] = countAll;
+				dr[1] = countInProf;
+				dr[2] = countOutProf;
+				dr[3] = countChild;
+				dr[4] = countMS;
+				dr[5] = count35;
+				dr[6] = countPens;
+				dr[7] = countWoman;
+				dr[8] = countMan;
+				dt.Rows.Add(dr);
+				ExportToExcel(dt);
+			}
+			catch (Exception)
+			{
+				MessageBox.Show("Требуется выбрать подразделение!");
+			}
 		}
 
 		private void FillReportOther()
@@ -766,49 +780,57 @@ namespace Prof
 
 		private void reportChild()
 		{
-			int i = 1;
-			string paramArr = arrayUserDeparmentsForLoadPeople_String;
-			dt = new DataTable("child");
-			dt.Columns.Add(new DataColumn("№ п/п", typeof(int)));
-			dt.Columns.Add(new DataColumn("Ф.И.О ребенка", typeof(string)));
-			dt.Columns.Add(new DataColumn("Дата рождения", typeof(DateTime)));
-			dt.Columns.Add(new DataColumn("Ф.И.О родителя", typeof(string)));
-			dt.Columns.Add(new DataColumn("Место работы родителя", typeof(string)));
-			dt.Columns.Add(new DataColumn("Должность родителя", typeof(string)));
-			string sql = $" select pc.fioChildren, pc.birthday, p.famil, p.name, p.otch, pw.workPlace, pw.doljn from prof.PeopleDepartment pd " +
-						 $" left join prof.people p on p.id = pd.idPeople " +
-						 $" left join prof.PeopleWork pw on pw.idPeople = p.id " +
-						 $" inner join prof.PeopleChildren pc on pc.idPeople = pd.idPeople ";
-			if (rb_all.Checked)
-				sql += $" where pd.idDepartment in ({paramArr}) ";
-			else if (rb_inProf.Checked)
-				sql += $" where pd.idDepartment in ({paramArr}) and p.isProf = 'T' ";
-			else if (rb_exitProf.Checked)
-				sql += $" where pd.idDepartment in ({paramArr}) and p.isProf = 'F' ";
-			sql += $" and pw.isActual = 'T' and pw.isWorked = 'T' ";
-
-			SqlConnection conn = DB.GetDBConnection();
-			SqlCommand child = new SqlCommand(sql);
-			child.Connection = conn;
-			conn.Open();
-			using (DbDataReader reader = child.ExecuteReader())
+			try
 			{
-				if (reader.HasRows)
+				int i = 1;
+				string paramArr = arrayUserDeparmentsForLoadPeople_String;
+				dt = new DataTable("child");
+				dt.Columns.Add(new DataColumn("№ п/п", typeof(int)));
+				dt.Columns.Add(new DataColumn("Ф.И.О ребенка", typeof(string)));
+				dt.Columns.Add(new DataColumn("Дата рождения", typeof(DateTime)));
+				dt.Columns.Add(new DataColumn("Ф.И.О родителя", typeof(string)));
+				dt.Columns.Add(new DataColumn("Место работы родителя", typeof(string)));
+				dt.Columns.Add(new DataColumn("Должность родителя", typeof(string)));
+				string sql = $" select pc.fioChildren, pc.birthday, p.famil, p.name, p.otch, pw.workPlace, pw.doljn from prof.PeopleDepartment pd " +
+							 $" left join prof.people p on p.id = pd.idPeople " +
+							 $" left join prof.PeopleWork pw on pw.idPeople = p.id " +
+							 $" inner join prof.PeopleChildren pc on pc.idPeople = pd.idPeople ";
+				if (rb_all.Checked)
+					sql += $" where pd.idDepartment in ({paramArr}) ";
+				else if (rb_inProf.Checked)
+					sql += $" where pd.idDepartment in ({paramArr}) and p.isProf = 'T' ";
+				else if (rb_exitProf.Checked)
+					sql += $" where pd.idDepartment in ({paramArr}) and p.isProf = 'F' ";
+				sql += $" and pw.isActual = 'T' and pw.isWorked = 'T' ";
+
+				SqlConnection conn = DB.GetDBConnection();
+				SqlCommand child = new SqlCommand(sql);
+				child.Connection = conn;
+				conn.Open();
+				using (DbDataReader reader = child.ExecuteReader())
 				{
-					while (reader.Read())
+					if (reader.HasRows)
 					{
-						DataRow dr = dt.NewRow();
-						dr[0] = i;
-						dr[1] = reader.GetString(0);
-						dr[2] = reader.GetDateTime(1);
-						dr[3] = decryptoStr(reader.GetString(2)) + " " + decryptoStr(reader.GetString(3)) + " " + decryptoStr(reader.GetString(4));
-						dr[4] = !reader.IsDBNull(5) ? reader.GetString(5) : "";
-						dr[5] = !reader.IsDBNull(6) ? reader.GetString(6) : "";
-						dt.Rows.Add(dr);
-						i++;
+						while (reader.Read())
+						{
+							DataRow dr = dt.NewRow();
+							dr[0] = i;
+							dr[1] = reader.GetString(0);
+							dr[2] = reader.GetDateTime(1);
+							dr[3] = decryptoStr(reader.GetString(2)) + " " + decryptoStr(reader.GetString(3)) + " " + decryptoStr(reader.GetString(4));
+							dr[4] = !reader.IsDBNull(5) ? reader.GetString(5) : "";
+							dr[5] = !reader.IsDBNull(6) ? reader.GetString(6) : "";
+							dt.Rows.Add(dr);
+							i++;
+						}
 					}
 				}
 			}
+			catch (Exception)
+			{
+				MessageBox.Show("Требуется выбрать подразделение!");
+			}
+			
 		}
 
 		private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -843,6 +865,11 @@ namespace Prof
 
 		private void timer_update_Tick(object sender, EventArgs e)
 		{
+			check_update();
+		}
+
+		private void check_update()
+		{
 			SharpUpdateXml[] sux = SharpUpdateXml.Parse(new Uri("https://raw.githubusercontent.com/AlexDives/ProfUpdater/master/version.xml"));
 
 			for (int i = 0; i < sux.Length; i++)
@@ -856,6 +883,11 @@ namespace Prof
 
 		private void FMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			if (m_app != null)
+			{
+				m_app.Quit();
+				System.Runtime.InteropServices.Marshal.ReleaseComObject(m_app);
+			}
 			Application.Exit();
 		}
 	}

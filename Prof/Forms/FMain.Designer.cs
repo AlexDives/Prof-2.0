@@ -56,7 +56,6 @@
             this.tsmi_showNotAll = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.but_newVersion = new MetroFramework.Controls.MetroButton();
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label_info = new System.Windows.Forms.Label();
@@ -85,6 +84,7 @@
             this.get_treeTableAdapter = new Prof.ProfDataSetTableAdapters.get_treeTableAdapter();
             this.peopleDepartmentTableAdapter1 = new Prof.ProfDataSetTableAdapters.PeopleDepartmentTableAdapter();
             this.departmentsTableAdapter1 = new Prof.ProfDataSetTableAdapters.DepartmentsTableAdapter();
+            this.but_newVersion = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -268,23 +268,6 @@
             this.panel2.Size = new System.Drawing.Size(760, 29);
             this.panel2.TabIndex = 3;
             // 
-            // but_newVersion
-            // 
-            this.but_newVersion.BackColor = System.Drawing.Color.Firebrick;
-            this.but_newVersion.Dock = System.Windows.Forms.DockStyle.Right;
-            this.but_newVersion.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.but_newVersion.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.but_newVersion.Location = new System.Drawing.Point(530, 0);
-            this.but_newVersion.Name = "but_newVersion";
-            this.but_newVersion.Size = new System.Drawing.Size(230, 29);
-            this.but_newVersion.TabIndex = 3;
-            this.but_newVersion.Text = "Вышло новое обновление!";
-            this.but_newVersion.UseCustomBackColor = true;
-            this.but_newVersion.UseCustomForeColor = true;
-            this.but_newVersion.UseSelectable = true;
-            this.but_newVersion.Visible = false;
-            this.but_newVersion.Click += new System.EventHandler(this.but_newVersion_Click);
-            // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -335,21 +318,21 @@
             this.dgv.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgv.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv.ColumnHeadersHeight = 34;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -577,6 +560,22 @@
             // 
             this.departmentsTableAdapter1.ClearBeforeFill = true;
             // 
+            // but_newVersion
+            // 
+            this.but_newVersion.BackColor = System.Drawing.Color.Firebrick;
+            this.but_newVersion.Dock = System.Windows.Forms.DockStyle.Right;
+            this.but_newVersion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.but_newVersion.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.but_newVersion.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.but_newVersion.Location = new System.Drawing.Point(530, 0);
+            this.but_newVersion.Name = "but_newVersion";
+            this.but_newVersion.Size = new System.Drawing.Size(230, 29);
+            this.but_newVersion.TabIndex = 4;
+            this.but_newVersion.Text = "Вышло новое обновление!";
+            this.but_newVersion.UseVisualStyleBackColor = false;
+            this.but_newVersion.Visible = false;
+            this.but_newVersion.Click += new System.EventHandler(this.but_newVersion_Click);
+            // 
             // FMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -587,6 +586,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.menuStrip1);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(784, 561);
@@ -666,7 +666,7 @@
         private ProfDataSet profDataSet;
         private ProfDataSetTableAdapters.PeopleDepartmentTableAdapter peopleDepartmentTableAdapter1;
         private ProfDataSetTableAdapters.DepartmentsTableAdapter departmentsTableAdapter1;
-        private MetroFramework.Controls.MetroButton but_newVersion;
+        private System.Windows.Forms.Button but_newVersion;
     }
 }
 

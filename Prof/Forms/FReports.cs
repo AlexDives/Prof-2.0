@@ -197,43 +197,6 @@ namespace Prof
             loadLivingConditions();
         }
 
-        public bool loadWorks(int idPerson)
-        {
-            bool molSpece = false;
-            ProfDataSet.PeopleWorkDataTable pwdt = new ProfDataSet.PeopleWorkDataTable();
-            peopleWorkTableAdapter1.FillByPeopleObshStag(pwdt, idPerson);
-            if (pwdt.Rows.Count != 0)
-            {
-                int[] stajObsh = new int[3];
-                foreach (DataRow pk in pwdt.Rows)
-                {
-                    stajObsh[0] += (int)pk["day_s"];
-                    stajObsh[1] += (int)pk["month_s"];
-                    stajObsh[2] += (int)pk["year_s"];
-                }
-                while (stajObsh[0] > 31)
-                {
-                    stajObsh[1]++;
-                    stajObsh[0] -= 30;
-                }
-                while (stajObsh[1] > 12)
-                {
-                    stajObsh[2]++;
-                    stajObsh[1] -= 12;
-                }
-
-                if (stajObsh[2] < 3)
-                {
-                    molSpece = true;
-                }
-                else
-                {
-                    molSpece = false;
-                }
-            }
-            return molSpece;
-        }
-
         private void clb_socialStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             preLoadPeople();
@@ -422,9 +385,11 @@ namespace Prof
                 for (int k = 0; k < clb_other.CheckedItems.Count; k++)
                 {
                     string nOther = clb_other.CheckedItems[k].ToString();
-                    if (nOther.Contains("Младший специалист (до 3х лет)"))
+                    if (nOther.Contains("Молодой специалист (до 3х лет)"))
                     {
                         ms = true;
+                        where += $" and (select staj_o.years_out from dbo.get_staj_func(p.id) staj_o ) < 3 " +
+                            $" and (select count(pw.idPeople) from prof.PeopleWork pw where pw.idPeople = p.id) <> 0 ";
                     }
                     if (nOther.Contains("До 35 лет"))
                     {
@@ -458,53 +423,25 @@ namespace Prof
                     ProfDataSet.PeopleWorkDataTable dtpw = new ProfDataSet.PeopleWorkDataTable();
                     while (reader.Read())
                     {
-                        if (ms)
-                        {
-                            if (loadWorks(reader.GetInt32(0)))
-                            {
-                                DataRow dr = dt_persons.NewRow();
-                                dr[0] = reader.GetInt32(0);
-                                dr[1] = decryptoStr(reader.GetString(1)) + " " + decryptoStr(reader.GetString(2)) + " " + decryptoStr(reader.GetString(3));
-                                dr[2] = !reader.IsDBNull(4) ? reader.GetDateTime(4) : DateTime.Now;
-                                if (reader.GetString(5).Equals("Муж")) { dr[3] = "Мужской"; countMale++; }
-                                else { dr[3] = "Женский"; countFemale++; }
-                                dr[4] = !reader.IsDBNull(7) ? reader.GetString(7) : "";
-                                dr[5] = !reader.IsDBNull(8) ? reader.GetString(8) : "";
-                                dr[6] = reader.GetString(6).Equals("W") ? "Сотрудник" : "Студент";
-                                dr[7] = !reader.IsDBNull(10) ? reader.GetString(10) : "";
-                                dr[8] = !reader.IsDBNull(11) ? reader.GetString(11) : "";
-                                dr[9] = !reader.IsDBNull(9) ? reader.GetString(9) : "";
-                                string other = "";
-                                other += pens ? "Пенсионер; " : "";
-                                other += do35 ? "До 35 лет; " : "";
-                                other += ms ? "Молодой специалист (до 35 лет); " : "";
-                                dr[10] = other;
-                                dt_persons.Rows.Add(dr);
-                                countAll++;
-                            }
-                        }
-                        else
-                        {
-                            DataRow dr = dt_persons.NewRow();
-                            dr[0] = reader.GetInt32(0);
-                            dr[1] = decryptoStr(reader.GetString(1)) + " " + decryptoStr(reader.GetString(2)) + " " + decryptoStr(reader.GetString(3));
-                            dr[2] = !reader.IsDBNull(4) ? reader.GetDateTime(4) : DateTime.Now;
-                            if (reader.GetString(5).Equals("Муж")) { dr[3] = "Мужской"; countMale++; }
-                            else { dr[3] = "Женский"; countFemale++; }
-                            dr[4] = !reader.IsDBNull(7) ? reader.GetString(7) : "";
-                            dr[5] = !reader.IsDBNull(8) ? reader.GetString(8) : "";
-                            dr[6] = reader.GetString(6).Equals("W") ? "Сотрудник" : "Студент";
-                            dr[7] = !reader.IsDBNull(10) ? reader.GetString(10) : "";
-                            dr[8] = !reader.IsDBNull(11) ? reader.GetString(11) : "";
-                            dr[9] = !reader.IsDBNull(9) ? reader.GetString(9) : "";
-                            string other = "";
-                            other += pens ? "Пенсионер; " : "";
-                            other += do35 ? "До 35 лет; " : "";
-                            other += ms ? "Молодой специалист (до 35 лет); " : "";
-                            dr[10] = other;
-                            dt_persons.Rows.Add(dr);
-                            countAll++;
-                        }
+                        DataRow dr = dt_persons.NewRow();
+                        dr[0] = reader.GetInt32(0);
+                        dr[1] = decryptoStr(reader.GetString(1)) + " " + decryptoStr(reader.GetString(2)) + " " + decryptoStr(reader.GetString(3));
+                        dr[2] = !reader.IsDBNull(4) ? reader.GetDateTime(4) : DateTime.Now;
+                        if (reader.GetString(5).Equals("Муж")) { dr[3] = "Мужской"; countMale++; }
+                        else { dr[3] = "Женский"; countFemale++; }
+                        dr[4] = !reader.IsDBNull(7) ? reader.GetString(7) : "";
+                        dr[5] = !reader.IsDBNull(8) ? reader.GetString(8) : "";
+                        dr[6] = reader.GetString(6).Equals("W") ? "Сотрудник" : "Студент";
+                        dr[7] = !reader.IsDBNull(10) ? reader.GetString(10) : "";
+                        dr[8] = !reader.IsDBNull(11) ? reader.GetString(11) : "";
+                        dr[9] = !reader.IsDBNull(9) ? reader.GetString(9) : "";
+                        string other = "";
+                        other += pens ? "Пенсионер; " : "";
+                        other += do35 ? "До 35 лет; " : "";
+                        other += ms ? "Молодой специалист (до 35 лет); " : "";
+                        dr[10] = other;
+                        dt_persons.Rows.Add(dr);
+                        countAll++;
                     }
                 }
             }
