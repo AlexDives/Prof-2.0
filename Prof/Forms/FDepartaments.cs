@@ -23,7 +23,8 @@ namespace Prof
                 " case when CONCAT(d.fullname,'')= '' then dp.fullName else concat('(', d.shortName, ') ', dp.fullName) end as fname" +
                 " from prof.Departments d" +
                 " right join prof.Departments dp on dp.idparent = d.id" +
-                $" where dp.idParent in ({arrayUserDeparmentsAll_String}) order by d.shortName, dp.fullName ";
+                $" where dp.idParent in ({arrayUserDeparmentsAll_String}) or dp.id in ({arrayUserDeparmentsAll_String}) order by d.shortName, dp.fullName ";
+
             DataTable dt = new DataTable();
             DataTable dtC = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(cmd2);

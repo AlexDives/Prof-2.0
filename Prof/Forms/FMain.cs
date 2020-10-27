@@ -87,14 +87,42 @@ namespace Prof
 				for (int k = 1; k <= 10; k++)
 				{
 					if (!dt_row.IsNull("lvl" + k.ToString() + "_id"))
+					{
 						if (Array.IndexOf(arrayUserDeparmentsAll, (int)dt_row["lvl" + k.ToString() + "_id"]) == -1)
-							arrayUserDeparmentsAll[i] = (int)dt_row["lvl" + k.ToString() + "_id"];
+						{
+							if (arrayUserDeparmentsAll.Length == i)
+							{
+								int[] tmp = new int[arrayUserDeparmentsAll.Length + 1];
+								for (int l = 0; l < arrayUserDeparmentsAll.Length; l++)
+									tmp[l] = arrayUserDeparmentsAll[l];
 
+								arrayUserDeparmentsAll = new int[tmp.Length];
+								for (int l = 0; l < tmp.Length; l++)
+									arrayUserDeparmentsAll[l] = tmp[l];
+							}
+							arrayUserDeparmentsAll[i] = (int)dt_row["lvl" + k.ToString() + "_id"];
+							i++;
+						}
+					}
 					if (!dt_row.IsNull("lvl" + k.ToString() + "_idParent") && k != 1)
+					{
 						if (Array.IndexOf(arrayUserDeparmentsAll, (int)dt_row["lvl" + k.ToString() + "_idParent"]) == -1)
+						{
+							if (arrayUserDeparmentsAll.Length == i)
+							{
+								int[] tmp = new int[arrayUserDeparmentsAll.Length + 1];
+								for (int l = 0; l < arrayUserDeparmentsAll.Length; l++)
+									tmp[l] = arrayUserDeparmentsAll[l];
+
+								arrayUserDeparmentsAll = new int[tmp.Length];
+								for (int l = 0; l < tmp.Length; l++)
+									arrayUserDeparmentsAll[l] = tmp[l];
+							}
 							arrayUserDeparmentsAll[i] = (int)dt_row["lvl" + k.ToString() + "_idParent"];
+							i++;
+						}
+					}
 				}
-				i++;
 			}
 			if (userRole.Equals("GrandAdmin")) arrayUserDeparmentsAll_String = "0,";
 			else arrayUserDeparmentsAll_String = "";
