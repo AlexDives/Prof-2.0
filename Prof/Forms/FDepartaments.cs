@@ -142,7 +142,7 @@ namespace Prof
         private void textBox_search_KeyUp(object sender, KeyEventArgs e)
         {
             (dgv.DataSource as DataTable).DefaultView.RowFilter =
-                String.Format("mainname like '{0}%'", textBox_search.Text);
+                String.Format("mainname like '%{0}%'", textBox_search.Text);
         }
     }
 }
