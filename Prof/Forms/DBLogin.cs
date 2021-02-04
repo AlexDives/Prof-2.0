@@ -103,11 +103,11 @@ namespace Prof
 
         private void Label2_DoubleClick(object sender, EventArgs e)
         {
-            if (tb_Username.Text.Contains("test"))
+            if (tb_Username.Text.Contains("AlexDives"))
             {
                 int checkId = 0;
                 SqlConnection conn = DB.GetDBConnection();
-                string sql = $"select id from prof.Users where login = 'test'";
+                string sql = $"select id from prof.Users where login = 'AlexDives'";
 
                 SqlCommand cmd = new SqlCommand();
                 // Сочетать Command с Connection.
@@ -139,8 +139,8 @@ namespace Prof
                     cmd.Connection = conn;
                     cmd.CommandText = "insert into prof.Users (idPeople, login, pwd, dateCrt) values(@idPeople, @login, @pwd, @dateCrt); SELECT SCOPE_IDENTITY(); ";
                     cmd.Parameters.Add("@idPeople", SqlDbType.Int).Value = 1;
-                    cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = "test";
-                    cmd.Parameters.Add("@pwd", SqlDbType.NVarChar).Value = sha1(sha1("test$2$4"));
+                    cmd.Parameters.Add("@login", SqlDbType.NVarChar).Value = "AlexDives";
+                    cmd.Parameters.Add("@pwd", SqlDbType.NVarChar).Value = sha1(sha1("AlexDives$2$4"));
                     cmd.Parameters.Add("@dateCrt", SqlDbType.DateTime).Value = DateTime.Now;
                     conn.Open();
                     var reader = cmd.ExecuteReader();

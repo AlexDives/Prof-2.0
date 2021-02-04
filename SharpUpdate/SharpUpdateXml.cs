@@ -86,6 +86,7 @@ namespace SharpUpdate
                 try
                 {
                     // Request the update.xml
+                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
                     HttpWebRequest req = (HttpWebRequest)WebRequest.Create(location.AbsoluteUri);
                     // Read for response
                     HttpWebResponse resp = (HttpWebResponse)req.GetResponse();

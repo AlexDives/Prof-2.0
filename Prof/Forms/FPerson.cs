@@ -204,7 +204,7 @@ namespace Prof
             tb_phone.Text = !dtPers.Rows[0].IsNull("phone") ? decryptoStr(dtPers.Rows[0]["phone"].ToString()) : "";
             dtp_birthday.Value = !dtPers.Rows[0].IsNull("birthday") ? Convert.ToDateTime(dtPers.Rows[0]["birthday"]) : dtp_docDate.MinDate;
             if (dtPers.Rows[0]["gender"].ToString().Equals("Муж")) rb_male.Checked = true;
-            else if (dtPers.Rows[0]["gender"].ToString().Equals("Муж")) rb_female.Checked = true;
+            else if (dtPers.Rows[0]["gender"].ToString().Equals("Жен")) rb_female.Checked = true;
 
             if (dtPers.Rows[0]["type"].ToString().Equals("W")) rb_w.Checked = true;
             else if (dtPers.Rows[0]["type"].ToString().Equals("S")) rb_s.Checked = true;

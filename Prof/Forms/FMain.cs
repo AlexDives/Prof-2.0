@@ -893,11 +893,13 @@ namespace Prof
 
 		private void timer_update_Tick(object sender, EventArgs e)
 		{
-			check_update();
+			//check_update();
 		}
 
 		private void check_update()
 		{
+			/*SharpUpdater updater = new SharpUpdater(Assembly.GetExecutingAssembly(), this, new Uri("https://raw.githubusercontent.com/AlexDives/ProfUpdater/master/version.xml"));
+			updater.DoUpdate();
 			SharpUpdateXml[] sux = SharpUpdateXml.Parse(new Uri("https://raw.githubusercontent.com/AlexDives/ProfUpdater/master/version.xml"));
 
 			for (int i = 0; i < sux.Length; i++)
@@ -906,7 +908,7 @@ namespace Prof
 					if (sux[i].IsNewerThan(new Version(Application.ProductVersion.ToString())))
 						but_newVersion.Visible = true;
 					else but_newVersion.Visible = false;
-			}
+			}*/
 		}
 
 		private void FMain_FormClosed(object sender, FormClosedEventArgs e)

@@ -12,7 +12,7 @@ namespace Prof.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -38,8 +38,8 @@ namespace Prof.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=91.200.160.209;Initial Catalog=Prof;Persist Security Info=True;User I" +
-            "D=mssqlProf;Password=Profmssql_748159263")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=176.96.240.77;Initial Catalog=Prof;Persist Security Info=True;User ID" +
+            "=mssqlProf;Password=Profmssql_748159263")]
         public string ProfConnectionString {
             get {
                 return ((string)(this["ProfConnectionString"]));

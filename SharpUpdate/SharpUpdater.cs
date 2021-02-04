@@ -180,8 +180,8 @@ namespace SharpUpdate
 
 					MessageBoxEx.Show(ParentForm, "Часть данных было потеряно ");
 			}
-			else
-				MessageBoxEx.Show(ParentForm, "Нет информации об обновлении!");
+			/*else
+				MessageBoxEx.Show(ParentForm, "Нет информации об обновлении!");*/
         }
 
         /// <summary>
